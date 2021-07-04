@@ -145,6 +145,58 @@ HTTP 报文大致可分为报文首部和报文主体两块。两者由最初出
 
 ![image-20210412115245199](http.assets/image-20210412115245199.png)
 
+demo：
+
+请求
+
+```
+GET /s?tn=02003390_42_hao_pg&ie=utf-8&wd=innocent HTTP/1.1
+Host: www.baidu.com
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: " Not;A Brand";v="99", "Microsoft Edge";v="91", "Chromium";v="91"
+sec-ch-ua-mobile: ?0
+DNT: 1
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36 Edg/91.0.864.59
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6
+Cookie: BAIDUID=A17CE864870430DED165E496DC708B33:FG=1; BIDUPSID=A17CE864870430DEC91277D3C02E85D7; PSTM=1606239629; BD_UPN=12314753; __yjs_duid=1_78ae6ff59e304aa3cd12164a740512e21618493893529; BDUSS=ZzME1rcVQxb0V4OVZSZDdUWFRESkFuWjBvTnRVSld3R3pzazd6ZVBsMmV4dkpnRVFBQUFBJCQAAAAAAAAAAAEAAACbFnEnd2luZHlzc3NkYQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ45y2CeOctgb0; BDUSS_BFESS=ZzME1rcVQxb0V4OVZSZDdUWFRESkFuWjBvTnRVSld3R3pzazd6ZVBsMmV4dkpnRVFBQUFBJCQAAAAAAAAAAAEAAACbFnEnd2luZHlzc3NkYQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ45y2CeOctgb0; H_PS_PSSID=31254_26350; BDORZ=FFFB88E999055A3F8A630C64834BD6D0; ab_sr=1.0.1_Y2MyNGZiMzMwMjNmMzQyOWUzOWIyMjhmYjM4ODRkMDczMzc5YWI3ODU5ZmVmYWYwN2Q1MjdhMzU0MDAwYzI1MTcyZTFhYzJjNzdkZGU3YTYxZGRhMTBlN2IyOTc2NGVmODc5YTcyMzJkNTY3ODg1NTYxNzlhMWM4YWYyY2Y0MzVjYzM4OGE3YmFjNTBkZTA3M2FhNzlhZjdiZGQyMWU3ZDc5YTFkYjQ4NDU3ODRhODhhY2I1ZWI0YzQxNGVlZTJl; BDRCVFR[VXHUG3ZuJnT]=mk3SLVN4HKm; delPer=0; BD_CK_SAM=1; PSINO=6; sugstore=0; H_PS_645EC=44aa%2FV6bnlCeedUGxQ8yNuzEgmBWDDBAo7b1VcQQ9sJCnLQWxJBTn77JPTq5CS5Y7HXjve7CfXV5; BA_HECTOR=0h01ag84048h21agft1gdo5us0q
+```
+
+响应
+
+```
+HTTP/1.1 200 OK
+Bdpagetype: 3
+Bdqid: 0xbddedb6100045afa
+Cache-Control: private
+Ckpacknum: 2
+Ckrndstr: 100045afa
+Connection: keep-alive
+Content-Encoding: gzip
+Content-Type: text/html;charset=utf-8
+Date: Wed, 30 Jun 2021 07:08:42 GMT
+P3p: CP=" OTI DSP COR IVA OUR IND COM "
+Server: BWS/1.1
+Set-Cookie: BDRCVFR[VXHUG3ZuJnT]=mk3SLVN4HKm; path=/; domain=.baidu.com
+Set-Cookie: delPer=0; path=/; domain=.baidu.com
+Set-Cookie: BD_CK_SAM=1;path=/
+Set-Cookie: PSINO=6; domain=.baidu.com; path=/
+Set-Cookie: BDSVRTM=26; path=/
+Set-Cookie: H_PS_PSSID=31254_26350; path=/; domain=.baidu.com
+Strict-Transport-Security: max-age=172800
+Traceid: 1625036922033845709813681613927656741626
+Vary: Accept-Encoding
+X-Ua-Compatible: IE=Edge,chrome=1
+Transfer-Encoding: chunked
+```
+
 报文和实体：
 
 ![image-20210412115446843](http.assets/image-20210412115446843.png)
