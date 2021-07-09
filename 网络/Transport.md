@@ -183,3 +183,158 @@ SR协议的问题：
 
 # TCP
 
+TCP是面向连接的、全双工的点对点通信协议，保证可靠的、按序的字节流。
+
+## TCP段结构
+
+![image-20210709150540250](Transport.assets/image-20210709150540250.png)
+
+序列号和ACK的编号不是端的编码，而是利用数据的字节数来计数。
+
+Receive window用于流量控制，指愿意接受的字节数。
+
+序列号：
+
+- 序列号指的是segment中第一个字节的编号，而不是segment的编号；
+- 建立TCP连接时，双方随机选择序列号。
+
+ACK number：
+
+- 希望接收到的下一个字节的序列号；
+- 累积确认：该序列号之前的所有字节均已被正确收到。
+
+demo：
+
+![image-20210709151033205](Transport.assets/image-20210709151033205.png)
+
+A -> B：发送含有一个字节的段，序列号为42，ACK=79，表示希望收到的下一个字节的编号为79。
+
+B -> A：发送含有一个字节的段，序列号为79，ACK=43，表示序列号43之前的段都被收到了，且希望收到的下一个字节的编号为43。
+
+A -> B：序列号为43，ACK为80（79及之前的字节已被正确收到）。
+
+## 可靠数据传输
+
+TCP使用了流水线机制以提高性能。
+
+TCP使用累积确认机制，使用单一重传定时器。
+
+触发重传的事件：
+
+- 超时
+- 收到重复ACK
+
+RTT(Round Trip Time)的设置：
+
+过短：不必要的重传。
+
+过长：对段丢失反应慢。
+
+`SampleRTT`：测试从段发出到收到ACK的时间，是一个随网络情况变化的值。
+
+`EstimatedRTT`：测量多次`sampleRTT`形成的平均值。
+
+`EstimatedRTT = (1 - α) * EstimatedRTT + α * SampleRTT`，α通常为0.125
+
+定时器超时时间的设置：`EstimatedRTT + “安全边界”`
+
+测量RTT的变化值：`SampleRTT`和`EstimatedRTT`的差值，作为定时器的安全边界。
+
+TCP发送端伪代码：
+
+```c
+NextSeqNum = InitialSeqNum
+SendBase = InitialSeqNum
+loop(forever) {
+    switch(event) {
+    	event: data received from application above
+            create TCP segment with sequence number NextSeqNum
+            if(timer currently not running)
+                start timer
+            pass segment to IP
+            NextSeqNum += length(data)
+                
+       event: timer timeout
+           retransmit not-yet-acknowledged segment with smallest sequence number
+           start timer
+           
+       event: ACK received, with ACK field value of y
+           if(y > SendBase) {
+               SendBase = y
+               if(there are currently not-yet-acknowledged segments) {
+                   start timer
+               }
+           }
+    }
+}
+```
+
+demo：
+
+<img src="Transport.assets/image-20210709155508215.png" alt="image-20210709155508215" style="zoom:80%;" />
+
+接收端的ACK生成：
+
+| 事件                                                         | 接收方行为                                    |
+| ------------------------------------------------------------ | --------------------------------------------- |
+| 一个序列号为x的段按序到达，且x之前的段均已被ACK              | 延迟ACK。等待500ms，若没有下一个段，则发送ACK |
+| 一个序列号为y的段按序到达，且之前的一个段有正在延迟发送的ACK | 立即发送一个累积确认的ACK                     |
+| 一个乱序的段到达，期待的序列号为x，到达的段序列号大于x，产生一个gap | 立即发送一个重复ACK，确认最后一个正确收到的段 |
+| 一个可以完全或局部填充gap的段到达                            | 立即发送ACK进行确认                           |
+
+## 快速重传机制
+
+TCP的实现中，发生一次超时之后，超时时间间隔会增大。
+
+通过重复ACK，可以检测出分组丢失。
+
+当某个分组丢失后，接收方会多次回复相同的ACK，当sender收到对同一数据的3个ACK，则假定该数据之后的段已经丢失，在计时器没有超时的前提下直接重传。
+
+<img src="Transport.assets/image-20210709160918621.png" alt="image-20210709160918621" style="zoom:67%;" />
+
+## TCP流量控制
+
+目的：解决发送方发送数据过快或发送数据过多，以至于淹没接收方（buffer溢出）的问题。
+
+- Buffer中的可用空间：`RcvWindow = RcvBuffer - [LastByteRcvd - LastByteRead]`
+
+- Receiver通过在Segment的头部字段将`RcvWindow`的尺寸设置为Buffer中的可用空间大小
+
+- Sender限制自己已经发送的但还未收到ACK的数据不超过接收方的`RcvWindow`大小。
+
+当`RcvWindow`的大小为0时，发送方会启动一个特殊的计时器，每隔一段时间发送一个1字节的探测报文段，以便动态获取接收方新的`RcvWindow`的大小。
+
+## TCP连接管理
+
+**1 建立连接**
+
+生成初始序列号有很多方法，初始序列号会随时间的改变而改变。
+
+三次握手：
+
+Step1：客户端发送一个SYN报文段，指定客户端的初始序列号#，不包含数据。
+
+Step2：服务器接收SYN后，回复一个SYN/ACK报文段。同时，为客户端分配buffer并指定服务器的初始序列号#。
+
+Step3：客户端收到SYN/ACK报文后，回复ACK报文段（可以包含数据）。
+
+三次握手的原因：
+
+① The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion.
+
+当服务器为旧的延迟到达的SYN初始化连接后，客户端会发送RST报文段终止连接。
+
+② 同步双方初始序列号：两次握手只能保证一方的序列号被对方接收。
+
+③ 避免资源浪费：两次连接的话，如果客户端因网络状况差重发了多个SYN，则服务器会建立多个冗余的无效连接。
+
+
+
+## 拥塞控制
+
+太多发送主机发送了太多数据或发送速度太快，以至于网络无法处理。
+
+拥塞的表现：
+
+- 分组丢失（路由器缓存溢出）
+- 分组延迟过大（路由器缓存中排队）
