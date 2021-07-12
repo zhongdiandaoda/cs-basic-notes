@@ -318,17 +318,11 @@ Step2：服务器接收SYN后，回复一个SYN/ACK报文段。同时，为客�
 
 Step3：客户端收到SYN/ACK报文后，回复ACK报文段（可以包含数据）。
 
-三次握手的原因：
+三次握手的原因：同步双方初始序列号：两次握手只能保证一方的序列号被对方接收。
 
-① The principle reason for the three-way handshake is to prevent old duplicate connection initiations from causing confusion.
+TCP对旧的SYN报文段的处理：
 
-当服务器为旧的延迟到达的SYN初始化连接后，客户端会发送RST报文段终止连接。
-
-② 同步双方初始序列号：两次握手只能保证一方的序列号被对方接收。
-
-③ 避免资源浪费：两次连接的话，如果客户端因网络状况差重发了多个SYN，则服务器会建立多个冗余的无效连接。
-
-
+接收方无法辨别SYN是不是旧的，返回一个SYN/ACK，发送方发现ACK中的序列号不是期望的序列号时，发送RST报文段重置连接。
 
 ## 拥塞控制
 
