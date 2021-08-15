@@ -318,11 +318,17 @@ Step2：服务器接收SYN后，回复一个SYN/ACK报文段。同时，为客�
 
 Step3：客户端收到SYN/ACK报文后，回复ACK报文段（可以包含数据）。
 
-三次握手的原因：同步双方初始序列号：两次握手只能保证一方的序列号被对方接收。
+三次握手的原因：同步双方初始序列号，两次握手只能保证一方的序列号被对方接收。
 
 TCP对旧的SYN报文段的处理：
 
 接收方无法辨别SYN是不是旧的，返回一个SYN/ACK，发送方发现ACK中的序列号不是期望的序列号时，发送RST报文段重置连接。
+
+**2 拆除连接**
+
+
+
+
 
 ## 拥塞控制
 
@@ -332,3 +338,102 @@ TCP对旧的SYN报文段的处理：
 
 - 分组丢失（路由器缓存溢出）
 - 分组延迟过大（路由器缓存中排队）
+
+### 拥塞的成因与代价
+
+一、路由器缓存无限大时
+
+![image-20210713134127949](Transport.assets/image-20210713134127949.png)
+
+![image-20210713134200089](Transport.assets/image-20210713134200089.png)
+
+发送速率低时，分组在路由器的排队时延小，总时延小，发送速率高时，分组在路由器中的排队时延大，导致总时延增大。
+
+二、路由器buffer有限时
+
+![image-20210713134351040](Transport.assets/image-20210713134351040.png)
+
+当路由器缓存达到上限后，发送方的超时重传机制导致发送方发送了过多重复的包，进一步加剧拥塞。
+
+三、多跳网络
+
+![image-20210713134448519](Transport.assets/image-20210713134448519.png)
+
+拥塞导致丢包后，中间路由器缓存的包全部失效，导致网络传输效率变低。
+
+
+
+拥塞控制的方法：
+
+- 端到端拥塞控制：端系统观察loss，delay等网络行为判断是否发生拥塞，TCP采用了这种方法。
+- 网络辅助的拥塞控制：路由器向发送方显式地反馈网络拥塞信息。
+
+### **TCP的拥塞控制**
+
+设置拥塞窗口大小`CongWin`，令：`LastByteSend - LastByteAcked <= CongWin`
+
+通过感知网络情况（发生超时或3个重复ACK），动态调整拥塞窗口的大小来改变发送速率。
+
+调整发送速率的方式：加性增-乘性减：AIMD；慢启动：SS。
+
+拥塞控制算法：
+
+```
+Th = ?
+CongWin = 1MSS
+//slow start
+while(no packet loss and CongWin < Thr) {
+	send CongWin TCP segments
+	for each ACK
+		CongWin++
+}
+//congestion avoidance or linear increase
+while(no packet loss) {
+	send CongWin TCP segments
+	for CongWin ACKs
+		CongWin++
+}
+Th = CongWin / 2
+if(3 Duplicate ACKs)
+	CongWin = Th
+if(timeout)
+	CongWin = 1
+```
+
+
+
+#### AIMD
+
+Additive Increase：每个RTT将`CongWin`增大一个`MSS`（最大报文段长度，拥塞避免）
+
+Multiplicative Decrease：发生loss后将`CongWin`大小减半
+
+原理：逐渐增加发送速率，谨慎探测可用带宽，直到发生loss。
+
+#### TCP慢启动
+
+TCP连接刚建立时，`CongWin` = 1MSS，通常远小于可用带宽。
+
+```
+initialize: Congwin = 1
+for(each segment ACKed)
+	Congwin++;
+until(loss OR CongWin >= threshold) //随后进入线性增长阶段
+```
+
+![image-20210713135932074](Transport.assets/image-20210713135932074.png)
+
+1-2-4-8-16-…
+
+Loss事件的处理：
+
+3个重复ACK：将`CongWin`切到一半，然后线性增长；
+
+Timeout事件（意味着更严重的拥塞，ACK都收不到）：`CongWin`直接设为1个MSS，然后慢启动，达到Threshold再线性增长。
+
+![image-20210713140411707](Transport.assets/image-20210713140411707.png)
+
+蓝色为Timeout事件，黑色为重复ACK事件。
+
+Loss事件发生后，threshold要被设为Loss事件发生前`CongWin`尺寸的一半。
+
