@@ -38,7 +38,7 @@ demo：
 
 请求
 
-```
+```http
 GET /s?tn=02003390_42_hao_pg&ie=utf-8&wd=innocent HTTP/1.1
 Host: www.baidu.com
 Connection: keep-alive
@@ -60,7 +60,7 @@ Cookie: BAIDUID=A17CE864870430DED165E496DC708B33:FG=1; BIDUPSID=A17CE864870430DE
 
 响应
 
-```
+```http
 HTTP/1.1 200 OK
 Bdpagetype: 3
 Bdqid: 0xbddedb6100045afa
@@ -98,12 +98,12 @@ Transfer-Encoding: chunked
 
 请求报文结构：
 
-- 第一行是包含了请求方法、URL、协议版本；
-- 接下来的多行都是请求首部 Header，每个首部都有一个首部名称，以及对应的值。
+- 第一行是包含了请求方法、URL、协议版本
+- 接下来的多行都是请求首部 Header，每个首部都有一个首部名称，以及对应的值
 - 一个空行用来分隔首部和内容主体 Body
 - 最后是请求的内容主体
 
-```
+```http
 GET http://www.example.com/ HTTP/1.1
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
 Accept-Encoding: gzip, deflate
@@ -126,7 +126,7 @@ param1=1&param2=2
 - 一个空行分隔首部和内容主体
 - 最后是响应的内容主体
 
-```
+```http
 HTTP/1.1 200 OK
 Age: 529651
 Cache-Control: max-age=604800
