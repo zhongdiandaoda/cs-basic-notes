@@ -1,5 +1,2 @@
-# linux-notes
-
-#### 介绍
-linux笔记
+计算机基础
 
