@@ -394,6 +394,46 @@ Linux 中的打包文件一般是以.tar 结尾的，压缩的命令一般是以
 
 ③ 当前目录及子目录下查找所有以.txt 和.pdf 结尾的文件:`find . \( -name "*.txt" -o -name "*.pdf" \)`或`find . -name "*.txt" -o -name "*.pdf"`
 
+
+
+## 磁盘相关
+
+
+
+### mout
+
+
+
+### df
+
+有时你需要知道在某个设备上还有多少磁盘空间。df 命令可以让你很方便地查看所有已挂载磁盘的使用情况
+
+```bash
+$ df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/sda2             18251068   7703964   9605024  45% /
+/dev/sda1               101086     18680     77187  20% /boot
+tmpfs                   119536         0    119536   0% /dev/shm
+/dev/sdb1               127462    113892     13570  90% /media/disk
+```
+
+df 命令会显示每个有数据的已挂载文件系统。如你在前例中看到的，有些已挂载设备仅限系统内部使用。可以注意到，默认大小均为 1024 字节，不利于直观查看，可附加-h 参数进行更直观的查看。它会把输出中的磁盘空间按照用户易读的形式显示，通常用 M 来替代兆字节，用 G 替代吉字节。
+
+```bash
+$ df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/sdb2              18G  7.4G  9.2G  45% /
+/dev/sda1              99M   19M   76M  20% /boot
+tmpfs                 117M     0  117M   0% /dev/shm
+/dev/sdb1             125M  112M   14M  90% /media/disk
+```
+
+### du
+
+
+
+
+
 # 命令
 
 命令可以是下面四种形式之一：
@@ -919,6 +959,8 @@ root          9  0.0  0.0      0     0 ?        R    10:29   0:00 [rcu_sched]
 
 虽然ps命令能够展示许多计算机运行状态的信息，但是它只是提供ps命令执行时刻的机器状态快照。为了看到更多动态的信息，可以使用 top 命令。
 
+top是通过查看/proc的文件内容来实现的
+
 ```shell
 [root@docker ~]# top
 top - 16:13:25 up  5:44,  1 user,  load average: 0.00, 0.01, 0.05
@@ -1330,9 +1372,24 @@ OpenSSH中还包含两个用于传输文件的程序，scp和sftp，利用SSH加
 
 示例：
 
-![image-20210201202254391](Shell.assets/image-20210201202254391.png)
+本地到远程
 
-![image-20210201202337440](Shell.assets/image-20210201202337440.png)
+```bash
+scp local_file remote_username@remote_ip:remote_folder 
+或者 
+scp local_file remote_username@remote_ip:remote_file 
+或者 
+scp local_file remote_ip:remote_folder 
+或者 
+scp local_file remote_ip:remote_file 
+```
+
+远程到本地
+
+```bash
+scp root@www.runoob.com:/home/root/others/music /home/space/music/1.mp3 
+scp -r www.runoob.com:/home/root/others/ /home/space/music/
+```
 
 
 
@@ -1594,6 +1651,16 @@ hello world
 
 大多数情况下，本地支持的软件，不管是脚本还是编译过的程序，都应该放到/usr/local 目录下，而不是在/bin 或/usr/bin 目录下。这些目录都是由 Linux 文件系统层次结构标准指定，只包含由 Linux 发行商所提供和维护的文件。
 
+方法二：在提示符中用绝对或相对文件路径来引用 shell 脚本文件。
+
+```bash
+$ ./test.sh
+```
+
+
+
+
+
 通过使用行继续符\，可以将复杂的命令写成若干行，提高可读性。
 
 ![image-20210302104553825](Shell.assets/image-20210302104553825.png)
@@ -1613,6 +1680,8 @@ hello world
 ![image-20210302104916094](Shell.assets/image-20210302104916094.png)
 
 \>符号是在shell中键入多行语句时的提示符。
+
+
 
 shell变量赋值：`variable=value`
 
