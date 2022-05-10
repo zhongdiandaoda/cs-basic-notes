@@ -297,6 +297,9 @@ SR协议的问题：
 其次，要最大化发送窗口的流水线分组，但是要保证不能产生二义性。假设序号最大为7即0,1,2,3,4,5,6,7，发送窗口大小为5，当发送窗口发送0,1,2,3,4后，假设接收窗口全部收到，则接收窗口向前移动到5次，接受窗口期望接收5,6,7,0,1.若发送窗口并没接收到任何ACK，所以发送窗口重发0，1，2，3，4此时接收窗口会以为重发的0,1是新的分组。
 
 因为发送窗口<=接收窗口。要最大化发送窗口，则发送窗口=接收窗口。假设发送窗口为m，则接收窗口也为m。发送窗口发送m个分组时，接收窗口向前移动m，接收窗口为m+1，m+2，...2m。要避免二义性，必须满足2m<=序号总个数。
+
+
+
 # TCP
 
 TCP 是**面向连接的、可靠的、基于字节流**的传输层通信协议。
@@ -360,92 +363,6 @@ A -> B：序列号为43，ACK为80（79及之前的字节已被正确收到）�
 
 同UDP。
 
-## 可靠数据传输
-
-TCP使用了流水线机制以提高性能。
-
-TCP使用累积确认机制，使用单一重传定时器。TCP 的数据传输机制是一种 SR 和 GBN 的结合。
-
-触发重传的事件：
-
-- 超时
-- 收到重复ACK
-
-RTT(Round Trip Time)的设置：
-
-过短：不必要的重传。
-
-过长：对段丢失反应慢。
-
-`SampleRTT`：测试从段发出到收到ACK的时间，是一个随网络情况变化的值。
-
-`EstimatedRTT`：测量多次`sampleRTT`形成的平均值。
-
-`EstimatedRTT = (1 - α) * EstimatedRTT + α * SampleRTT`，α通常为0.125
-
-定时器超时时间的设置：`EstimatedRTT + “安全边界”`
-
-测量RTT的变化值：`SampleRTT`和`EstimatedRTT`的差值，作为定时器的安全边界。
-
-TCP发送端伪代码：
-
-```c
-NextSeqNum = InitialSeqNum
-SendBase = InitialSeqNum
-loop(forever) {
-    switch(event) {
-    	event: data received from application above
-            create TCP segment with sequence number NextSeqNum
-            if(timer currently not running)
-                start timer
-            pass segment to IP
-            NextSeqNum += length(data)
-                
-       event: timer timeout
-           retransmit not-yet-acknowledged segment with smallest sequence number
-           start timer
-           
-       event: ACK received, with ACK field value of y
-           if(y > SendBase) {
-               SendBase = y
-               if(there are currently not-yet-acknowledged segments) {
-                   start timer
-               }
-           }
-    }
-}
-```
-
-demo：
-
-<img src="Transport.assets/image-20210709155508215.png" alt="image-20210709155508215" style="zoom:80%;" />
-
-RFC56681 对接收端ACK生成的建议：
-
-| 事件                                                         | 接收方行为                                    |
-| ------------------------------------------------------------ | --------------------------------------------- |
-| 一个序列号为x的段按序到达，且x之前的段均已被ACK              | 延迟ACK。等待500ms，若没有下一个段，则发送ACK |
-| 一个序列号为y的段按序到达，且之前的一个段有正在延迟发送的ACK | 立即发送一个累积确认的ACK                     |
-| 一个乱序的段到达，期待的序列号为x，到达的段序列号大于x，产生一个gap | 立即发送一个重复ACK，确认最后一个正确收到的段 |
-| 一个可以完全或局部填充gap的段到达                            | 立即发送ACK进行确认                           |
-
-**乱序报文段的处理**：TCP并没有规定如何处理乱序到达的报文段，一般有两种方式：
-
-1. 丢弃报文段
-2. 缓存乱序到达的字节（实践中采用的方式）
-
-**超时间隔加倍**：在收到上层应用的数据和收到 ACK 这两种事件后，超时间隔会重置为`估计RTT + 安全边界 `，但同一个包每次超时重发，其超时间隔都会加倍。
-
-## 快速重传机制
-
-TCP的实现中，发生一次超时之后，超时时间间隔会增大。
-
-通过重复ACK，可以检测出分组丢失。
-
-当某个分组丢失后，接收方会多次回复相同的ACK，当sender收到对同一数据的3个ACK，则假定该数据之后的段已经丢失，在计时器没有超时的前提下直接重传。
-
-<img src="Transport.assets/image-20210709160918621.png" alt="image-20210709160918621" style="zoom:67%;" />
-
 ## TCP分片
 
 **MTU 最大传输单元（Maximum Transmission Unit，MTU）**用来通知对方所能接受数据单元的最大尺寸，说明发送方能够接受的有效载荷大小，以太网的帧大小范围为 64-1518 字节，数据部分限制为 46-1500 字节。
@@ -508,21 +425,7 @@ MSS 是传输层 TCP 协议范畴内的概念，其标识 TCP 能够承载的最
 
 逐渐增大包的大小，直到收到ICMP错误信息，以此确定路径MTU。
 
-## TCP流量控制
 
-TCP 连接每一侧的主机都为连接设置了接收缓存。当接收方处理数据速度较慢，而发送方发送数据太快时，很容易导致接收缓存溢出。
-
-流量控制机制的目的：解决发送方发送数据过快或发送数据过多，以至于淹没接收方（buffer溢出）的问题。
-
-发送方维护发送窗口（receive window）变量来提供流量控制：
-
-- Buffer中的可用空间：`RcvWindow = RcvBuffer - [LastByteRcvd - LastByteRead]`
-
-- Receiver通过在Segment的头部字段将`RcvWindow`的尺寸设置为Buffer中的可用空间大小
-
-- Sender限制自己已经发送的但还未收到ACK的数据不超过接收方的`RcvWindow`大小。
-
-当`RcvWindow`的大小为0时，发送方会启动一个特殊的计时器，每隔一段时间发送一个1字节的探测报文段，以便动态获取接收方新的`RcvWindow`的大小。
 
 ## TCP连接管理
 
@@ -774,13 +677,17 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 
 
-### listen队列剖析
+### 半连接队列和全连接队列
 
-三次握手前，服务端的状态从`CLOSED`变为`LISTEN`, 同时在内部创建了两个队列：**半连接队列**和**全连接队列**，即**SYN队列**和**ACCEPT队列**。
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL3hpYW9saW5jb2Rlci9JbWFnZUhvc3QyLyVFOCVBRSVBMSVFNyVBRSU5NyVFNiU5QyVCQSVFNyVCRCU5MSVFNyVCQiU5Qy9UQ1AtJUU0JUI4JTg5JUU2JUFDJUExJUU2JThGJUExJUU2JTg5JThCJUU1JTkyJThDJUU1JTlCJTlCJUU2JUFDJUExJUU2JThDJUE1JUU2JTg5JThCLzM1LmpwZw?x-oss-process=image/format,png" alt=" SYN 队列 与 Accpet 队列 " style="zoom:67%;" />
 
-- 半连接队列：当客户端发送`SYN`到服务端，服务端收到以后回复`ACK`和`SYN`，状态由`LISTEN`变为`SYN_RCVD`，此时这个连接就被推入了**SYN队列**，也就是**半连接队列**。
+握手阶段：
 
-- 全连接队列：当客户端返回`ACK`, 服务端接收后，三次握手完成。这个时候连接等待被具体的应用取走，在被取走之前，它会被推入另外一个 TCP 维护的队列，也就是**全连接队列(Accept Queue)**。
+<img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost4/%E7%BD%91%E7%BB%9C/socket%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.drawio.png" alt="socket 三次握手" style="zoom: 67%;" />
+
+断开连接：
+
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2doL3hpYW9saW5jb2Rlci9JbWFnZUhvc3QyLyVFOCVBRSVBMSVFNyVBRSU5NyVFNiU5QyVCQSVFNyVCRCU5MSVFNyVCQiU5Qy9UQ1AtJUU0JUI4JTg5JUU2JUFDJUExJUU2JThGJUExJUU2JTg5JThCJUU1JTkyJThDJUU1JTlCJTlCJUU2JUFDJUExJUU2JThDJUE1JUU2JTg5JThCLzM3LmpwZw?x-oss-process=image/format,png" alt="客户端调用 close 过程" style="zoom:67%;" />
 
 
 
@@ -799,14 +706,6 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 
 ## TCP 快速打开的原理(TFO)
-
-第一节讲了 TCP 三次握手，可能有人会说，每次都三次握手好麻烦呀！能不能优化一点？
-
-可以啊。今天来说说这个优化后的 TCP 握手流程，也就是 TCP 快速打开(TCP Fast Open, 即TFO)的原理。
-
-优化的过程是这样的，还记得我们说 SYN Flood 攻击时提到的 SYN Cookie 吗？这个 Cookie 可不是浏览器的`Cookie`, 用它同样可以实现 TFO。
-
-下面看下TFO 流程
 
 #### 首轮三次握手
 
@@ -835,6 +734,116 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 #### TFO 的优势
 
 TFO 的优势并不在与首轮三次握手，而在于后面的握手，在拿到客户端的 Cookie 并验证通过以后，可以直接返回 HTTP 响应，充分利用了**1 个RTT**(Round-Trip Time，往返时延)的时间**提前进行数据传输**，积累起来还是一个比较大的优势。
+
+## 可靠数据传输
+
+TCP使用了流水线机制以提高性能。
+
+TCP使用累积确认机制，使用单一重传定时器。TCP 的数据传输机制是一种 SR 和 GBN 的结合。
+
+触发重传的事件：
+
+- 超时
+- 收到重复ACK
+
+RTT(Round Trip Time)的设置：
+
+过短：不必要的重传。
+
+过长：对段丢失反应慢。
+
+`SampleRTT`：测试从段发出到收到ACK的时间，是一个随网络情况变化的值。
+
+`EstimatedRTT`：测量多次`sampleRTT`形成的平均值。
+
+`EstimatedRTT = (1 - α) * EstimatedRTT + α * SampleRTT`，α通常为0.125
+
+定时器超时时间的设置：`EstimatedRTT + “安全边界”`
+
+测量RTT的变化值：`SampleRTT`和`EstimatedRTT`的差值，作为定时器的安全边界。
+
+TCP发送端伪代码：
+
+```c
+NextSeqNum = InitialSeqNum
+SendBase = InitialSeqNum
+loop(forever) {
+    switch(event) {
+    	event: data received from application above
+            create TCP segment with sequence number NextSeqNum
+            if(timer currently not running)
+                start timer
+            pass segment to IP
+            NextSeqNum += length(data)
+                
+       event: timer timeout
+           retransmit not-yet-acknowledged segment with smallest sequence number
+           start timer
+           
+       event: ACK received, with ACK field value of y
+           if(y > SendBase) {
+               SendBase = y
+               if(there are currently not-yet-acknowledged segments) {
+                   start timer
+               }
+           }
+    }
+}
+```
+
+demo：
+
+<img src="Transport.assets/image-20210709155508215.png" alt="image-20210709155508215" style="zoom:80%;" />
+
+RFC56681 对接收端ACK生成的建议：
+
+| 事件                                                         | 接收方行为                                    |
+| ------------------------------------------------------------ | --------------------------------------------- |
+| 一个序列号为x的段按序到达，且x之前的段均已被ACK              | 延迟ACK。等待500ms，若没有下一个段，则发送ACK |
+| 一个序列号为y的段按序到达，且之前的一个段有正在延迟发送的ACK | 立即发送一个累积确认的ACK                     |
+| 一个乱序的段到达，期待的序列号为x，到达的段序列号大于x，产生一个gap | 立即发送一个重复ACK，确认最后一个正确收到的段 |
+| 一个可以完全或局部填充gap的段到达                            | 立即发送ACK进行确认                           |
+
+**乱序报文段的处理**：TCP并没有规定如何处理乱序到达的报文段，一般有两种方式：
+
+1. 丢弃报文段
+2. 缓存乱序到达的字节（实践中采用的方式）
+
+**超时间隔加倍**：在收到上层应用的数据和收到 ACK 这两种事件后，超时间隔会重置为`估计RTT + 安全边界 `，但同一个包每次超时重发，其超时间隔都会加倍。
+
+### 快速重传机制
+
+TCP的实现中，发生一次超时之后，超时时间间隔会增大。
+
+通过重复ACK，可以检测出分组丢失。
+
+当某个分组丢失后，接收方会多次回复相同的ACK，当sender收到对同一数据的3个ACK，则假定该数据之后的段已经丢失，在计时器没有超时的前提下直接重传。
+
+<img src="Transport.assets/image-20210709160918621.png" alt="image-20210709160918621" style="zoom:67%;" />
+
+发生快重传后，有些TCP实现重传丢失报文后的所有报文，有些TCP实现只重传未正确接收的报文。
+
+TCP可以通过SACK方法实现快重传时，只传递丢失的数据。（通过在ACK头部的选项字段里加SCAK，将缓存的地图发送给发送方，需要通信双方都支持快重传）
+
+
+
+## TCP流量控制
+
+TCP 连接每一侧的主机都为连接设置了接收缓存。当接收方处理数据速度较慢，而发送方发送数据太快时，很容易导致接收缓存溢出。
+
+流量控制机制的目的：解决发送方发送数据过快或发送数据过多，以至于淹没接收方（buffer溢出）的问题。
+
+发送方维护发送窗口（receive window）变量来提供流量控制：
+
+- Buffer中的可用空间：`RcvWindow = RcvBuffer - [LastByteRcvd - LastByteRead]`
+
+- Receiver通过在Segment的头部字段将`RcvWindow`的尺寸设置为Buffer中的可用空间大小
+
+- Sender限制自己已经发送的但还未收到ACK的数据不超过接收方的`RcvWindow`大小。
+
+当`RcvWindow`的大小为0时，发送方会启动一个特殊的计时器，每隔一段时间发送一个1字节的探测报文段，以便动态获取接收方新的`RcvWindow`的大小。
+
+
 
 
 
