@@ -647,9 +647,9 @@ Time_Wait过多有哪些危害？
   - 客户端：TIME_WAIT过多，就会导致端口资源被占用，因为端口就 65536 个，被占满就会导致无法创建新的连接。
   - 服务端：由于一个四元组表示 TCP 连接，理论上服务端可以建立很多连接，因为服务端只监听一个端口，不会因为 TCP 连接过多而导致端口资源受限。但是 TCP 连接过多，会占用系统资源，比如文件描述符、内存资源、CPU 资源、线程资源等。
 
-优化Time_Wait的方式：
+**Time_Wait状态连接的回收**
 
-*方式一：net.ipv4.tcp_tw_reuse 和 tcp_timestamps*
+**net.ipv4.tcp_tw_reuse**
 
 如下的 Linux 内核参数开启后，则可以**复用处于 TIME_WAIT 的 socket 为新的连接所用**。
 
@@ -667,11 +667,11 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 这个时间戳的字段是在 TCP 头部的「选项」里，它由一共 8 个字节表示时间戳，其中第一个 4 字节字段用来保存发送该数据包的时间，第二个 4 字节字段用来保存最近一次接收对方发送到达数据的时间。
 
-由于引入了时间戳，我们在前面提到的 `2MSL` 问题就不复存在了，因为重复的数据包会因为时间戳过期被自然丢弃。
+由于引入了时间戳，历史连接中的数据包就会因为时间戳过期被自然丢弃。
 
-*方式二：net.ipv4.tcp_max_tw_buckets*
 
-这个值默认为 18000，**当系统中处于 TIME_WAIT 的连接一旦超过这个值时，系统就会将后面的 TIME_WAIT 连接状态重置**，这个方法比较暴力。
+
+
 
 
 
@@ -723,11 +723,9 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 重点来了，现在服务端能向客户端发 HTTP 响应了！这是最显著的改变，三次握手还没建立，仅仅验证了 Cookie 的合法性，就可以返回 HTTP 响应了。
 
-当然，客户端的`ACK`还得正常传过来，不然怎么叫三次握手嘛。
-
 流程如下:
 
-![image-20201114171125367](Transport.assets/image-20201114171125367.png)
+<img src="Transport.assets/image-20201114171125367.png" alt="image-20201114171125367" style="zoom:50%;" />
 
 > 注意: 客户端最后握手的 ACK 不一定要等到服务端的 HTTP 响应到达才发送，两个过程没有任何关系。
 
@@ -988,3 +986,49 @@ Loss事件发生后，threshold要被设为Loss事件发生前`CongWin`尺寸的
 
 - TCP 的数据大小如果大于 MSS 大小，则会在传输层进行分片，目标主机收到后，也同样在传输层组装 TCP 数据包，如果中途丢失了一个分片，只需要传输丢失的这个分片。
 - UDP 的数据大小如果大于 MTU 大小，则会在 IP 层进行分片，目标主机收到后，在 IP 层组装完数据，接着再传给传输层。
+
+
+
+# keepalive
+
+TCP的keepalive和HTTP的Keep-Alive
+
+## TCP的keepalive
+
+TCP的保活机制。
+
+如果两端的 TCP 连接一直没有数据交互，达到了触发 TCP 保活机制的条件，那么内核里的 TCP 协议栈就会发送探测报文。
+
+- 如果对端程序是正常工作的。当 TCP 保活的探测报文发送给对端, 对端会正常响应，这样 **TCP 保活时间会被重置**，等待下一个 TCP 保活时间的到来。
+- 如果对端主机崩溃，或对端由于其他原因导致报文不可达。当 TCP 保活的探测报文发送给对端后，没有响应，连续几次，达到保活探测次数后，**TCP 会报告该 TCP 连接已经死亡**。
+
+所以，TCP 保活机制可以在双方没有数据交互的情况，通过探测报文，来确定对方的 TCP 连接是否存活，这个工作是在内核完成的。
+
+
+
+应用程序若想使用 TCP 保活机制需要通过 socket 接口设置 `SO_KEEPALIVE` 选项才能够生效，如果没有设置，那么就无法使用 TCP 保活机制。
+
+<img src="/Users/bytedance/Documents/cs_basic_notes/网络/Transport.assets/image-20220616172101975.png" alt="image-20220616172101975" style="zoom:50%;" />
+
+
+
+## HTTP的Keep-Alive
+
+短连接：
+
+<img src="https://img-blog.csdnimg.cn/img_convert/d6f6757c02e3afbf113d1048c937f8ee.png" alt="HTTP 短连接" style="zoom: 50%;" />
+
+长连接：
+
+<img src="https://img-blog.csdnimg.cn/img_convert/d2b20d1cc03936332adb2a68512eb167.png" alt="HTTP 长连接" style="zoom:50%;" />
+
+使用`Connection:Keep-Alive`后，将使用长连接的连接模式
+
+HTTP1.1后默认使用长连接。
+
+# TCP协议的问题
+
+- 建立连接延迟
+- 队头阻塞问题
+- wifi换流量需要重新建立TCP连接
+
