@@ -170,7 +170,7 @@ ARP协议用来解析某个IP的MAC地址
 
 操作系统通常会把第一次通过 ARP 获取的 MAC 地址缓存起来，以便下次直接从缓存中找到对应 IP 地址的 MAC 地址。
 
-不过，MAC 地址的缓存是有一定期限的，超过这个期限，缓存的内容将被清除。、
+不过，MAC 地址的缓存是有一定期限的，超过这个期限，缓存的内容将被清除。
 
 ARP 协议是已知 IP 地址求 MAC 地址，那 RARP 协议正好相反，它是**已知 MAC 地址求 IP 地址**。例如将打印机服务器等小型嵌入式设备接入到网络时就经常会用得到。
 
@@ -186,6 +186,8 @@ ARP 协议是已知 IP 地址求 MAC 地址，那 RARP 协议正好相反，它�
 
 
 # DHCP
+
+位于应用层
 
 DHCP过程：
 
@@ -329,7 +331,7 @@ ICMP 数据包内包含多个字段，最重要的是两个：
 
 针对上面发送的事情，总结成了如下图：
 
-![主机 A ping 主机 B 期间发送的事情](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ping/17.png)
+<img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ping/17.png" alt="主机 A ping 主机 B 期间发送的事情" style="zoom: 67%;" />
 
 当然这只是最简单的，同一个局域网里面的情况。如果跨网段的话，还会涉及网关的转发、路由器的转发等等。
 
@@ -377,7 +379,7 @@ traceroute 还有一个作用是**故意设置不分片，从而确定路径的 
 
 因为有的时候我们并不知道路由器的 `MTU` 大小，以太网的数据链路上的 `MTU` 通常是 `1500` 字节，但是非以太网的 `MTU` 值就不一样了，所以我们要知道 `MTU` 的大小，从而控制发送的包大小。
 
-![MTU 路径发现（UDP的情况下）](https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ping/18.jpg)
+<img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/ImageHost/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ping/18.jpg" alt="MTU 路径发现（UDP的情况下）" style="zoom:67%;" />
 
 它的工作原理如下：
 
