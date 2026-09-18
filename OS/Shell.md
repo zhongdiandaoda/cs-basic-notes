@@ -210,15 +210,15 @@ drwxr-xr-x 2 root root 52 10月  6 00:36 .
 
 对`-l`的输出结果：`-rw-r--r-- 1 root root   37 10月  6 00:36 dockerfile`，各个字段的含义如下。
 
-| 字段         | 含义                                                         |
-| ------------ | ------------------------------------------------------------ |
+| 字段           | 含义                                                                                                   |
+| ------------ | ---------------------------------------------------------------------------------------------------- |
 | `-rw-r--r--` | 文件的访问权限。第一个字符指出文件类型，`-`表示要给普通文件，d表示一个目录。之后的三个字符是文件所有者的访问权限，再其后的三个字符是文件所属组中成员的访问权限，最后三个字符是其他所有人的访问权限。 |
-| 1            | 文件的硬链接数目。                                           |
-| root         | 文件主人的用户名。                                           |
-| root         | 文件所属的用户组名。                                         |
-| 37           | 文件大小，单位为字节。                                       |
-| 10月6 00：36 | 文件最后修改时间。                                           |
-| `dockerfile` | 文件名。                                                     |
+| 1            | 文件的硬链接数目。                                                                                            |
+| root         | 文件主人的用户名。                                                                                            |
+| root         | 文件所属的用户组名。                                                                                           |
+| 37           | 文件大小，单位为字节。                                                                                          |
+| 10月6 00：36   | 文件最后修改时间。                                                                                            |
+| `dockerfile` | 文件名。                                                                                                 |
 
 ## less/more
 
@@ -390,19 +390,13 @@ Linux 中的打包文件一般是以.tar 结尾的，压缩的命令一般是以
 
 ① 列出当前目录及子目录下所有文件和文件夹: `find .`
 
-② 在`/home`目录下查找以.txt 结尾的文件名:`find /home -name "*.txt"` ,忽略大小写: `find /home -iname "*.txt"` 
+② 在`/home`目录下查找以.txt 结尾的文件名:`find /home -name "*.txt"` ,忽略大小写: `find /home -iname "*.txt"`
 
 ③ 当前目录及子目录下查找所有以.txt 和.pdf 结尾的文件:`find . \( -name "*.txt" -o -name "*.pdf" \)`或`find . -name "*.txt" -o -name "*.pdf"`
 
-
-
 ## 磁盘相关
 
-
-
 ### mout
-
-
 
 ### df
 
@@ -429,10 +423,6 @@ tmpfs                 117M     0  117M   0% /dev/shm
 ```
 
 ### du
-
-
-
-
 
 # 命令
 
@@ -802,9 +792,9 @@ umask与默认权限的对应关系如下：
 
 对于0002和0022的umask，其作用如下：
 
-![image-20210131110230104](Shell.assets/image-20210131110230104.png)
+![image-20210131110230104](../assets/OS/Shell/image-20210131110230104.png)
 
-![image-20210131110239985](Shell.assets/image-20210131110239985.png)
+![image-20210131110239985](../assets/OS/Shell/image-20210131110239985.png)
 
 掩码为全0时，新文件的默认权限为：`-rw-rw-rw-`，掩码为1的位会将改位的权限变为`-`。
 
@@ -870,16 +860,70 @@ chown命令用来更改文件或目录的所有者和用户组，使用该命令
 | :admins   | 组修改为admins                        |
 | bob:      | owner修改为bob，组修改为bob所属的组。 |
 
-示例：
+```bash
 
-```shell
-[root@docker ~]# cp a.txt ~test
-[root@docker ~]# ls -l ~test/a.txt
--rwx------ 1 root root 0 1月  31 13:11 /home/test/a.txt
-[root@docker ~]# chown test: ~test/a.txt
-[root@docker ~]# ls -l ~test/a.txt
--rwx------ 1 test test 0 1月  31 13:11 /home/test/a.txt
+chown kali file.txt
+
 ```
+
+把所有者改成用户 `kali`。
+
+```bash
+
+chown kali:kali file.txt
+
+```
+
+把所有者和所属组都改成 `kali`。
+
+```bash
+
+chown -R kali /home/kali/tools
+
+```
+
+`-R` 标志表示递归应用，会修改这个目录和里面所有内容的所有权。
+修改不属于你的文件所有权需要 root 权限。
+
+## SUID：重要的特殊权限
+
+SUID 代表 "Set User ID"。它是一个特殊权限位，会改变文件执行时使用的权限。
+
+通常你运行程序时，程序使用你的权限。如果某个 root 拥有的文件设置了 SUID 位，它会以 root 权限运行，即使你只是普通用户。
+
+在权限字符串中，SUID 会显示为 owner 执行位位置上的 `s`：
+
+```text
+
+-rwsr-xr-x root root /usr/bin/passwd
+
+```
+
+owner 字段里的 `s` 表示设置了 SUID。`passwd` 命令需要 SUID，因为普通用户修改密码时，它必须写入 `/etc/shadow` 这个 root 拥有的文件。
+
+SUID 在有意使用时是合理的。问题出现在文件误设 SUID，或者写得很差的 SUID 程序能被诱导执行不该执行的事情。
+
+**这就是权限提升出现的地方。** 权限提升是利用权限错误，从低权限用户账户变成 root 的过程。找到配置错误的 SUID 二进制文件，是经典方式之一。
+
+查找系统上所有设置了 SUID 位的文件：
+
+```bash
+
+find / -perm -u=s -type f 2>/dev/null
+
+```
+
+拆开来看：
+
+- `find /` — 从根目录开始搜索
+
+- `-perm -u=s` — 查找设置了 SUID 位的文件
+
+- `-type f` — 只找文件，不找目录
+
+- `2>/dev/null` — 隐藏权限错误，让输出更干净
+
+在任何 Linux 系统上运行它，然后浏览结果。里面任何存在已知漏洞或配置错误的文件，都可能是权限提升路径。
 
 ## passwd
 
@@ -982,7 +1026,7 @@ top程序能够动态地显示系统进程更新的信息。
 
 信息字段的解释如下：
 
-<img src="Shell.assets/image-20210131161630489.png" alt="image-20210131161630489" style="zoom:67%;" />
+<img src="../assets/OS/Shell/image-20210131161630489.png" alt="image-20210131161630489" style="zoom:67%;" />
 
 按h显示程序的帮助屏幕，按q退出程序。
 
@@ -1002,8 +1046,6 @@ kill命令用来向进程发送信号，它最常见的语法格式如下：
 | 15   | TERM | 终止。kill命令发送的默认信号，通知进程结束。如果程序正常运行，接收到该信号后，会做一些预定义的清理工作，然后退出。 |
 | 18   | CONT | 恢复运行。                                                   |
 | 19   | STOP | 停止。                                                       |
-
-
 
 可以通过修改`.bashrc`文件来自定义shell环境。
 
@@ -1128,15 +1170,13 @@ vi使用ex命令来执行替换操作。把整个文件的“Line”更改成“
 
 其中：
 
-<img src="Shell.assets/image-20210201103139268.png" alt="image-20210201103139268" style="zoom: 67%;" />
+<img src="../assets/OS/Shell/image-20210201103139268.png" alt="image-20210201103139268" style="zoom: 67%;" />
 
 ## 编辑多个文件
 
 使用vi打开多个文件：`vi a.txt b.txt c.txt`
 
 使用ex命令`:n`跳转到下一个文件，`:N`跳转到上一个文件。
-
-
 
 # 网络系统
 
@@ -1227,8 +1267,6 @@ default         gateway         0.0.0.0         UG        0 0          0 ens33
 192.168.15.0    0.0.0.0         255.255.255.0   U         0 0          0 ens33
 ```
 
-
-
 ## ftp
 
 ftp基于FTP协议从FTP服务器上下载文件，FTP并不是安全的，因为它会以明码形式发送帐号的姓名和密码。这就意味着这些数据没有加密，任何嗅探网络的人都能看到。由于此种原因，几乎因特网中所有FTP 服务器都是匿名的。一个匿名服务器能允许任何人使用注册名“anonymous”和无意义的
@@ -1257,11 +1295,11 @@ ftp基于FTP协议从FTP服务器上下载文件，FTP并不是安全的，因�
 
 二、使用wget -O下载并以指定文件名保存
 
-`wget -O myIndex.php http://linuxcommand.org/index.php  `
+`wget -O myIndex.php http://linuxcommand.org/index.php`
 
 三、使用wget -c断点续传
 
-`wget -c http://linuxcommand.org/index.php `
+`wget -c http://linuxcommand.org/index.php`
 
 四、使用wget -b后台下载
 
@@ -1334,10 +1372,6 @@ scp local_file remote_ip:remote_file
 scp root@www.runoob.com:/home/root/others/music /home/space/music/1.mp3 
 scp -r www.runoob.com:/home/root/others/ /home/space/music/
 ```
-
-
-
-
 
 # 注意事项
 
@@ -1427,7 +1461,7 @@ $ nohub some_cmd &
 
 shell 的行为可以测试，使用`set -x`命令，会开启 shell 的命令回显，你可以通过回显观察 shell 到底在执行什么命令：
 
-![](Shell.assets/1.png)
+![](../assets/OS/Shell/1.png)
 
 可见 `echo $(cmd)` 和 `echo "$(cmd)"`，结果差不多，但是仍然有区别。注意观察，双引号转义完成的结果会自动增加单引号，而前者不会。
 

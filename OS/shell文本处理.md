@@ -1,3 +1,47 @@
+# 字符串处理
+
+## 字符串截取
+
+`${变量名:起始位置:长度}` 可按位置截取字符串，起始位置从 `0` 开始：
+
+```shell
+phone="13788768897"
+echo "${#phone}"    # 11
+echo "${phone:0:6}" # 137887
+echo "${phone:1:6}" # 378876
+```
+
+## 字符串替换
+
+- `${变量名/old/new}` 只替换第一个匹配项。
+- `${变量名//old/new}` 替换全部匹配项。
+
+```shell
+phone="13788768897"
+echo "${phone/8/X}"  # 137X8768897
+echo "${phone//8/X}" # 137XX76XX97
+```
+
+## 模式匹配删除
+
+Shell 可按最短或最长匹配删除字符串前缀、后缀：
+
+```shell
+account="root:x:0:0:root:/root:/bin/bash"
+echo "${account#*:}"   # 从左侧删除最短匹配前缀
+echo "${account##*:}"  # 从左侧删除最长匹配前缀
+echo "${account%:*}"   # 从右侧删除最短匹配后缀
+echo "${account%%:*}"  # 从右侧删除最长匹配后缀
+```
+
+例如可用 `${file%.*}` 去除文件扩展名后批量重命名：
+
+```shell
+for file in ./*.doc; do
+  mv "$file" "${file%.*}.txt"
+done
+```
+
 # 正则表达式
 
 ## grep
@@ -113,9 +157,9 @@ vgremove
 
 字符区域不总是工作，在ls命令中，它会产生一些错误的结果。
 
-![image-20210202201934989](/Users/bytedance/Documents/cs_basic_notes/OS/shell文本处理.assets/image-20210202201934989.png)
+![image-20210202201934989](../assets/OS/shell文本处理/image-20210202201934989.png)
 
-![image-20210202202119627](/Users/bytedance/Documents/cs_basic_notes/OS/shell文本处理.assets/image-20210202202119627.png)
+![image-20210202202119627](../assets/OS/shell文本处理/image-20210202202119627.png)
 
 原因：
 
@@ -208,11 +252,7 @@ nnn nnn-nnnn
 
 `^\(?[0-9]{3}\)? [0-9]{3}-[0-9]{4}$`
 
-
-
 # grep
-
-
 
 -i：忽略大小写
 
@@ -220,7 +260,9 @@ nnn nnn-nnnn
 
 -n：列出行并显示行号
 
--c：显示匹配到的行数
+-c：统计匹配到的行数
+
+-n: 显示行号
 
 demo文件
 
@@ -273,8 +315,6 @@ syntax check finished！
 ```go
 grep  -r  error  log
 ```
-
-
 
 # wc
 
@@ -462,8 +502,6 @@ Jobs    Apple
 Jack    Alibaba
 ```
 
-
-
 1. 使用非空格字符切分列
 
 ```go
@@ -473,8 +511,6 @@ Num,Name,Company,Product
 3,Pony,Tencent,wechat
 ```
 
-
-
 ```go
 awk  -F","  '{print $2"\t"$3  }'  form.txt
 >>
@@ -482,4 +518,18 @@ Name    Company
 Jobs    Apple
 Jack    Alibaba
 Pony    Tencent
+```
+
+# cat
+创建文件
+```
+cat > a.txt
+# 输入若干行，然后按Ctrl+D退出保存
+
+```
+追加写入
+
+```
+cat >> a.txt
+# 输入若干行，然后按Ctrl+D退出保存
 ```

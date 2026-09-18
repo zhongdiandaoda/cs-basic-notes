@@ -1,5 +1,4 @@
 
-
 # overview
 
 编写第一个shell脚本：Hello World
@@ -48,31 +47,73 @@ hello world
 $ ./test.sh
 ```
 
-
-
 # 行继续符
 
 通过使用行继续符\，可以将复杂的命令写成若干行，提高可读性。
 
-![image-20210302104553825](/Users/bytedance/Documents/cs_basic_notes/OS/shell脚本.assets/image-20210302104553825.png)
-
-
+```bash
+find playground \
+    \( \
+        -type f \
+        -not -perm 0600 \
+        -exec chmod 0600 '{}' ';' \
+    \) \
+    -or \
+    \( \
+        -type d \
+        -not -perm 0711 \
+        -exec chmod 0711 '{}' ';' \
+    \)
+```
 
 双引号中可以包括换行符。
 
-![image-20210302104846598](/Users/bytedance/Documents/cs_basic_notes/OS/shell脚本.assets/image-20210302104846598.png)
+```bash
+#!/bin/bash
+
+# Program to output a system information page
+
+echo "<HTML>"
+echo "      <HEAD>"
+echo "          <TITLE>Page Title</TITLE>"
+echo "      </HEAD>"
+echo "      <BODY>"
+echo "          Page body."
+echo "      </BODY>"
+echo "</HTML>"
+```
 
 上图程序等价于：
 
-![image-20210302104902431](/Users/bytedance/Documents/cs_basic_notes/OS/shell脚本.assets/image-20210302104902431.png)
+```bash
+#!/bin/bash
+
+# Program to output a system information page
+
+echo "<HTML>
+      <HEAD>
+          <TITLE>Page Title</TITLE>
+      </HEAD>
+      <BODY>
+          Page body.
+      </BODY>
+</HTML>"
+```
 
 在命令行中：
 
-![image-20210302104916094](/Users/bytedance/Documents/cs_basic_notes/OS/shell脚本.assets/image-20210302104916094.png)
+```bash
+[me@linuxbox ~]$ echo "<HTML>
+>       <HEAD>
+>           <TITLE>Page Title</TITLE>
+>       </HEAD>
+>       <BODY>
+>           Page body.
+>       </BODY>
+> </HTML>"
+```
 
 \>符号是在shell中键入多行语句时的提示符。
-
-
 
 # shell脚本的执行方式
 
@@ -251,8 +292,6 @@ test命令常用的例子和含义如下表：
 
 在shell脚本中的if判断语句中可以使用判断符号“[]”来替换test命令，例如“test -d file”可以使用"[ -d file ]"来替换。需要特别注意的是“[”后和“]”前至少要保留一个空格。判断大部分是使用在if语句中。
 
-
-
 # if
 
 demo：
@@ -302,8 +341,6 @@ else
 fi        
 ```
 
-
-
 # 循环
 
 打印99乘法表
@@ -326,8 +363,6 @@ do
 	echo 
 done 
 ```
-
-
 
 for循环：
 
@@ -354,7 +389,60 @@ done
 echo "sum=$sum"
 ```
 
+# 数值运算
 
+- `expr`：运算符两侧必须有空格，乘法需要转义，例如 `expr "$x" \* 78`。
+- `$((...))`：支持算术表达式，例如 `echo $((x + 78))`。
+- `let`：计算并直接更新变量，例如 `let x+=78`。
+
+# read
+
+`read` 从标准输入读取数据并赋值给变量：
+
+```shell
+read -p "请输入一个整数：" number
+echo "$number"
+```
+
+# case
+
+`case` 适合按模式分支处理参数：
+
+```shell
+case "$1" in
+  start) service_action=start ;;
+  stop) service_action=stop ;;
+  *) echo "用法: $0 {start|stop}"; exit 1 ;;
+esac
+```
+
+# 函数
+
+函数可封装可复用的脚本操作：
+
+```shell
+myping() {
+  if ping -c 1 -W 1 "$1" >/dev/null 2>&1; then
+    echo "$1 is up"
+  else
+    echo "$1 is down"
+  fi
+}
+```
+
+# break 和 continue
+
+`break` 退出当前循环，`continue` 跳过本轮剩余语句：
+
+```shell
+sum=0
+while :; do
+  read -p "请输入整数（0 表示结束）：" value
+  [ "$value" -eq 0 ] && break
+  sum=$((sum + value))
+done
+echo "总和是：$sum"
+```
 
 ```shell
 #!/bin/bash
@@ -366,4 +454,3 @@ do
 done
 echo "sum=$sum"
 ```
-
