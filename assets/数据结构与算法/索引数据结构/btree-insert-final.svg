@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="260" viewBox="0 0 820 260" role="img" aria-labelledby="title desc">
+  <title id="title">B树叶子节点分裂后结构</title>
+  <desc id="desc">左叶子以23为中间关键字分裂，23上移到根节点，最终根节点包含23和40。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.root{fill:#fff;stroke:#2563eb;stroke-width:2}.leaf{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.text{font:600 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect class="bg" width="820" height="260" rx="14"/>
+  <text x="410" y="36" text-anchor="middle" class="text">左叶子分裂：23 上移到父节点</text>
+  <rect class="root" x="330" y="62" width="160" height="50" rx="8"/>
+  <text x="410" y="95" text-anchor="middle" class="text">23 | 40</text>
+  <path class="edge" d="M365 112 L210 160"/>
+  <path class="edge" d="M410 112 L410 160"/>
+  <path class="edge" d="M455 112 L610 160"/>
+  <rect class="leaf" x="125" y="160" width="170" height="54" rx="8"/>
+  <rect class="leaf" x="325" y="160" width="170" height="54" rx="8"/>
+  <rect class="leaf" x="525" y="160" width="170" height="54" rx="8"/>
+  <text x="210" y="194" text-anchor="middle" class="text">18 | 22</text>
+  <text x="410" y="194" text-anchor="middle" class="text">25 | 39</text>
+  <text x="610" y="194" text-anchor="middle" class="text">50 | 70</text>
+  <text x="410" y="238" text-anchor="middle" class="hint">父节点接收上移关键字后，子树区间随之重新划分</text>
+</svg>

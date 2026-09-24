@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="350" viewBox="0 0 940 350" role="img" aria-labelledby="title desc">
+  <title id="title">B+树结构示例</title>
+  <desc id="desc">B+树内部节点只保存索引关键字，所有数据记录都保存在叶子节点，叶子节点通过链表顺序连接。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/>
+    </marker>
+    <style>
+      .bg{fill:#f8fafc}.root{fill:#fff;stroke:#2563eb;stroke-width:2}.idx{fill:#eef2ff;stroke:#4f46e5;stroke-width:2}.leaf{fill:#ecfdf5;stroke:#16a34a;stroke-width:2}.data{fill:#fff;stroke:#16a34a;stroke-width:1.5}.text{font:600 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.small{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none}.link{stroke:#16a34a;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" width="940" height="350" rx="14"/>
+  <text x="470" y="34" text-anchor="middle" class="text">B+树：内部节点只导航，数据集中在叶子层</text>
+  <rect class="root" x="395" y="58" width="150" height="48" rx="8"/>
+  <text x="470" y="89" text-anchor="middle" class="text">30 | 60</text>
+  <text x="470" y="124" text-anchor="middle" class="small">内部索引节点</text>
+  <path class="edge" d="M425 106 L225 152"/>
+  <path class="edge" d="M470 106 L470 152"/>
+  <path class="edge" d="M515 106 L715 152"/>
+  <rect class="idx" x="150" y="152" width="150" height="48" rx="8"/>
+  <rect class="idx" x="395" y="152" width="150" height="48" rx="8"/>
+  <rect class="idx" x="640" y="152" width="150" height="48" rx="8"/>
+  <text x="225" y="183" text-anchor="middle" class="text">10 | 20</text>
+  <text x="470" y="183" text-anchor="middle" class="text">40 | 50</text>
+  <text x="715" y="183" text-anchor="middle" class="text">70 | 80</text>
+  <path class="edge" d="M225 200 L225 235"/>
+  <path class="edge" d="M470 200 L470 235"/>
+  <path class="edge" d="M715 200 L715 235"/>
+  <rect class="leaf" x="95" y="235" width="260" height="64" rx="8"/>
+  <rect class="leaf" x="340" y="235" width="260" height="64" rx="8"/>
+  <rect class="leaf" x="585" y="235" width="260" height="64" rx="8"/>
+  <text x="225" y="262" text-anchor="middle" class="text">5 | 10 | 20</text>
+  <text x="470" y="262" text-anchor="middle" class="text">30 | 40 | 50</text>
+  <text x="715" y="262" text-anchor="middle" class="text">60 | 70 | 80</text>
+  <rect class="data" x="132" y="272" width="186" height="20" rx="4"/>
+  <rect class="data" x="377" y="272" width="186" height="20" rx="4"/>
+  <rect class="data" x="622" y="272" width="186" height="20" rx="4"/>
+  <text x="225" y="287" text-anchor="middle" class="small">记录指针 / 行数据</text>
+  <text x="470" y="287" text-anchor="middle" class="small">记录指针 / 行数据</text>
+  <text x="715" y="287" text-anchor="middle" class="small">记录指针 / 行数据</text>
+  <path class="link" d="M355 267 L335 267 L335 319 L585 319 L585 267"/>
+  <path class="link" d="M600 267 L580 267 L580 319 L830 319 L830 267"/>
+  <text x="470" y="335" text-anchor="middle" class="small">叶子节点按 key 顺序相连，范围查询可顺序扫描</text>
+</svg>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="260" viewBox="0 0 820 260" role="img" aria-labelledby="title desc">
+  <title id="title">5阶B树示例</title>
+  <desc id="desc">根节点包含17和35三个子指针，叶子节点包含有序关键字。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.node{fill:#fff;stroke:#2563eb;stroke-width:2}.leaf{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.text{font:600 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect class="bg" width="820" height="260" rx="14"/>
+  <text x="410" y="34" text-anchor="middle" class="text">5阶B树：一个节点最多4个关键字，叶子处在同一层</text>
+  <rect class="node" x="340" y="62" width="140" height="50" rx="8"/>
+  <text x="410" y="94" text-anchor="middle" class="text">17 | 35</text>
+  <path class="edge" d="M375 112 L185 164"/>
+  <path class="edge" d="M410 112 L410 164"/>
+  <path class="edge" d="M445 112 L635 164"/>
+  <rect class="leaf" x="92" y="164" width="186" height="54" rx="8"/>
+  <rect class="leaf" x="317" y="164" width="186" height="54" rx="8"/>
+  <rect class="leaf" x="542" y="164" width="186" height="54" rx="8"/>
+  <text x="185" y="198" text-anchor="middle" class="text">3 | 8 | 12</text>
+  <text x="410" y="198" text-anchor="middle" class="text">20 | 25 | 30</text>
+  <text x="635" y="198" text-anchor="middle" class="text">40 | 50 | 60 | 70</text>
+  <text x="185" y="238" text-anchor="middle" class="hint">&lt; 17</text>
+  <text x="410" y="238" text-anchor="middle" class="hint">17 到 35 之间</text>
+  <text x="635" y="238" text-anchor="middle" class="hint">&gt; 35</text>
+</svg>

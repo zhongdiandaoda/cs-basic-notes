@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="250" viewBox="0 0 760 250" role="img" aria-labelledby="title desc">
+  <title id="title">B树根节点分裂</title>
+  <desc id="desc">溢出节点以40为中间关键字分裂，40上移成为根节点，左右两侧关键字形成两个子节点。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.root{fill:#fff;stroke:#2563eb;stroke-width:2}.leaf{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.text{font:600 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect class="bg" width="760" height="250" rx="14"/>
+  <text x="380" y="36" text-anchor="middle" class="text">根节点分裂：中间关键字 40 上移</text>
+  <rect class="root" x="330" y="62" width="100" height="50" rx="8"/>
+  <text x="380" y="95" text-anchor="middle" class="text">40</text>
+  <path class="edge" d="M355 112 L245 160"/>
+  <path class="edge" d="M405 112 L515 160"/>
+  <rect class="leaf" x="160" y="160" width="170" height="54" rx="8"/>
+  <rect class="leaf" x="430" y="160" width="170" height="54" rx="8"/>
+  <text x="245" y="194" text-anchor="middle" class="text">18 | 22</text>
+  <text x="515" y="194" text-anchor="middle" class="text">50 | 70</text>
+  <text x="380" y="232" text-anchor="middle" class="hint">分裂后树高增加一层，所有叶子仍在同一层</text>
+</svg>

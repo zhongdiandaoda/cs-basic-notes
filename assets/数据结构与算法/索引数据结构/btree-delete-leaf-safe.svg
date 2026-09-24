@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="250" viewBox="0 0 820 250" role="img" aria-labelledby="title desc">
+  <title id="title">B树删除叶子节点后仍满足下限</title>
+  <desc id="desc">删除15后左叶子节点仍有10和18两个关键字，满足非根节点下限。</desc>
+  <defs>
+    <style>
+      .bg{fill:#f8fafc}.root{fill:#fff;stroke:#2563eb;stroke-width:2}.leaf{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.changed{fill:#ecfdf5;stroke:#16a34a;stroke-width:2}.text{font:600 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none}
+    </style>
+  </defs>
+  <rect class="bg" width="820" height="250" rx="14"/>
+  <text x="410" y="36" text-anchor="middle" class="text">删除 15：叶子节点仍满足下限</text>
+  <rect class="root" x="330" y="62" width="160" height="50" rx="8"/>
+  <text x="410" y="95" text-anchor="middle" class="text">22 | 40</text>
+  <path class="edge" d="M365 112 L210 160"/>
+  <path class="edge" d="M410 112 L410 160"/>
+  <path class="edge" d="M455 112 L610 160"/>
+  <rect class="changed" x="125" y="160" width="170" height="54" rx="8"/>
+  <rect class="leaf" x="325" y="160" width="170" height="54" rx="8"/>
+  <rect class="leaf" x="525" y="160" width="170" height="54" rx="8"/>
+  <text x="210" y="194" text-anchor="middle" class="text">10 | 18</text>
+  <text x="410" y="194" text-anchor="middle" class="text">24 | 26</text>
+  <text x="610" y="194" text-anchor="middle" class="text">50 | 70</text>
+  <text x="410" y="232" text-anchor="middle" class="hint">删除后左叶子还有2个关键字，不需要借位或合并</text>
+</svg>

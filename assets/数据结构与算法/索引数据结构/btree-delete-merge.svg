@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="330" viewBox="0 0 980 330" role="img" aria-labelledby="title desc">
+  <title id="title">B树删除后与兄弟节点合并</title>
+  <desc id="desc">删除26后中间叶子节点关键字不足，右兄弟也没有富余关键字，因此父节点50下移并与两个节点合并。</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/></marker>
+    <style>
+      .bg{fill:#f8fafc}.root{fill:#fff;stroke:#2563eb;stroke-width:2}.leaf{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.under{fill:#fff7ed;stroke:#ea580c;stroke-width:2}.changed{fill:#ecfdf5;stroke:#16a34a;stroke-width:2}.text{font:600 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none}.arrow{stroke:#64748b;stroke-width:2;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="bg" width="980" height="330" rx="14"/>
+  <text x="490" y="34" text-anchor="middle" class="text">借不到时合并：父节点分隔关键字下移</text>
+  <text x="245" y="66" text-anchor="middle" class="hint">调整前</text>
+  <rect class="root" x="170" y="82" width="150" height="46" rx="8"/>
+  <text x="245" y="112" text-anchor="middle" class="text">24 | 50</text>
+  <path class="edge" d="M205 128 L115 174"/><path class="edge" d="M245 128 L245 174"/><path class="edge" d="M285 128 L375 174"/>
+  <rect class="leaf" x="50" y="174" width="130" height="48" rx="8"/><rect class="under" x="195" y="174" width="100" height="48" rx="8"/><rect class="leaf" x="315" y="174" width="150" height="48" rx="8"/>
+  <text x="115" y="205" text-anchor="middle" class="text">10 | 18</text><text x="245" y="205" text-anchor="middle" class="text">40</text><text x="390" y="205" text-anchor="middle" class="text">60 | 70</text>
+  <path class="arrow" d="M485 152 L570 152"/>
+  <text x="527" y="135" text-anchor="middle" class="hint">合并</text>
+  <text x="735" y="66" text-anchor="middle" class="hint">调整后</text>
+  <rect class="root" x="700" y="82" width="70" height="46" rx="8"/>
+  <text x="735" y="112" text-anchor="middle" class="text">24</text>
+  <path class="edge" d="M715 128 L620 174"/><path class="edge" d="M755 128 L850 174"/>
+  <rect class="leaf" x="555" y="174" width="130" height="48" rx="8"/><rect class="changed" x="725" y="174" width="250" height="48" rx="8"/>
+  <text x="620" y="205" text-anchor="middle" class="text">10 | 18</text><text x="850" y="205" text-anchor="middle" class="text">40 | 50 | 60 | 70</text>
+  <text x="490" y="285" text-anchor="middle" class="hint">兄弟节点也达到下限时，当前节点、父节点分隔关键字、兄弟节点合成一个节点</text>
+</svg>
