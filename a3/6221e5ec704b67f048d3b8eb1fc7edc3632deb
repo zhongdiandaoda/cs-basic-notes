@@ -1,0 +1,30 @@
+common/assets/频率估计/1655276829990-c8151971-0d93-4758-98f4-dccf6be65ff7.svg
+  h_90b0db872d8fca 1-20
+common/assets/频率估计/1655276830062-67e6a4bb-0633-4103-b727-dadceb3b693a.svg
+  h_90b0db872d8fca 1-20
+common/assets/频率估计/1655276830089-2ba32719-879e-4366-ae6e-9fd9244ba6d1.svg
+  h_90b0db872d8fca 1-20
+common/assets/频率估计/1655276830105-19010977-a055-4e34-8ac6-0c71faf07bf2.svg
+  h_90b0db872d8fca 1-12
+common/assets/频率估计/1655276830261-c3f3a069-741f-4f9a-8309-b0b24801e4dc.svg
+  h_90b0db872d8fca 1-11
+common/assets/频率估计/1655276830512-96ca42bb-1537-4385-9754-a1f7cb34ebf3.svg
+  h_90b0db872d8fca 1-19
+common/assets/频率估计/1655276830546-2c58710b-725d-40ba-8cee-67ce623c8101.svg
+  h_90b0db872d8fca 1-80
+common/assets/频率估计/1655276830633-65668b8f-72f9-4b6f-ac65-5ddf5d9da6c6.svg
+  h_90b0db872d8fca 1-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "a36221e5ec704b67f048d3b8eb1fc7edc3632deb",
+  "prompts": {},
+  "humans": {
+    "h_90b0db872d8fca": {
+      "author": "liuqi.9867 <liuqi.9867@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
