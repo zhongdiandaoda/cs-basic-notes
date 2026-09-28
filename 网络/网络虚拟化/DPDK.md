@@ -9,18 +9,18 @@
 当前数据包的处理流程是这样：  
 数据包到达网卡，网卡发送中断通知CPU，CPU将数据包拷贝到内核空间中，应用程序从内核空间中拷贝数据到用户态空间，数据处理。
 
-[![](../../assets/网络/网络虚拟化/DPDK/1653897088179-1a3b7b78-4ef7-4977-b3b7-663a146ee105.png)](https://img2020.cnblogs.com/blog/1060878/202101/1060878-20210111101857807-975118303.png)
+[![DPDK：overview示意图](../images/网络虚拟化/DPDK/dpdk-overview.png)](https://img2020.cnblogs.com/blog/1060878/202101/1060878-20210111101857807-975118303.png)
 
 **dpdk解决问题办法：**
 
 1. DPDK技术是重载网卡驱动，直接将数据传递给用户态的应用程序，避免了中间环节的经过TCP/IP协议栈，内核空间到用户空间的copy。
 2. 同时针对第一点网卡频繁的中断，应用程序可以使用轮询的方式获取网卡上的数据，避免中断造成的场景切换和恢复浪费的时间。
 
-[![](../../assets/网络/网络虚拟化/DPDK/1653897088110-578e8958-379a-4415-ab52-87219ebd088a.png)](https://img2020.cnblogs.com/blog/1060878/202101/1060878-20210111102615995-372407894.png)
+[![DPDK：overview示意图](../images/网络虚拟化/DPDK/dpdk-overview-02.png)](https://img2020.cnblogs.com/blog/1060878/202101/1060878-20210111102615995-372407894.png)
 
 # OVS应用场景
 
-![](../../assets/网络/网络虚拟化/DPDK/1655878649542-f9dee2a3-a193-4176-87d7-ff75a1739c3a.png)
+![DPDK：OVS应用场景示意图](../images/网络虚拟化/DPDK/dpdk-ovs-03.png)
 
 对于这个场景有两个通信路径：
 
@@ -63,7 +63,7 @@ Hypervisor层横跨用户空间和内核空间，这中间会存在数据在内�
 ## 普通ovs
 
 ovs的架构图：  
-[![](../../assets/网络/网络虚拟化/DPDK/1653897247021-c2c82786-0a68-434a-a6db-bb12131530d0.png)](https://img2020.cnblogs.com/blog/1060878/202105/1060878-20210509130204033-1033930936.png)
+[![DPDK：普通ovs示意图](../images/网络虚拟化/DPDK/dpdk-ovs-04.png)](https://img2020.cnblogs.com/blog/1060878/202105/1060878-20210509130204033-1033930936.png)
 
 **ovs**处理流表的过程是：  
 1.ovs的datapath接收到从ovs连接的某个网络设备发来的数据包，从数据包中提取源/目的IP、源/目的MAC、端口等信息。  
@@ -75,7 +75,7 @@ ovs的架构图：
 ## ovs-dpdk
 
 DPDK加速的OVS与原始OVS的区别在于，从OVS连接的某个网络端口接收到的报文不需要openvswitch.ko内核态的处理，报文通过DPDK PMD驱动直接到达用户态ovs-vswitchd里。  
-[![](../../assets/网络/网络虚拟化/DPDK/1653897274458-bcbeb5f3-a36b-47f5-bf6d-64d1f89f4963.png)](https://img2020.cnblogs.com/blog/1060878/202105/1060878-20210509130057172-1672367703.png)
+[![DPDK：ovs-dpdk示意图](../images/网络虚拟化/DPDK/dpdk-ovs-dpdk-05.png)](https://img2020.cnblogs.com/blog/1060878/202105/1060878-20210509130057172-1672367703.png)
 
 **DPDK加速的OVS**数据流转发的大致流程如下：  
 1.OVS的ovs-vswitchd接收到从OVS连接的某个网络端口发来的数据包，从数据包中提取源/目的IP、源/目的MAC、端口等信息。  

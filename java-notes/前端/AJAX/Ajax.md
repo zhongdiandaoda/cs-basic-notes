@@ -37,13 +37,9 @@ demo，在百度搜索innocent。
 
 一、点击网络
 
-![image-20210630150827576](../../assets/前端/AJAX/Ajax/image-20210630150827576.png)
+![Ajax：控制台示意图](../../images/前端/AJAX/Ajax/ajax.png)
 
 二、刷新并选择第一条请求
-
-![image-20210630150858022](../../assets/前端/AJAX/Ajax/image-20210630150858022.png)
-
-![image-20210630150925602](../../assets/前端/AJAX/Ajax/image-20210630150925602.png)
 
 请求头和响应头分别是HTTP请求报文和响应报文的首部字段。
 
@@ -207,7 +203,7 @@ app.listen(8000, ()=>{
 
 结果：
 
-![image-20210630160819073](../../assets/前端/AJAX/Ajax/image-20210630160819073.png)
+![Ajax：AJAX Get请求示意图](../../images/前端/AJAX/Ajax/ajax-get-request-02.png)
 
 # AJAX Post请求
 
@@ -568,7 +564,7 @@ app.listen(8000, ()=>{
 </html>
 ```
 
-![image-20210703164947447](../../assets/前端/AJAX/Ajax/image-20210703164947447.png)
+![Ajax：重复请求问题示意图](../../images/前端/AJAX/Ajax/ajax-request-03.png)
 
 # Jquery中的AJAX
 

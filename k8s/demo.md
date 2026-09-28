@@ -126,6 +126,6 @@ spec:
 
 8. 等待Pod成功启动，之后在浏览器输入`虚拟机IP:30001`即可访问Tomcat主页，输入`虚拟机IP:30001/demo`即可看到：
 
-![](../assets/k8s/demo/1647334917172-784f03fc-b4e8-4ee8-b2b3-c67038ea8574.png)
+![demo：value: 'mysql'示意图](images/demo/demo-value-mysql.png)
 
 可点击add向数据库添加记录。

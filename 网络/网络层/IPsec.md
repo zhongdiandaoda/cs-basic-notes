@@ -2,9 +2,9 @@ IPSec（Internet Protocol Security）是IETF（Internet Engineering Task Force�
 
 IPSec用来解决IP层安全性问题的技术。IPSec被设计为同时支持IPv4和IPv6网络。
 
-![](../../assets/网络/网络层/IPsec/1702972056371-cee9a8aa-6f86-4cae-86b5-b15debdf457a.png)
+![IPsec：IPsec示意图](../images/网络层/IPsec/ipsec.png)
 
-![](../../assets/网络/网络层/IPsec/1702972056473-dadd91ff-4b49-450e-beef-3516fc5ff280.png)
+![IPsec：IPsec示意图](../images/网络层/IPsec/ipsec-02.png)
 
 IPsec使用了下面的这些协议实现各种各样的功能：
 
@@ -23,7 +23,7 @@ IPSec通过加密与验证等方式，从以下几个方面保障了用户业务
 
 ESP能够对IP报文内容进行加密保护，以防止IP报文内容在传输过程中被窥探。IPSec采用对称加密算法对数据进行加密和解密。对称加密算法是指数据发送方和接收方使用相同的密钥进行加密、解密。
 
-![](../../assets/网络/网络层/IPsec/1702972056398-43847a49-e524-4245-87a2-196176eec027.png)
+![IPsec：加密示意图](../images/网络层/IPsec/ipsec-03.png)
 
 用于加密的对称密钥可以手工配置，也可以通过DH算法生成并在两端设备共享。
 
@@ -66,9 +66,9 @@ IPSec采用HMAC（Keyed-Hash Message Authentication Code）功能进行认证。
 
 在传输模式中，AH头或ESP头被插入到IP头与传输层协议头之间，保护TCP/UDP/ICMP负载。传输模式不改变报文头。
 
-![](../../assets/网络/网络层/IPsec/1702972056389-757652e4-96b7-434d-8faa-babbd92628f4.png)
+![IPsec：传输模式示意图](../images/网络层/IPsec/ipsec-04.png)
 
-![](../../assets/网络/网络层/IPsec/1702972056437-aec46586-4861-4f55-a34f-8aca63fafd1b.png)
+![IPsec：传输模式示意图](../images/网络层/IPsec/ipsec-05.png)
 
 传输模式下，AH协议的完整性验证范围为整个IP报文。ESP协议验证报文的完整性检查部分包括ESP头、传输层协议头、数据和ESP包尾，但不包括IP头，因此ESP协议无法保证IP头的安全。ESP的加密部分包括传输层协议头、数据和ESP包尾。
 
@@ -76,9 +76,9 @@ IPSec采用HMAC（Keyed-Hash Message Authentication Code）功能进行认证。
 
 在原IP头部之前插入ESP/AH头部，同时生成新的IP头部。
 
-![](../../assets/网络/网络层/IPsec/1702972057153-09e13e55-abe5-4e17-9872-a5be77cd556b.png)
+![IPsec：隧道模式示意图](../images/网络层/IPsec/ipsec-tunnel-06.png)
 
-![](../../assets/网络/网络层/IPsec/1702972057243-1cb93a0f-d5a1-4a1e-9a85-5101710eb0cb.png)
+![IPsec：隧道模式示意图](../images/网络层/IPsec/ipsec-tunnel-07.png)
 
 隧道模式下，AH协议的完整性验证范围为包括新增IP头在内的整个IP报文。ESP协议验证报文的完整性检查部分包括ESP头、原IP头、传输层协议头、数据和ESP报尾，但不包括新IP头，因此ESP协议无法保证新IP头的安全。ESP的加密部分包括原IP头、传输层协议头、数据和ESP报尾。
 
@@ -112,7 +112,7 @@ IPSec使用认证头AH（Authentication Header）和封装安全载ESP（Encapsu
 
 其工作原理是在每一个数据包的标准IP报头后面添加一个AH报文头。如下所示：
 
-![](../../assets/网络/网络层/IPsec/1702972057245-9d79ee17-1fc7-48be-9bfe-c555e17fd18c.png)
+![IPsec：AH示意图](../images/网络层/IPsec/ipsec-08.png)
 
 AH对数据包和认证密钥进行Hash计算，接收方收到带有计算结果的数据包后，执行同样的Hash计算并与原计算结果比较，传输过程中对数据的任何更改将使计算结果无效，这样就提供了数据来源认证和数据完整性校验。AH协议的完整性验证范围为整个IP报文。
 
@@ -130,7 +130,7 @@ AH对数据包和认证密钥进行Hash计算，接收方收到带有计算结�
 
 **Ah****报文****抓包****示例：**
 
-![](../../assets/网络/网络层/IPsec/1702972057336-ee537b43-0bf6-4e07-87ce-4b15b5708c2a.png)
+![IPsec：AH示意图](../images/网络层/IPsec/ipsec-09.png)
 
 ## ESP
 
@@ -140,7 +140,7 @@ ESP是一种基于IP的传输层协议， **协议号为50** 。其工作原理�
 
 ESP通常使用DES、3DES、AES等加密算法实现数据加密，使用MD5或SHA1来实现数据完整性认证。
 
-![](../../assets/网络/网络层/IPsec/1702972057393-35fc44fd-c7f5-4c19-b54f-f94b59e6c026.png)
+![IPsec：ESP示意图](../images/网络层/IPsec/ipsec-esp-10.png)
 
 **ESP****报文头字段：**
 
@@ -157,7 +157,7 @@ ESP通常使用DES、3DES、AES等加密算法实现数据加密，使用MD5或S
 
 **ESP****报文****抓包****示例：**
 
-![](../../assets/网络/网络层/IPsec/1702972058294-addec600-787c-4fb1-ad91-d61fd948bcab.png)
+![IPsec：ESP示意图](../images/网络层/IPsec/ipsec-esp-11.png)
 
 ## AH协议和ESP协议比较
 
@@ -223,17 +223,17 @@ IKE经过两个阶段为IPSec进行密钥协商并建立安全联盟：
 
 ### DH交换算法
 
-![](../../assets/网络/网络层/IPsec/1702972058612-0aad2fab-957e-476b-8e27-25d5f44a554a.png)
+![IPsec：DH交换算法示意图](../images/网络层/IPsec/ipsec-12.png)
 
 ### IKE阶段1
 
 协商过程：
 
-![](../../assets/网络/网络层/IPsec/1702972058583-53f0dfd5-abcf-4f39-abb7-11973ed27e97.png)
+![IPsec：IKE阶段1示意图](../images/网络层/IPsec/ipsec-ike-1-13.png)
 
 #### 主模式
 
-![](../../assets/网络/网络层/IPsec/1702972058776-fcc37794-21ec-4d83-94e4-5d1cb399c3a7.png)
+![IPsec：主模式示意图](../images/网络层/IPsec/ipsec-14.png)
 
 第一次交换：**策略协商**
 
@@ -256,7 +256,7 @@ IKE经过两个阶段为IPSec进行密钥协商并建立安全联盟：
 
 野蛮模式交互过程少，所以在传输过程中，其传输的数据比较多，并且前两个数据为明文传输，仅消息3为加密传输。
 
-![](../../assets/网络/网络层/IPsec/1702972058654-a4031ac7-5d49-4e77-8ca1-ed7fa1790a74.png)
+![IPsec：野蛮模式示意图](../images/网络层/IPsec/ipsec-15.png)
 
 1. 第一条消息：发起者触发IKEv1第一阶段野蛮模式协商，发送一个包括SA载荷、秘钥交换载荷、Nonce随机数载荷和身份信息载荷。野蛮模式将主模式中需要进行交换的数据全部进行了发送。
 2. 第二条消息：响应者发送SA载荷、秘钥交换载荷、Nonce载荷、身份信息和供发起者使用的HASH认证信息。当响应方接收到发起方发送来的消息1后，通过查看自身SPD是否存在与发起方匹配的相关策略，若存在，则利用消息1中信息与自身配置进行计算，生成身份验证hash值后，将自身配置策略信息和hash值传送给发起方。
@@ -266,14 +266,14 @@ IKE经过两个阶段为IPSec进行密钥协商并建立安全联盟：
 
 #### 两种模式对比
 
-![](../../assets/网络/网络层/IPsec/1702972059561-2bcaaea4-c9e2-465e-b56e-00691670a89c.png)
+![IPsec：两种模式对比示意图](../images/网络层/IPsec/ipsec-16.png)
 
 1. NAT支持：对预共享密钥认证：主模式不支持NAT转换，而野蛮模式支持。而对于证书方式认证：两种模式都能支持
 2. 对等体标识：主模式只能采用IP地址方式标识对等体；而野蛮模式可以采用IP地址方式或者Name方式标识对等体。这是由于主模式在交换完3、4消息以后，需要使用预共享密钥来计算SKEYID，当一个设备有多个对等体时，必须查找到该对等体对应的预共享密钥，但是由于其对等体的ID信息在消息5、6中才会发送，此时主模式的设备只能使用消息3、4中的IP报文源地址来找到与其对应的预共享密钥；如果主模式采用Name方式，Name信息却包含在消息5、6中，而设备必须在消息5、6之前找到其对等体的预共享密钥，就造成了矛盾，无法完成Name方式的标识。而在野蛮模式中，ID消息在消息1、2中就已经发送了，设备可以根据ID信息查找到对应的预共享密钥，从而计算SKEYID。但是由于野蛮模式交换的2个消息没有经过加密，所以ID信息也是明文的，也相应造成了安全隐患。
 
 ### IKE阶段2
 
-![](../../assets/网络/网络层/IPsec/1702972059533-758e03b9-912b-4a37-a8ff-bd07afe4cb95.png)
+![IPsec：IKE阶段2示意图](../images/网络层/IPsec/ipsec-ike-2-17.png)
 
 与第一阶段的过程类似，参与者交换建议，以确定在SA中采用哪些安全参数。
 
@@ -285,7 +285,7 @@ IKE经过两个阶段为IPSec进行密钥协商并建立安全联盟：
 
 正常情况下，IKEv2通过初始交换就可以完成第一对IPSec SA的协商建立。IKEv2初始交换对应IKEv1的第一阶段，初始交换包含两次交换四条消息。
 
-![](../../assets/网络/网络层/IPsec/1702972059552-2fe06623-0ce9-4e26-a52a-f1dce5f6fa8e.png)
+![IPsec：IKE v2示意图](../images/网络层/IPsec/ipsec-ike-v2-18.png)
 
 消息①和②属于第一次交换（称为IKE_SA_INIT交换），以明文方式完成IKE SA的参数协商，包括协商加密和验证算法，交换临时随机数和DH交换。IKE_SA_INIT交换后生成一个共享密钥材料，通过这个共享密钥材料可以衍生出IPSec SA的所有密钥。相当于IKEv1的主模式的第1,3个包。
 
@@ -338,13 +338,13 @@ IKEv2下没有限制，会取双方感兴趣流规则的交集。
 
 IPsec采用的办法是在ESP Header前加上一个UDP Header, 这个方法同时适用于ESP-Transport和ESP-Tunnel模式。 下图展示了ESP-Transport下的UDP-Encapsulate过程。
 
-![](../../assets/网络/网络层/IPsec/1702972059733-0815a146-3e39-4612-a978-784e6b91d1bf.png)
+![IPsec：UDP-Encapsulate示意图](../images/网络层/IPsec/ipsec-udp-encapsulate-19.png)
 
 UDP Header是有端口字段的，有了端口，NAT设备便可以进行端口转换。RFC3948中规定UDP Header中的端口要使用和IKE协商时相同的端口号，这个端口号在RFC3947中规定为4500.
 
 在下面这样的拓扑中，NAT设备背后有两台内网主机，它们都与Server建立IPsec连接。
 
-![](../../assets/网络/网络层/IPsec/1702972059664-16ab2412-4dad-4c2b-9d45-c80e08e9acf1.png)
+![IPsec：UDP-Encapsulate示意图](../images/网络层/IPsec/ipsec-udp-encapsulate-20.png)
 
 Host 1与Host 2发出的IPsec报文都附加了一个UDP Header。NAT网关替换该报文的Source IP和Source Port。
 

@@ -25,7 +25,7 @@ GET /api/v1/watch/pods
 
 K8S的informer模块封装list-watch API，用户只需要指定资源，编写事件处理函数，AddFunc,UpdateFunc和DeleteFunc等。如下图所示，informer首先通过list API罗列资源，然后调用watch API监听资源的变更事件，并将结果放入到一个FIFO 队列，队列的另一头有协程从中取出事件，并调用对应的注册函数处理事件。Informer还维护了一个只读的Map Store缓存，主要为了提升查询的效率，降低apiserver的负载。
 
-![](../assets/k8s/List-Watch机制/1662105479232-98654bdd-c847-498f-be7d-cb91e7c78f0b.png)
+![List-Watch机制：2. List-Watch 机制具体是什么样的示意图](images/List-Watch机制/list-watch-mechanism-2-list-watch-mechanism.png)
 
 ## 3.Watch 是如何实现的
 
@@ -73,7 +73,7 @@ Informer是Client-go中的一个核心工具包。在Kubernetes源码中，如�
 
 如下图所示，仅需要十行左右的代码就能实现对Pod的List和Get。
 
-![](../assets/k8s/List-Watch机制/1662105479262-46d40593-97a6-491c-adc6-73ac49d8efdf.png)
+![List-Watch机制：5. Informer介绍示意图](images/List-Watch机制/list-watch-mechanism-5-informer-02.png)
 
 ## 6. Informer 设计思路
 
@@ -113,11 +113,11 @@ Informer通过Kubernetes Watch API监听某种resource下的所有事件。而�
 
 ## 6.6 关键逻辑介绍
 
-![](../assets/k8s/List-Watch机制/1662105479203-0f90a2d7-f4d7-4b57-a5c0-f42f24295be1.png)
+![List-Watch机制：6.6 关键逻辑介绍示意图](images/List-Watch机制/list-watch-mechanism-6-6-03.png)
 
-![](../assets/k8s/List-Watch机制/1662105479238-cbb3fe30-8d15-4dda-a31d-351a2049784c.png)
+![List-Watch机制：6.6 关键逻辑介绍示意图](images/List-Watch机制/list-watch-mechanism-6-6-04.png)
 
-![](../assets/k8s/List-Watch机制/1662105479373-b0623565-deff-445a-b478-4b2aa06887dd.png)
+![List-Watch机制：6.6 关键逻辑介绍示意图](images/List-Watch机制/list-watch-mechanism-6-6-05.png)
 
 1. Informer 在初始化时，Reflector 会先 List API 获得所有的 Pod
 2. Reflect 拿到全部 Pod 后，会将全部 Pod 放到 Store 中

@@ -13,7 +13,7 @@ public class ArrayList<E> extends AbstractList<E>
 private static final int DEFAULT_CAPACITY = 10;
 ```
 
-<div align="center"> <img src="../../assets/javaSE/Java集合框架/sourceCodeAnalyse/image-20191208232221265.png"/> </div><br>
+<div align="center"> <img alt="sourceCodeAnalyse：<div align=&quot;center&quot; </div<br示意图" src="../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-div-align-center-div-br-07.png"/> </div><br>
 
 ## 1. 构造方法
 
@@ -411,7 +411,7 @@ transient Node<E> last;
 
 结构：
 
-<div align="center"> <img src="../../assets/javaSE/Java集合框架/sourceCodeAnalyse/image-20191208233940066.png"/> </div>
+<div align="center"> <img alt="sourceCodeAnalyse：<div align=&quot;center&quot; </div示意图" src="../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-div-align-center-div-08.png"/> </div>
 
 # HashMap
 
@@ -423,7 +423,7 @@ JDK1.7采用数组+链表；JDK1.8采用数组+链表+红黑树
 
 内部包含了一个 Entry 类型的数组 table。Entry 存储着键值对。它包含了四个字段，从 next 字段我们可以看出 Entry 是一个链表。即数组中的每个位置被当成一个桶，一个桶存放一个链表。HashMap 使用拉链法来解决冲突，同一个链表中存放哈希值和散列桶取模运算结果相同的 Entry。
 
-<div align="center"> <img src="../../assets/javaSE/Java集合框架/sourceCodeAnalyse/image-20191208234948205.png"/> </div><br>
+<div align="center"> <img alt="sourceCodeAnalyse：<div align=&quot;center&quot; </div<br示意图" src="../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-div-align-center-div-br-09.png"/> </div><br>
 
 ```java
 transient Entry[] table;
@@ -503,7 +503,7 @@ map.put("K3", "V3");
 - 计算键值对所在的桶；
 - 在链表上顺序查找，时间复杂度显然和链表的长度成正比。
 
-<div align="center"> <img src="../../assets/javaSE/Java集合框架/sourceCodeAnalyse/image-20191208235258643.png"/> </div>
+<div align="center"> <img alt="sourceCodeAnalyse：<div align=&quot;center&quot; </div示意图" src="../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-div-align-center-div-10.png"/> </div>
 
 ## 3. put 操作
 
@@ -924,7 +924,7 @@ static final int tableSizeFor(int cap) {
 
 遍历所有不为空的桶
 
-![img](../../assets/javaSE/Java集合框架/sourceCodeAnalyse/1460000012926732.jpeg)
+![sourceCodeAnalyse：10 遍历示意图](../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse.jpeg)
 
 ## 11 链表的树化
 
@@ -939,9 +939,9 @@ HashMap 在设计之初，并没有考虑到以后会引入红黑树进行优化
 2. 检测键类是否实现了 Comparable 接口，如果实现调用 compareTo 方法进行比较
 3. 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 tieBreakOrder
 
-![img](../../assets/javaSE/Java集合框架/sourceCodeAnalyse/1460000012926741.jpeg)
+![sourceCodeAnalyse：11 链表的树化示意图](../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-02.jpeg)
 
-![img](../../assets/javaSE/Java集合框架/sourceCodeAnalyse/1460000012926742.jpeg)
+![sourceCodeAnalyse：11 链表的树化示意图](../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-03.jpeg)
 
 红黑树拆分：红黑树保留了链表中的顺序，因此红黑树的链化过程与扩容后链表重新映射的代码类似
 
@@ -1041,7 +1041,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 ## 结构
 
-![1600862074854](../../assets/javaSE/Java集合框架/sourceCodeAnalyse/a5bf1c7c6a864e3cab0850e5e87e61e9tplv-k3u1fbpfcp-watermark.awebp)
+![sourceCodeAnalyse：结构示意图](../../images/javaSE/Java集合框架/sourceCodeAnalyse/a5bf1c7c6a864e3cab0850e5e87e61e9tplv-k3u1fbpfcp-watermark.awebp)
 
 ## 常量
 
@@ -1349,7 +1349,7 @@ Segment是一种可重入锁，是一种数组和链表的结构，一个 Segmen
 - 第一次 Hash 定位到 Segment
 - 第二次 Hash 定位到元素所在的链表的头部
 
-![img](../../assets/javaSE/Java集合框架/sourceCodeAnalyse/1460000024432654.png)
+![sourceCodeAnalyse：实现原理示意图](../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-principle-05.png)
 
 正是通过 Segment 分段锁技术，将数据分成一段一段的存储，然后给每一段数据配一把锁，当一个线程占用锁访问其中一个段数据的时候，其他段的数据也能被其他线程访问，能够实现真正的并发访问。
 
@@ -1357,7 +1357,7 @@ Segment是一种可重入锁，是一种数组和链表的结构，一个 Segmen
 
 JDK8 ConcurrentHashMap：Java 8在链表长度超过一定阈值(8)时将链表转换为红黑树，结构和功能与JDK8的HashMap一样，只不过ConcurrentHashMap保证线程安全性。
 
-![img](../../assets/javaSE/Java集合框架/sourceCodeAnalyse/1460000024432653.png)
+![sourceCodeAnalyse：实现原理示意图](../../images/javaSE/Java集合框架/sourceCodeAnalyse/sourcecodeanalyse-principle-06.png)
 
 但在 JDK1.8 中摒弃了 Segment 分段锁的数据结构，基于 CAS 操作保证数据的获取以及使用 synchronized 关键字对相应数据段加锁来实现线程安全，这进一步提高了并发性。
 

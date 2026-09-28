@@ -14,7 +14,7 @@ Spring Boot 的出现让 Java 开发又回归简单，因为确实解决了开�
 
 访问https://start.spring.io，填写项目信息：
 
-![QQ截图20200925142622](../../assets/JavaEE/SpringBoot/SpringBoot/QQ截图20200925142622.png)
+![SpringBoot：在线创建示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-qq-20200925142622.png)
 
 - Project字段：Maven 主要用于后端项目多一些，Gradle一般用于安卓开发。
 - SpringBoot默认选择最新的稳定版本。
@@ -27,15 +27,15 @@ Spring Boot 的出现让 Java 开发又回归简单，因为确实解决了开�
 
 首先在创建项目时选择 Spring Initializr，如下图：
 
-![img](../../assets/JavaEE/SpringBoot/SpringBoot/1-3.png)
+![SpringBoot：使用IDEA创建SpringBoot项目示意图](../../images/JavaEE/SpringBoot/SpringBoot/1-3.png)
 
 然后点击 Next ，填入 Maven 项目的基本信息，如下：
 
-![img](../../assets/JavaEE/SpringBoot/SpringBoot/1-4.png)
+![SpringBoot：使用IDEA创建SpringBoot项目示意图](../../images/JavaEE/SpringBoot/SpringBoot/1-4.png)
 
 最后选择需要添加的依赖，如下图：
 
-![img](../../assets/JavaEE/SpringBoot/SpringBoot/1-5.png)
+![SpringBoot：使用IDEA创建SpringBoot项目示意图](../../images/JavaEE/SpringBoot/SpringBoot/1-5.png)
 
 ## SpringBoot HelloWorld
 
@@ -43,27 +43,27 @@ Spring Boot 的出现让 Java 开发又回归简单，因为确实解决了开�
 
 选择Spring Initializer
 
-![image-20200925144251466](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925144251466.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-05.png)
 
 点击Next，输入项目信息
 
-![image-20200925144835467](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925144835467.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-06.png)
 
 在依赖中选择Spring Web，然后点击Next
 
-![image-20200925144859618](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925144859618.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-07.png)
 
 确认项目位置，Finish
 
-![image-20200925144935901](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925144935901.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-08.png)
 
 初始项目结构如下：
 
-![image-20200925145026672](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925145026672.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-09.png)
 
 创建Controller类：
 
-![image-20200925145704699](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925145704699.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-10.png)
 
 HelloController：
 
@@ -87,11 +87,11 @@ public class HelloController {
 
 完成后点击运行，控制台输出以下内容代表部署成功：
 
-![image-20200925150236640](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925150236640.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-11.png)
 
 打开浏览器，输入http://localhost:8080/hello，将显示以下内容：
 
-![image-20200925150310880](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925150310880.png)
+![SpringBoot：创建Web工程示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-web-12.png)
 
 ### 项目解析
 
@@ -134,15 +134,15 @@ public class HelloController {
 
 使用IDEA时，按住Ctrl并单击spring-boot-starter-parent即可定位到源代码：
 
-![image-20200925151559805](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925151559805.png)
+![SpringBoot：pom.xml分析：示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-pom-xml-13.png)
 
 打开源码后可以看到spring-boot-starter-parent继承了spring-boot-dependencies类：
 
-![image-20200925151707962](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925151707962.png)
+![SpringBoot：pom.xml分析：示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-pom-xml-14.png)
 
 打开spring-boot-dependencies，可以看到该文件规定了SpringBoot所有组件的版本号：
 
-![image-20200925151827173](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925151827173.png)
+![SpringBoot：pom.xml分析：示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-pom-xml-15.png)
 
 由此，实现了功能3。
 
@@ -213,7 +213,7 @@ Spring Boot在启动的时候从类路径下的META-INF/spring.factories中获�
 
 J2EE的整体整合解决方案和自动配置都在spring-boot-autoconfigure-2.3.4.RELEASE.jar；
 
-![image-20200925153819235](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925153819235.png)
+![SpringBoot：入口类，主程序类示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-16.png)
 
 # 二、配置文件
 
@@ -316,7 +316,7 @@ aliases:
 
 创建目录：
 
-![image-20200925162626867](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925162626867.png)
+![SpringBoot：1. 利用@ConfigurationProperties示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-1-configurationproperties-17.png)
 
 Person类：
 
@@ -485,7 +485,7 @@ person:
 
 输出为：
 
-![image-20200925163131865](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925163131865.png)
+![SpringBoot：1. 利用@ConfigurationProperties示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-1-configurationproperties-18.png)
 
 ### 2. 利用@Value
 
@@ -734,7 +734,7 @@ springboot项目创建完成后，会生成该项目名称+iml后缀的文件。
 其中sourceFolder 中声明的就是classpath，只是类型不同。
  对应的工程文件目录：
 
-![img](https:////upload-images.jianshu.io/upload_images/8387662-f20910552e877404.png?imageMogr2/auto-orient/strip|imageView2/2/w/500/format/webp)
+![SpringBoot：7.classpath示意图](https:////upload-images.jianshu.io/upload_images/8387662-f20910552e877404.png?imageMogr2/auto-orient/strip|imageView2/2/w/500/format/webp)
 
 项目目录.png
 
@@ -1092,7 +1092,7 @@ insert into users values(4,'李',35,130,'3658561548@sina.com')
 
 创建以下的目录结构：
 
-![image-20200925192447392](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925192447392.png)
+![SpringBoot：三、SpringBoot整合Mybatis示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-mybatis-19.png)
 
 User类：
 
@@ -1266,7 +1266,7 @@ Spring:
 
 最后，运行程序，访问http://localhost:8080/user
 
-![image-20200925220010405](../../assets/JavaEE/SpringBoot/SpringBoot/image-20200925220010405.png)
+![SpringBoot：三、SpringBoot整合Mybatis示意图](../../images/JavaEE/SpringBoot/SpringBoot/springboot-mybatis-20.png)
 
 # 四、在Centos7启动SpringBoot应用程序
 

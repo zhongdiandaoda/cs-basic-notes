@@ -2,7 +2,7 @@
 
 Service是Kubernetes的核心概念，通过创建Service，可以为一组具有相同功能的容器应用提供一个统一的入口地址，并且把请求负载分发到后端的各个容器应用上。
 
-![](../assets/k8s/Service/1647335251273-d076cfdc-87dc-4a52-8ed7-8bdf1adc19bc.png)
+![Service：Service示意图](images/Service/service.png)
 
 ## Service的基本用法
 

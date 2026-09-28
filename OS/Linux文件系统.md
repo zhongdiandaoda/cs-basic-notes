@@ -15,7 +15,7 @@
 - **inode** ：记录文件的属性信息，可以使用 stat 命令查看 inode 信息。
 - **block** ：实际文件的内容，如果一个文件大于一个块时候，那么将占用多个 block，但是一个块只能存放一个文件。（因为数据是由 inode 指向的，如果有两个文件的数据存放在同一个块中，就会乱套了）
 
-![image-20211025104457156](../assets/OS/Linux文件系统/image-20211025104457156.png)
+![Linux文件系统：inode介绍示意图](images/Linux文件系统/linux-file-system-inode.png)
 
 # 文件类型
 
@@ -35,7 +35,7 @@ Linux 支持很多文件类型，其中非常重要的文件类型有: **普通�
 
 **Linux 的目录结构如下：**
 
-Linux 文件系统的结构层次鲜明，就像一棵倒立的树，最顶层是其根目录： ![Linux的目录结构](../assets/OS/Linux文件系统/Linux目录树.png)
+Linux 文件系统的结构层次鲜明，就像一棵倒立的树，最顶层是其根目录： ![Linux的目录结构](images/Linux文件系统/linux-file-system-linux-structure-02.png)
 
 **常见目录说明：**
 

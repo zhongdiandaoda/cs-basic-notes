@@ -8,15 +8,15 @@ Bitmap在用户群做交集和并集运算的时候也有极大的便利。
 
 我们先来看一个具体的例子，假设我们要对0-7内的5个元素(4,7,2,5,3)排序（这里假设这些元素没有重复）。那么我们就可以采用Bit-map的方法来达到排序的目的。要表示8个数，我们就只需要8个Bit（1Bytes），首先我们开辟1Byte的空间，将这些空间的所有Bit位都置为0，如下图：
 
-![](1654064765475-7315a6cb-3ba4-4f99-9613-a5505f06dc9b.png)
+![Bitmap：Bit-map应用之快速排序示意图](images/Bitmap/bitmap-bit-map.png)
 
 然后遍历这5个元素，首先第一个元素是4，那么就把4对应的位置为1（可以这样操作 p+(i/8)|(0x01<<(i%8)) 当然了这里的操作涉及到Big-ending和Little-ending的情况，这里默认为Big-ending）,因为是从零开始的，所以要把第五位置为一（如下图）：
 
-![](1654064765497-20626dae-95b1-41c2-adb0-a75cccdf6310.png)
+![Bitmap：Bit-map应用之快速排序示意图](images/Bitmap/bitmap-bit-map-02.png)
 
 然后再处理第二个元素7，将第八位置为1,，接着再处理第三个元素，一直到最后处理完所有的元素，将相应的位置为1，这时候的内存的Bit位的状态如下：
 
-![](1654064765434-d2848835-1ef0-4d61-aa3a-9465f908546d.png)
+![Bitmap：Bit-map应用之快速排序示意图](images/Bitmap/bitmap-bit-map-03.png)
 
 然后我们现在遍历一遍Bit区域，将该位是1的位的编号输出（2，3，4，5，7），这样就达到了排序的目的。 优点：
 
@@ -50,15 +50,15 @@ Bitmap在用户群做交集和并集运算的时候也有极大的便利。
 
 有一定的误判率--在判断一个元素是否属于某个集合时，有可能会把不属于这个集合的元素误判为属于这个集合。因此，它不适合那些"零误判"的应用场合。在能容忍低误判的应用场景下，布隆过滤器通过极少的误判换区了存储空间的极大节省。
 
-![](1654064765416-5c91e016-50af-4a6f-babc-b5b2b7acbccf.png)
+![Bitmap：Bit-map扩展——Bloom Filter(布隆过滤器)示意图](images/Bitmap/bitmap-bit-map-bloom-filter-04.png)
 
 Bloom Filter使用 k 个相互独立的哈希函数（Hash Function），它们分别将集合中的每个元素映射到{1,…,m}的范围中。对任意一个元素x，第i个哈希函数映射的位置hi(x)就会被置为1（1≤i≤k）。注：如果一个位置多次被置为1，那么只有第一次会起作用，后面几次将没有任何效果。
 
-![](1654064765553-4b356fe8-be09-44c9-876c-3000424515ea.png)
+![Bitmap：Bit-map扩展——Bloom Filter(布隆过滤器)示意图](images/Bitmap/bitmap-bit-map-bloom-filter-05.png)
 
 在判断y是否属于这个集合时，对y应用k次哈希函数，若所有hi(y)的位置都是1（1≤i≤k），就认为y是集合中的元素，否则就认为y不是集合中的元素。
 
-![](1654064766261-1e547077-955e-4c7c-ac72-7000dca6daae.png)
+![Bitmap：Bit-map扩展——Bloom Filter(布隆过滤器)示意图](images/Bitmap/bitmap-bit-map-bloom-filter-06.png)
 
 ### 总结
 

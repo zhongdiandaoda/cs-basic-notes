@@ -4,17 +4,17 @@ HTTP报文本身是由多行（用 CR+LF 作换行符）数据构成的字符串
 
 HTTP 报文大致可分为报文首部和报文主体两块。两者由最初出现的空行（CR+LF）来划分。通常，并不一定要有报文主体。
 
-![image-20210412115100267](../../assets/网络/应用层/../images/http/image-20210412115100267.png)
+![http：HTTP报文中的HTTP信息示意图](../images/应用层/http/http-packet-http.png)
 
-![image-20210412115129641](../../assets/网络/应用层/../images/http/image-20210412115129641.png)
+![http：HTTP报文中的HTTP信息示意图](../images/应用层/http/http-packet-http-02.png)
 
 请求报文：
 
-![image-20210412115220893](../../assets/网络/应用层/../images/http/image-20210412115220893.png)
+![http：HTTP报文中的HTTP信息示意图](../images/应用层/http/http-packet-http-03.png)
 
 响应报文：
 
-![image-20210412115245199](../../assets/网络/应用层/../images/http/image-20210412115245199.png)
+![http：HTTP报文中的HTTP信息示意图](../images/应用层/http/http-packet-http-04.png)
 
 # 简单的HTTP协议
 
@@ -80,19 +80,19 @@ X-Cache: HIT
 
 # HTTP方法
 
-![image-20210412113012056](../../assets/网络/应用层/../images/http/image-20210412113012056.png)
+![http：HTTP方法示意图](../images/应用层/http/http-05.png)
 
 ## GET
 
 GET 方法用来请求访问已被 URL 识别的资源。指定的资源经服务器端解析后返回响应内容。
 
-![image-20210412111442209](../../assets/网络/应用层/../images/http/image-20210412111442209.png)
+![http：GET示意图](../images/应用层/http/http-get-06.png)
 
 ## POST
 
 POST 方法用来传输实体的主体。
 
-![image-20210412111543988](../../assets/网络/应用层/../images/http/image-20210412111543988.png)
+![http：POST示意图](../images/应用层/http/http-post-07.png)
 
 ## PUT
 
@@ -100,7 +100,7 @@ PUT 方法用来传输文件。就像 FTP 协议的文件上传一样，要求�
 
 PUT 方法没有验证机制，一般只有配合 Web 应用程序的验证机制，或遵守 REST 标准时才会开放使用。
 
-![image-20210412111644902](../../assets/网络/应用层/../images/http/image-20210412111644902.png)
+![http：PUT示意图](../images/应用层/http/http-put-08.png)
 
 响应的意思是请求执行成功，无数据返回。
 
@@ -108,7 +108,7 @@ PUT 方法没有验证机制，一般只有配合 Web 应用程序的验证机�
 
 HEAD 方法和 GET 方法一样，只是不返回报文主体部分。用于确认URL 的有效性及资源更新的日期时间等。
 
-![image-20210412111754672](../../assets/网络/应用层/../images/http/image-20210412111754672.png)
+![http：HEAD示意图](../images/应用层/http/http-head-09.png)
 
 ## DELETE
 
@@ -116,13 +116,13 @@ DELETE 方法用来删除文件，是与 PUT 相反的方法。DELETE 方法按�
 
 DELETE 方法同样没有验证机制，一般只有配合 Web 应用程序的验证机制，或遵守 REST 标准时才会开放使用。
 
-![image-20210412112427813](../../assets/网络/应用层/../images/http/image-20210412112427813.png)
+![http：DELETE示意图](../images/应用层/http/http-delete-10.png)
 
 ## OPTIONS
 
 OPTIONS 方法用来查询针对请求 URL 指定的资源支持的方法。
 
-![image-20210412112549311](../../assets/网络/应用层/../images/http/image-20210412112549311.png)
+![http：OPTIONS示意图](../images/应用层/http/http-options-11.png)
 
 # Cookie
 
@@ -136,9 +136,9 @@ Cookie 会根据从服务器端发送的响应报文内的一个叫做 Set-Cooki
 
 场景示例：
 
-![image-20210412114940792](../../assets/网络/应用层/../images/http/image-20210412114940792.png)
+![http：Cookie示意图](../images/应用层/http/http-cookie-12.png)
 
-![image-20210412114952381](../../assets/网络/应用层/../images/http/image-20210412114952381.png)
+![http：Cookie示意图](../images/应用层/http/http-cookie-13.png)
 
 ## 分类
 
@@ -217,12 +217,12 @@ Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
 
 代理：代理是一种有转发功能的应用程序，它扮演了位于服务器和客户端“中间人”的角色，接收由客户端发送的请求并转发给服务器，同时也接收服务器返回的响应并转发给客户端。
 
-![image-20210412144723057](../../assets/网络/应用层/../images/http/image-20210412144723057.png)
+![http：代理示意图](../images/应用层/http/http-14.png)
 
 代理服务器的基本行为就是接收客户端发送的请求后转发给其他服务器。代理不改变请求URL，会直接发送给前方持有资源的目标服务器。
 持有资源实体的服务器被称为源服务器。从源服务器返回的响应经过代理服务器后再传给客户端。
 
-![image-20210412144805557](../../assets/网络/应用层/../images/http/image-20210412144805557.png)
+![http：代理示意图](../images/应用层/http/http-15.png)
 
 代理可以分为两类：
 
@@ -240,7 +240,7 @@ Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
 
 网关：网关是转发其他服务器通信数据的服务器，接收从客户端发送来的请求时，它就像自己拥有资源的源服务器一样对请求进行处理。有时客户端可能都不会察觉，自己的通信目标是一个网关。
 
-![image-20210412145018161](../../assets/网络/应用层/../images/http/image-20210412145018161.png)
+![http：网关示意图](../images/应用层/http/http-gateway-16.png)
 
 ## 隧道
 
@@ -268,7 +268,7 @@ Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
 
 服务器在返回数据时，会有 `Content-Length` 字段，表明本次回应的数据长度。
 
-![img](../../assets/网络/应用层/http/8-content-length_E5_AD_97_E6_AE_B5.png)
+![http：Content-Length示意图](../images/应用层/http/http-content-length-17.png)
 
 ```text
 Content-Length: 1000
@@ -280,7 +280,7 @@ Content-Length: 1000
 
 `Content-Encoding` 字段说明数据的压缩方法。表示服务器返回的数据使用了什么压缩格式
 
-![img](../../assets/网络/应用层/http/11-content-encoding_E5_AD_97_E6_AE_B5.png)
+![http：Content-Encoding示意图](../images/应用层/http/http-content-encoding-18.png)
 
 ```text
 Content-Encoding: gzip
@@ -324,7 +324,7 @@ SSL是早期的安全协议，现已废弃，**被TLS取代。**
 
 **HTTPS = HTTP + 加密 + 认证 + 完整性保护**
 
-![image-20210414162225271](../../assets/网络/应用层/../images/http/image-20210414162225271.png)
+![http：HTTPS示意图](../images/应用层/http/http-s-19.png)
 
 ## 共享密钥加密
 
@@ -347,19 +347,19 @@ SSL是早期的安全协议，现已废弃，**被TLS取代。**
 
 服务器需要先在自己的机器上生成公钥和私钥，然后把自己的公钥发送给客户端。然后，客户端会用服务器的公钥把信息加密得到密文，发送给服务器，密文传输过程中如果被截获是不用担心的，因为只有服务器才能解密密文。
 
-<img src="../../assets/网络/应用层/../images/http/image-20210414163307399.png" alt="image-20210414163307399" style="zoom:80%;" />
+<img src="../images/应用层/http/http-24.png" alt="http：公开密钥加密示意图" style="zoom:80%;" />
 
 ## HTTPS加密
 
 HTTPS采用混合加密机制。
 
-![image-20210414163402832](../../assets/网络/应用层/../images/http/image-20210414163402832.png)
+![http：HTTPS加密示意图](../images/应用层/http/http-s-20.png)
 
 原因：使用公钥加密进行通信时，加密解密的时间成本较高。
 
 ## HTTPS的安全通信机制
 
-[![img](../../assets/网络/应用层/http/SSL-TLS-handshake.png)](../../assets/网络/应用层/http/SSL-TLS-handshake.png)
+[![http：../images/应用层/http/SSL-TLS-handshake.png示意图](../images/应用层/http/images-application-layer-http-ssl-tls-handshake-png-21.png)](../images/应用层/http/images-application-layer-http-ssl-tls-handshake-png-21.png)
 
 如上图所示，”握手阶段”包含**4次通信**。
 
@@ -425,7 +425,7 @@ HTTPS采用混合加密机制。
 3. 服务器将签名后的公钥证书发送给客户端
 4. 客户端使用认证机构的公开密钥验证服务器的公钥证书上的数字签名
 
-![image-20210414171217176](../../assets/网络/应用层/../images/http/image-20210414171217176.png)
+![http：证明公开密钥正确性的证书示意图](../images/应用层/http/http-22.png)
 
 数字证书的格式普遍采用的是X.509V3国际标准，一个标准的X.509数字证书包含以下一些内容：
 
@@ -453,7 +453,7 @@ HTTPS采用混合加密机制。
 
 2、数字签名的校验。使用CA的公钥解密签名，然后使用相同的签名函数对签名证书内容进行签名，并和服务端数字签名里的签名内容进行比较，如果相同就认为校验成功。
 
-![img](../../assets/网络/应用层/http/_E8_AF_81_E4_B9_A6_E7_9A_84_E6_A0_A1_E9_AA_8C.png)
+![http：数字证书验证示意图](../images/应用层/http/http-23.png)
 
 **如果黑客拦截了服务器把证书发送给客户端，并对证书进行恶意修改，会出现什么情况？**
 
@@ -463,7 +463,7 @@ HTTPS采用混合加密机制。
 
 第三种情况，黑客恶意的从相同的第三方CA申请了一个数字证书。由于这个CA是真实存在的，所以客户端是可以用CA的公钥进行解密，得到了黑客提供的数字证书中的公钥。但是，由于数字证书在申请的时候，会绑定一个域名，当客户端比如说浏览器，检测到这个数字证书中的域名和我们现在网页访问的域名不一致，便会发出警告，此时我们也能得知数字证书被替换了。发出的警告如下：
 
-<img src="../../assets/网络/应用层/http/20210427135906146.png" alt="在这里插入图片描述"  />
+<img src="../images/应用层/http/http-25.png" alt="http：数字证书验证示意图"  />
 
 # HTTP/2
 

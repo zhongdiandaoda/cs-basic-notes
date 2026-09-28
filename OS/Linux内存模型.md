@@ -60,7 +60,7 @@ L1 Cache 通常分为指令缓存 `L1i` 和数据缓存 `L1d`。L2 一般属于�
 
 用户空间和内核空间是虚拟地址空间里的权限划分，不是物理内存被简单切成两块。
 
-![image-20220516114112204](../assets/OS/Linux内存模型/image-20220516114112204.png)
+![Linux内存模型：用户空间和内核空间示意图](images/Linux内存模型/linux-memory-model-user-space-kernel-space.png)
 
 在经典 x86 32 位 Linux 中，一个进程的虚拟地址空间是 4GB，常见划分是：
 
@@ -81,13 +81,13 @@ L1 Cache 通常分为指令缓存 `L1i` 和数据缓存 `L1d`。L2 一般属于�
 
 虽然每个进程都有独立的用户空间，但每个进程虚拟地址空间中的内核地址部分通常映射到同一份内核物理内存。这样，任意进程陷入内核后，内核都能通过固定的内核地址访问内核代码和内核数据结构。
 
-![img](../assets/OS/Linux内存模型/kernel-userspace-relation.jpg)
+![Linux内存模型：用户态和内核态示意图](images/Linux内存模型/kernel-userspace-relation.jpg)
 
 # 进程地址空间布局
 
 用户进程能直接访问的是用户空间。以经典 32 位 `3G/1G` 划分为例，用户空间虚拟地址范围大致是 `0x00000000` 到 `0xBFFFFFFF`。
 
-![img](../assets/OS/Linux内存模型/userspace-detail.jpg)
+![Linux内存模型：进程地址空间布局示意图](images/Linux内存模型/userspace-detail.jpg)
 
 一个进程的用户空间通常包含：
 
@@ -99,7 +99,7 @@ L1 Cache 通常分为指令缓存 `L1i` 和数据缓存 `L1d`。L2 一般属于�
 - **文件映射区 `mmap area`**：动态库、共享内存、文件映射、匿名映射等。
 - **栈 `stack`**：函数调用栈、局部变量、返回地址、部分调用上下文等，通常向低地址增长。
 
-![img](../assets/OS/Linux内存模型/process-memory-partition.jpg)
+![Linux内存模型：进程地址空间布局示意图](images/Linux内存模型/process-memory-partition.jpg)
 
 概念图通常会把代码段、数据段、BSS、堆、mmap 区、栈画成固定顺序，但真实 Linux 进程还会受到 ASLR、动态链接器、线程栈、不同架构和内核配置影响，实际地址并不一定固定。
 
@@ -115,7 +115,7 @@ text    data     bss     dec     hex filename
 
 以 x86 32 位经典模型为例，内核虚拟地址空间从 `0xC0000000` 到 `0xFFFFFFFF`，总大小 1GB。
 
-![img](../assets/OS/Linux内存模型/kernel-space-partition.jpg)
+![Linux内存模型：内核地址空间示意图](images/Linux内存模型/kernel-space-partition.jpg)
 
 ## 直接映射区
 
@@ -137,7 +137,7 @@ text    data     bss     dec     hex filename
 - **永久映射区**：早期内核用于映射高端内存页。
 - **固定映射区 `fixmap`**：在固定虚拟地址处映射特定用途的物理地址，例如 APIC、ACPI 等。
 
-![img](../assets/OS/Linux内存模型/kernel-space-physical-mapping.jpg)
+![Linux内存模型：高端内存映射区示意图](images/Linux内存模型/kernel-space-physical-mapping.jpg)
 
 在 64 位 Linux 中，内核虚拟地址空间足够大，高端内存问题不再像 32 位那样突出，但直接映射区、`vmalloc` 区、模块区、`fixmap` 等概念仍然存在。
 
@@ -145,7 +145,7 @@ text    data     bss     dec     hex filename
 
 如果进程直接使用物理地址，不同进程很容易互相覆盖数据，也很难实现权限隔离。虚拟内存通过页表为每个进程提供独立地址空间，CPU 访问内存时再把虚拟地址翻译为物理地址。
 
-![img](../assets/OS/Linux内存模型/72ab76ba697e470b8ceb14d5fc5688d9.png)
+![Linux内存模型：虚拟内存和地址翻译示意图](images/Linux内存模型/linux-memory-model-memory-07.png)
 
 地址翻译依赖三个核心组件：
 
@@ -159,13 +159,13 @@ text    data     bss     dec     hex filename
 
 分段是一种按逻辑段管理地址空间的机制。一个虚拟地址可以由**段选择子**和**段内偏移量**组成。
 
-![img](../assets/OS/Linux内存模型/segmentation-intro.jpg)
+![Linux内存模型：分段机制示意图](images/Linux内存模型/segmentation-intro.jpg)
 
 - 段选择子保存在段寄存器中，包含段表索引等信息。
 - 段表项记录段基地址、段界限、权限等级等。
 - 如果段内偏移没有超过段界限，就用段基地址加偏移得到线性地址或物理地址。
 
-![img](../assets/OS/Linux内存模型/segmentation-table.jpg)
+![Linux内存模型：分段机制示意图](images/Linux内存模型/segmentation-table.jpg)
 
 例如段 3 的基地址是 7000，偏移量是 500，则地址是 7500。
 
@@ -180,7 +180,7 @@ text    data     bss     dec     hex filename
 
 页表根据虚拟页号找到物理页框号，再和页内偏移组合成物理地址。
 
-![img](../assets/OS/Linux内存模型/page-table-intro.jpg)
+![Linux内存模型：分页机制示意图](images/Linux内存模型/page-table-intro.jpg)
 
 地址翻译的基本步骤是：
 
@@ -191,11 +191,11 @@ text    data     bss     dec     hex filename
 - 找到页表项后，把物理页框号和页内偏移组合成物理地址；
 - 如果页表项不存在或权限不允许，则触发缺页异常或保护异常。
 
-![img](../assets/OS/Linux内存模型/actual-memory-mapping.jpg)
+![Linux内存模型：分页机制示意图](images/Linux内存模型/actual-memory-mapping.jpg)
 
 分页主要解决外部碎片问题，因为物理内存可以按页框离散分配；但分页仍然可能产生内部碎片，例如进程只使用了一个页的一小部分，整个页框仍会被占用。
 
-![img](../assets/OS/Linux内存模型/virtual-physical-page-table.jpg)
+![Linux内存模型：分页机制示意图](images/Linux内存模型/virtual-physical-page-table.jpg)
 
 ## 缺页异常
 
@@ -216,7 +216,7 @@ text    data     bss     dec     hex filename
 
 多级页表的思路是：只为实际使用的虚拟地址范围创建下级页表。未使用的大段虚拟地址空间不需要真的分配完整页表页。
 
-![img](../assets/OS/Linux内存模型/second-page-table.jpg)
+![Linux内存模型：为什么需要多级页表示意图](images/Linux内存模型/second-page-table.jpg)
 
 以二级页表为例：
 
@@ -231,7 +231,7 @@ text    data     bss     dec     hex filename
 - PMD（Page Middle Directory）
 - PTE（Page Table Entry）
 
-![img](../assets/OS/Linux内存模型/page-table-dir.jpg)
+![Linux内存模型：为什么需要多级页表示意图](images/Linux内存模型/page-table-dir.jpg)
 
 开启 5 级页表时，还会多一层 P4D。具体层级数量取决于架构和内核配置。
 
@@ -241,7 +241,7 @@ text    data     bss     dec     hex filename
 
 TLB 是 CPU 内部的地址翻译缓存，缓存最近使用过的“虚拟页 -> 物理页框”映射。
 
-![img](../assets/OS/Linux内存模型/tlb.png)
+![Linux内存模型：TLB示意图](images/Linux内存模型/tlb.png)
 
 有了 TLB 后，CPU 访问内存时：
 
@@ -251,7 +251,7 @@ TLB 是 CPU 内部的地址翻译缓存，缓存最近使用过的“虚拟页 -
 - page walk 成功后，把结果填入 TLB；
 - 后续访问同一页时可以直接命中 TLB。
 
-![img](../assets/OS/Linux内存模型/tlb-process.png)
+![Linux内存模型：TLB示意图](images/Linux内存模型/tlb-process.png)
 
 TLB 命中率通常很高，因为程序访问内存具有局部性。但进程切换、页表修改、权限变化等场景可能导致 TLB 刷新或失效，这也是地址空间切换有成本的原因之一。
 
@@ -259,7 +259,7 @@ TLB 命中率通常很高，因为程序访问内存具有局部性。但进程�
 
 段页式内存管理是教材里的组合模型：先按逻辑段划分地址空间，再把每个段分页。
 
-![img](../assets/OS/Linux内存模型/segmentation-page-management.jpg)
+![Linux内存模型：段页式内存管理示意图](images/Linux内存模型/segmentation-page-management.jpg)
 
 它的地址结构通常包含：
 
@@ -283,7 +283,7 @@ NUMA（Non-Uniform Memory Access，非一致性内存访问）描述的是多 CP
 
 每个 NUMA node 内部又会按硬件寻址能力和内核使用方式划分为多个 zone。
 
-![img](../assets/OS/Linux内存模型/numa-zone.png)
+![Linux内存模型：zone示意图](images/Linux内存模型/numa-zone.png)
 
 经典 x86 32 位模型里常见 zone 包括：
 
@@ -291,7 +291,7 @@ NUMA（Non-Uniform Memory Access，非一致性内存访问）描述的是多 CP
 - **ZONE_NORMAL**：可被内核直接映射的普通内存区域，32 位经典模型中大致是 16MB 到 896MB。
 - **ZONE_HIGHMEM**：32 位系统中无法被内核永久直接映射的高端物理内存，需要临时映射后访问。
 
-![img](../assets/OS/Linux内存模型/physical-partition.jpg)
+![Linux内存模型：zone示意图](images/Linux内存模型/physical-partition.jpg)
 
 64 位系统通常没有 32 位意义上的 `ZONE_HIGHMEM`，但仍可能有 `ZONE_DMA`、`ZONE_DMA32`、`ZONE_NORMAL`、`ZONE_MOVABLE` 等 zone。zone 的核心意义是让内核在分配物理页时满足不同硬件和内核子系统的约束。
 
@@ -327,7 +327,7 @@ Linux 回收内存时，不是简单“释放其他进程最近没用的页面�
 
 `brk()` 通过移动进程堆顶来扩大或缩小堆区。堆区在虚拟地址上通常连续，适合承载较小、频繁申请释放的对象。
 
-![图片](../assets/OS/Linux内存模型/0dd0e2c1eb32b8b7cabfb95392a36f82.png)
+![Linux内存模型：`brk` 扩展堆示意图](images/Linux内存模型/linux-memory-model-brk-20.png)
 
 glibc 会从堆中切分小块内存给应用。应用调用 `free()` 后，这些内存通常先回到 allocator 自己的空闲链表或缓存中，方便下次复用，不一定立刻归还给操作系统。
 
@@ -335,7 +335,7 @@ glibc 会从堆中切分小块内存给应用。应用调用 `free()` 后，这�
 
 较大的分配可能通过匿名私有 `mmap()` 完成，映射区域通常位于 mmap area。
 
-![图片](../assets/OS/Linux内存模型/f8425aa73ca7e5ac8e3a46c2e3eb9188.png)
+![Linux内存模型：`mmap` 分配大块内存示意图](images/Linux内存模型/linux-memory-model-mmap-memory-21.png)
 
 很多资料会提到 `128KB` 阈值，但它不是永远固定的规则。glibc 的阈值会受版本、运行时参数、历史分配行为影响，也可以通过 `mallopt` 调整。
 

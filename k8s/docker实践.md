@@ -144,7 +144,7 @@ docker xxx --help #关于某命令的帮助信息
 
 构建容器时，通过在镜像的基础上添加一个可写层（writable layer），用来保存着容器运行过程中的修改。
 
-![](../assets/k8s/docker实践/docker-filesystems-busyboxrw.png)
+![docker实践：镜像命令示意图](images/docker实践/docker-filesystems-busyboxrw.png)
 
 ### docker images
 
@@ -472,7 +472,7 @@ docker镜像由**多个只读层叠加而成**，启动容器时，docker会**�
 
 示意图：
 
-![](../assets/k8s/docker实践/1647589034045-5f4b1aea-8978-4f62-a392-9f8816db064c.png)
+![docker实践：背景示意图](images/docker实践/docker-02.png)
 
 ## Volume数据卷
 
@@ -596,7 +596,7 @@ docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/
 
 3. 使用navicat连接数据库，主机为虚拟机地址，端口为-p后虚拟机3306映射到主机的端口，密码为-e后环境变量的值。
 
-![](../assets/k8s/docker实践/1647589189606-17467090-24cd-4e2f-92b4-c4385f21d03f.png)
+![docker实践：MYSQL安装示意图](images/docker实践/docker-mysql-03.png)
 
 4. 查看本地/home/mysql下的文件
 
@@ -730,7 +730,7 @@ An ENTRYPOINT allows you to configure a container that will run as an executable
 	ENTRYPOINT echo "here you are"
 ```
 
-![](../assets/k8s/docker实践/1647589235139-259f1bb4-6936-4ded-bfbd-73704cd1ce02.png)
+![docker实践：Dockerfile命令示意图](images/docker实践/docker-file-04.png)
 
 **WORKDIR：工作目录，启动容器后进入的默认目录**
 

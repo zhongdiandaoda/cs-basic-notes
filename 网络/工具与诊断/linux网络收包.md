@@ -1,5 +1,5 @@
 
-![](../../assets/网络/工具与诊断/linux网络收包/1707203214014-8518fe1c-7f70-42cb-b6c8-1e16bca7083f.png)
+![linux网络收包：linux网络收包示意图](../images/工具与诊断/linux网络收包/linux.png)
 
 Linux 系统收包流程如下：
 

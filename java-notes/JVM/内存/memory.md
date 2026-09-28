@@ -2,7 +2,7 @@
 
 Java虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域，这些区域有其各自的用途，以及创建销毁的时间，其中有些会一直存在，即随着虚拟机的启动而创建、随着虚拟机的退出而销毁；另外一些则是与虚拟机中的单个线程一一对应，这些与线程相对应的数据区域会随着线程的开始而创建、随着线程的结束即销毁。
 
-![img](../../assets/JVM/内存/memory/20141013141216040)
+![memory：Java 内存结构示意图](../../images/JVM/内存/memory/memory-java-memory-structure)
 
 PC的内存区域是在Java虚拟机规范中唯一一个没有规定任何`OutOfMemoryError`情况的区域。
 
@@ -19,15 +19,15 @@ PC的内存区域是在Java虚拟机规范中唯一一个没有规定任何`OutO
 
 大小限制： **–Xss 默认1M(Linux 64位)**
 
-![img](../../assets/JVM/内存/memory/20141117164047783)
+![memory：虚拟机栈示意图](../../images/JVM/内存/memory/memory-02)
 
 ### 栈帧
 
-![image.png](../../assets/JVM/内存/memory/1608914481603-e31ead5f-23fe-48b2-9e4e-750389e2e342.png)
+![memory：栈帧示意图](../../images/JVM/内存/memory/memory-03.png)
 
-![img](../../assets/JVM/内存/memory/20141013142638909)
+![memory：栈帧示意图](../../images/JVM/内存/memory/memory-04)
 
-<img src="../../assets/JVM/内存/memory/1608915659908-f19bea13-4774-4280-b3ad-6be28e82c44d.png" alt="image.png" style="zoom: 80%;" />
+<img src="../../images/JVM/内存/memory/memory-09.png" alt="memory：栈帧示意图" style="zoom: 80%;" />
 
 **栈帧之间数据共享**
 
@@ -37,7 +37,7 @@ PC的内存区域是在Java虚拟机规范中唯一一个没有规定任何`OutO
 
 如果两个方法的调用之间传递了参数，比如A方法调用B方法并传递了参数10，则10在**A方法的操作数栈**中，也应该在**B方法的局部变量表**中，JVM对此进行了优化，对这一部分进行了共享。
 
-<img src="../../assets/JVM/内存/memory/1608954403282-b5585ec0-3b08-4bf7-a54d-56142cce2dd8.png" alt="img" style="zoom: 33%;" />
+<img src="../../images/JVM/内存/memory/memory-10.png" alt="memory：栈帧示意图" style="zoom: 33%;" />
 
 ### 局部变量表
 
@@ -148,7 +148,7 @@ JDK1.7中它的实现是**永久代(使用JVM内存)**，JDK1.8里面它的实�
 
 使用`javap -v XXX.class`查看，本身就存在于class文件中的常量池叫做静态常量池。
 
-![img](../../assets/JVM/内存/memory/1608917987213-3864e91e-b2b7-499d-b9b6-5e72ab827de1.png)
+![memory：静态常量池示意图](../../images/JVM/内存/memory/memory-05.png)
 
 ### 运行时常量池
 
@@ -196,7 +196,7 @@ JDK1.7中它的实现是**永久代(使用JVM内存)**，JDK1.8里面它的实�
 
 ## String 类分析（JDK1.8）
 
- ![img](../../assets/JVM/内存/memory/1608961220907-e7a290b3-e8c2-4ec5-851a-64d86770de5c.png)
+ ![memory：String 类分析（JDK1.8）示意图](../../images/JVM/内存/memory/memory-string-jdk1-8-06.png)
 
 String 对象是对 char 数组进行了封装实现的对象，主要有 2 个成员变量：char 数组，hash 值。
 
@@ -214,13 +214,13 @@ String 对象的不可变性：String 类被 final 修饰了，代表该类不�
 
 当代码中使用这种方式创建字符串对象时，JVM 首先会检查该对象是否在字符串常量池中，如果在，就返回该对象引用，否则新的字符串将在常量池中被创建。这种方式可以减少同一个值的字符串对象的重复创建，节约内存。（`str`只是一个引用）
 
-<img src="../../assets/JVM/内存/memory/1608961922973-ee1c085c-dfd9-4ad9-bef0-b71380f5e3ee.png" alt="img" style="zoom: 50%;" />
+<img src="../../images/JVM/内存/memory/memory-string-11.png" alt="memory：String 的创建方式示意图" style="zoom: 50%;" />
 
 2、`String str = new String(“abc”)`
 
 首先在**编译**类文件时，`"abc"`常量字符串将会放入到常量结构中，在类加载时，`“abc"`将会在常量池中创建；其次，在调用 new 时，JVM 命令将会调用 String的构造函数，同时引用常量池中的`"abc”` 字符串，在堆内存中创建一个 String 对象；最后，`str` 将引用 String 对象。
 
-<img src="../../assets/JVM/内存/memory/1608961933152-43b53064-70d2-4587-b4c9-e98f45bc4f2e.png" alt="img" style="zoom:50%;" />
+<img src="../../images/JVM/内存/memory/memory-string-12.png" alt="memory：String 的创建方式示意图" style="zoom:50%;" />
 
 ## intern
 
@@ -352,9 +352,9 @@ Process finished with exit code 1
 
 利用Java自带的JVisualVM可以查看fprof文件。
 
-![image-20210324104603105](../../assets/JVM/内存/memory/image-20210324104603105-1645708750435.png)
+![memory：堆溢出示意图](../../images/JVM/内存/memory/memory-overflow-diagram-07.png)
 
-![image-20210324104611378](../../assets/JVM/内存/memory/image-20210324104611378-1645708750435.png)
+![memory：堆溢出示意图](../../images/JVM/内存/memory/memory-overflow-diagram-08.png)
 
 ## 栈溢出
 

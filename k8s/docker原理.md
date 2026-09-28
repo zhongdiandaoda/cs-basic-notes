@@ -1,4 +1,4 @@
-![](../assets/k8s/docker原理/1624937894925-f437bd98-94e2-4334-9657-afa69bb52179.svg)
+![docker原理：docker原理示意图](images/docker原理/docker-principle.svg)
 
 原理：cgroup+namespace+docker image
 
@@ -196,7 +196,7 @@ cgroups 的全称是control groups，cgroups为每种可以控制的资源定义
 
 ## overlay文件系统
 
-![](../assets/k8s/docker原理/1649410418024-6e9b1fb8-d87d-4def-aa53-768305f4c8e5.png)
+![docker原理：overlay文件系统示意图](images/docker原理/docker-principle-overlay-file-system-02.png)
 
 workdir：相当于临时文件目录
 

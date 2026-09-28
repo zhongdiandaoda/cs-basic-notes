@@ -11,7 +11,7 @@ ip link add br0 type bridge
 ip link set br0 up
 ```
 
-![](../../assets/网络/物理+链路/bridge+veth/1656585664340-e07a7599-49c1-461d-99be-f8bc81a97fec.png)
+![bridge+veth：Bridge示意图](../images/物理+链路/bridge+veth/bridge-veth-bridge.png)
 
 但是这样创建出来的bridge一端连接着协议栈，其他端口什么也没有连接，因此我们需要将其他设备连接到该bridge才能有实际的功能。
 
@@ -30,7 +30,7 @@ bridge link
                       ter br0 state forwarding priority 32 cost 2
 ```
 
-![](../../assets/网络/物理+链路/bridge+veth/1656585695164-5f08c1fb-eee2-42a3-b969-f4db9aa4815a.png)
+![bridge+veth：通过 bridge link 命令可以看到bridge上连接了哪些设备示意图](../images/物理+链路/bridge+veth/bridge-veth-bridge-link-bridge-02.png)
 
 事实上，一旦br0和veth0连接后，它们之间将变成双向通道，但是内核协议栈和veth0之间变成了单通道，协议栈能发数据给veth0，但veth0从外面收到的数据不会转发给协议栈 ，同时br0的MAC地址变成了veth0的MAC地址。我们可以验证一下：
 
@@ -61,7 +61,7 @@ ip addr add 20.1.0.10/24 dev br0
 
 这样，网络结构就变成了下面这样：
 
-![](../../assets/网络/物理+链路/bridge+veth/1656585734530-cb1f1df7-3624-4dad-9ffb-fbe7fb56f4dd.png)  
+![bridge+veth：tcpdump -n -i br0示意图](../images/物理+链路/bridge+veth/bridge-veth-tcp-dump-n-i-br0-03.png)
 这时候再通过br0来ping一下veth1，会发现结果可以通：
 
 ```
@@ -82,12 +82,12 @@ rtt min/avg/max/mdev = 0.121/0.121/0.121/0.000 ms
 
 典型的虚拟机网络实现就是通过TUN/TAP将虚拟机内的网卡同宿主机的br0连接起来，这时br0和物理交换机的效果类似，虚拟机发出去的数据包先到达br0，然后由br0交给eth0发送出去，这样做数据包都不需要经过host机器的协议栈，运行效率非常高。
 
-![](../../assets/网络/物理+链路/bridge+veth/1656585757208-a8936d94-e720-4794-87c0-702d695b2d1d.png)
+![bridge+veth：ping -c 1 -I br0 20.1.0.11示意图](../images/物理+链路/bridge+veth/bridge-veth-ping-c-1-i-br0-20-04.png)
 
 **容器**
 
-而对于容器网络来说，每个容器的网络设备单独的网络命名空间中  
-![](../../assets/网络/物理+链路/bridge+veth/1656585769928-e54005e5-28a3-4474-888d-87d5ec41bb4b.png)
+而对于容器网络来说，每个容器的网络设备单独的网络命名空间中
+![bridge+veth：ping -c 1 -I br0 20.1.0.11示意图](../images/物理+链路/bridge+veth/bridge-veth-ping-c-1-i-br0-20-05.png)
 
 # veth
 
@@ -95,7 +95,7 @@ veth 虚拟网络设备一端连着协议栈，另外一端不是物理网络，
 
 下面就是一个典型的veth设备对的例子：
 
-![](../../assets/网络/物理+链路/bridge+veth/1656585808213-56829887-fdd8-4000-9af6-e7ac44d11ff7.png)
+![bridge+veth：veth示意图](../images/物理+链路/bridge+veth/bridge-veth-veth-06.png)
 
 我们配置物理网卡eth0的IP为12.124.10.11， 而成对出现的veth设备分别为veth0和veth1，它们的IP分别是20.1.0.10和20.1.0.11。
 
@@ -152,7 +152,7 @@ listening on veth1, link-type EN10MB (Ethernet), capture size 458122 bytes
 7. 协议栈收到 reply 包之后，发现有 socket 在等待包，于是将包给 socket。
 8. 等待在用户态的 ping 程序发现 socket 返回，于是就收到 ICMP 的 reply 包。
 
-![](../../assets/网络/物理+链路/bridge+veth/1688387361051-e399fb38-a485-4b00-a015-06a81bdc7d2a.png)
+![bridge+veth：tcpdump -n -i veth1示意图](../images/物理+链路/bridge+veth/bridge-veth-tcp-dump-n-i-veth1-07.png)
 
 我们可以尝试使用tcpdump抓取lo设备上的数据：
 

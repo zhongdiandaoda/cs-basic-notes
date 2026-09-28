@@ -4,7 +4,25 @@ IPv6（Internet Protocol Version 6，因特网协议版本6）是网络层协议
 
 IPv6报文由IPv6基本报头（长度为 40 字节）、IPv6扩展报头以及上层协议数据单元三部分组成。
 
-![](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=MjI3YWM4NzVhN2QyOWM1ODg3MjIwZDE3MzM0OGE3MzJfbEYzYUNwdUpSaE5EN1VKOGFKSHdGTUhKMWVGTm5GMzFfVG9rZW46Szh6MGJUVXRib3ZydDN4dVgzYmNVVGtDbmJjXzE2OTU2NDA3MDQ6MTY5NTY0NDMwNF9WNA)
+```text
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-------+---------------+-----------------------------------------------+
+|Version| Traffic Class |                 Flow Label                    |
++-------+---------------+-----------------------------------------------+
+|         Payload Length        |  Next Header  |      Hop Limit        |
++--------------------------------+---------------+-----------------------+
+|                                                               |
+|                     Source Address (128 bit)                  |
+|                                                               |
++---------------------------------------------------------------+
+|                                                               |
+|                  Destination Address (128 bit)                 |
+|                                                               |
++---------------------------------------------------------------+
+|              Extension Headers / Upper-layer Data              |
++---------------------------------------------------------------+
+```
 
 各字段的含义为：
 
@@ -24,7 +42,17 @@ IPv6报文由IPv6基本报头（长度为 40 字节）、IPv6扩展报头以及�
 
 IPv4 和 IPv6 报文对比:
 
-![](https://bytedance.feishu.cn/space/api/box/stream/download/asynccode/?code=MWFmMzdkN2Q3ZWEyYTYzMWFiNDJjNGRjOGU4NjkzYjFfWkFFRVJYSGhlMDZOWUpaUE5STVh0czVWN3hKckZSVmlfVG9rZW46TmhPYmJlQjNtbzNmbUd4V2NkUmNRSWIwbk1lXzE2OTU2NDA3MDQ6MTY5NTY0NDMwNF9WNA)
+| 对比项 | IPv4 | IPv6 |
+|---|---|---|
+| 基本报头长度 | 可变长度，最小 20 字节，最大 60 字节 | 固定 40 字节 |
+| 地址长度 | 源地址和目的地址各 32 bit | 源地址和目的地址各 128 bit |
+| 首部长度字段 | 有 IHL 字段，用于表示 IPv4 首部长度 | 无首部长度字段，基本报头长度固定 |
+| 服务质量字段 | Type of Service / DSCP / ECN | Traffic Class |
+| 分片相关字段 | Identification、Flags、Fragment Offset 位于基本报头中 | 基本报头不包含分片字段，分片信息放在 Fragment 扩展报头中 |
+| 校验和 | Header Checksum 位于基本报头中，转发时需要重新计算 | 无首部校验和，减少中间设备处理开销 |
+| TTL / 跳数限制 | TTL | Hop Limit |
+| 协议指示字段 | Protocol 指明上层协议 | Next Header 指明下一个扩展报头或上层协议 |
+| 可选能力 | Options 位于基本报头中，会使报头变长 | 通过扩展报头承载，基本报头保持固定长度 |
 
 ## 扩展报文头
 

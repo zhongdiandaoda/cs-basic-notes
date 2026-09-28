@@ -89,35 +89,35 @@ kubectl rollout undo deployment.v1.apps/nginx-deployment --to-revision=2
 
 Deployment的状态：
 
-![](../assets/k8s/Deployment/1647335661852-f64278a5-ad4a-4692-988f-dcea194512cf.png)
+![Deployment：回滚示意图](images/Deployment/deployment.png)
 
 # 管理模式
 
 Deployment 只负责管理不同版本的 `ReplicaSet`，由 `ReplicaSet` 来管理具体的 Pod 副本数，每个 `ReplicaSet` 对应 Deployment template 的一个版本。每个`ReplicaSet`管理的Pod均是同一个版本。
 
-![](../assets/k8s/Deployment/1647335669565-2e589ce7-2b82-477a-b0e8-ed932e631da1.png)
+![Deployment：管理模式示意图](images/Deployment/deployment-02.png)
 
 Deployment控制器的实现：
 
-![](../assets/k8s/Deployment/1647335679645-7e17720c-cc8a-421e-b1f6-94767ef67758.png)
+![Deployment：管理模式示意图](images/Deployment/deployment-03.png)
 
 `ReplicaSet`控制器的实现：
 
-![](../assets/k8s/Deployment/1647335683891-98bf9a92-53eb-41cb-a50c-04ebb7658c1d.png)
+![Deployment：管理模式示意图](images/Deployment/deployment-04.png)
 
 扩容：
 
-![](../assets/k8s/Deployment/1647335687940-3e79aabc-9787-496a-b25f-1cf084037fa0.png)
+![Deployment：管理模式示意图](images/Deployment/deployment-05.png)
 
 发布：
 
 修改template后，controller会创建一个新的RS，并逐渐修改两个RS的数量。
 
-![](../assets/k8s/Deployment/1647335691996-c0765562-a6b9-4565-91d8-9354b4ef08f3.png)
+![Deployment：管理模式示意图](images/Deployment/deployment-06.png)
 
 回滚：
 
-![](../assets/k8s/Deployment/1647335696319-5541cc9d-eb2d-4602-bdbe-4a5293b0977e.png)
+![Deployment：管理模式示意图](images/Deployment/deployment-07.png)
 
 spec字段解析：
 

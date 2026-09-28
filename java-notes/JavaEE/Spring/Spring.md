@@ -2002,7 +2002,7 @@ public static void main(String[] args) throws Exception {
 
 上述Web应用程序就是我们使用Spring MVC时的一个最小启动功能集。由于使用了JDBC和数据库，用户的注册、登录信息会被持久化：
 
-![spring-mvc](../../assets/JavaEE/Spring/Spring/l.png)
+![spring-mvc](../../images/JavaEE/Spring/Spring/spring-mvc.png)
 
 有了Web应用程序的最基本的结构，我们的重点就可以放在如何编写Controller上。Spring MVC对Controller没有固定的要求，也不需要实现特定的接口。以UserController为例，编写Controller只需要遵循以下要点：
 
@@ -2163,7 +2163,7 @@ public class ApiController {
 
 编写REST接口只需要定义`@RestController`，然后，每个方法都是一个API接口，输入和输出只要能被Jackson序列化或反序列化为JSON就没有问题。我们用浏览器测试GET请求，可直接显示JSON响应：
 
-![user-api](../../assets/JavaEE/Spring/Spring/l.png)
+![user-api](../../images/JavaEE/Spring/Spring/spring-mvc.png)
 
 要测试POST请求，可以用curl命令：
 
@@ -2554,7 +2554,7 @@ public class UserController {
 
 注意到我们返回了一个新的`ModelAndView`，这样在应用程序内部如果发生了预料之外的异常，可以给用户显示一个出错页面，而不是简单的500 Internal Server Error或404 Not Found。例如B站的错误页：
 
-![500](../../assets/JavaEE/Spring/Spring/l.png)
+![Spring：使用 Interceptor示意图](../../images/JavaEE/Spring/Spring/spring-mvc.png)
 
 可以编写多个错误处理方法，每个方法针对特定的异常。例如，处理`LoginException`使得页面可以自动跳转到登录页。
 
@@ -2797,6 +2797,6 @@ window.chatWs.send(JSON.stringify({text: inputText}));
 
 最后，连调浏览器和服务器端，如果一切无误，可以开多个不同的浏览器测试WebSocket的推送和广播：
 
-![chat](../../assets/JavaEE/Spring/Spring/l.png)
+![chat](../../images/JavaEE/Spring/Spring/spring-mvc.png)
 
 和上一节我们介绍的异步处理类似，Servlet的线程模型并不适合大规模的长链接。基于NIO的Netty等框架更适合处理WebSocket长链接，我们将在后面介绍。

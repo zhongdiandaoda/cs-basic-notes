@@ -22,7 +22,7 @@ DMA、零拷贝、PageCache、Direct I/O 和异步 I/O 都是在解决 I/O 性�
 - CPU 再把寄存器中的数据写入内存；
 - 整个搬运过程持续占用 CPU。
 
-![img](../assets/OS/零拷贝/1652413775842-fd79f613-b233-4ae2-9ac6-4ae02c4a1d9e.png)
+![DMA与零拷贝：为什么要有 DMA示意图](images/零拷贝/dma-zero-copy-dma.png)
 
 这种方式的问题很明显：CPU 不仅要负责计算和调度，还要亲自搬运大量 I/O 数据。数据量一大，CPU 会被内存复制拖住，无法有效处理其他任务。
 
@@ -32,7 +32,7 @@ DMA（Direct Memory Access，直接内存访问）就是为了解决这个问题
 
 使用 DMA 后，读取磁盘文件的大致流程如下：
 
-![img](../assets/OS/零拷贝/1652413776970-d7ca888c-ecfc-4c5f-9af5-e4f465a70b72.png)
+![DMA与零拷贝：为什么要有 DMA示意图](images/零拷贝/dma-zero-copy-dma-02.png)
 
 - 用户进程调用 `read()`，请求读取文件数据；
 - 内核检查参数，准备内核缓冲区或 PageCache 页；
@@ -53,7 +53,7 @@ read(file_fd, user_buf, len);
 write(socket_fd, user_buf, len);
 ```
 
-![img](../assets/OS/零拷贝/1652422558595-51e0efc2-c828-43cc-9909-e6bbfa459300.png)
+![DMA与零拷贝：传统文件传输的问题示意图](images/零拷贝/dma-zero-copy-03.png)
 
 这个过程通常包含 2 次系统调用：
 
@@ -91,7 +91,7 @@ write(socket_fd, buf, len);
 
 需要注意，`mmap()` 调用本身不一定立刻从磁盘读取数据。真实读取通常发生在进程首次访问映射地址时：访问触发缺页异常，内核再把对应文件页读入 PageCache，并建立页表映射。
 
-![img](../assets/OS/零拷贝/1652422558624-2f41ec58-eca8-40f7-b9f9-b466dc754248.png)
+![DMA与零拷贝：`mmap + write`示意图](images/零拷贝/dma-zero-copy-mmap-write-04.png)
 
 `mmap + write` 的大致流程是：
 
@@ -116,7 +116,7 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 
 `sendfile()` 的优势是把原来的 `read()` + `write()` 合并成一次系统调用，并且数据不再进入用户缓冲区。
 
-![img](../assets/OS/零拷贝/1652422558551-66ca7c5b-72dc-4058-a4d5-7309a4da3f42.png)
+![DMA与零拷贝：`sendfile`示意图](images/零拷贝/dma-zero-copy-sendfile-05.png)
 
 早期或不支持 scatter-gather 的路径中，`sendfile()` 大致包含：
 
@@ -130,7 +130,7 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 
 如果网卡支持 SG-DMA（Scatter-Gather DMA），内核可以把 PageCache 中文件页的描述信息传给 socket 层，网卡再根据这些分散的内存片段直接 DMA 读取并发送。
 
-![img](../assets/OS/零拷贝/1652422558599-3f7533a3-1e2b-47f1-89d9-a910b01598cf.png)
+![DMA与零拷贝：`sendfile + SG-DMA`示意图](images/零拷贝/dma-zero-copy-sendfile-sg-dma-06.png)
 
 这种路径大致是：
 
@@ -171,7 +171,7 @@ public long transferFrom(FileChannel fileChannel,
 
 在 Linux 上，`transferTo()` 通常可以落到 `sendfile()` 或类似的内核传输机制上，从而避免把文件数据先拷贝到 JVM 堆内存，再拷贝回内核 socket 缓冲区。
 
-![img](../assets/OS/零拷贝/1652422700094-9ad77b05-fe61-451a-b0a8-959d624ad13f.png)
+![DMA与零拷贝：零拷贝技术的使用示意图](images/零拷贝/dma-zero-copy-zero-copy-07.png)
 
 Nginx 也支持 `sendfile`：
 
@@ -202,7 +202,7 @@ PageCache 的两个重要优化是：
 - **缓存**：保存最近访问过的文件页，提高重复访问性能；
 - **预读**：顺序读取时，内核可能提前把后续文件页读入 PageCache，降低后续读取延迟。
 
-![img](../assets/OS/零拷贝/1652423017313-0299159b-d6c2-427b-8f39-00647d3becc9.png)
+![DMA与零拷贝：PageCache 有什么作用示意图](images/零拷贝/dma-zero-copy-pagecache-08.png)
 
 PageCache 对小文件、热点文件、重复读取、顺序读取都很有帮助。零拷贝文件传输也经常依赖 PageCache，因为磁盘数据先进入 PageCache，网卡再从这些内存页读取数据。
 
@@ -236,7 +236,7 @@ Direct I/O 和异步 I/O 是两个不同维度的概念：
 
 Direct I/O 的典型流程是：应用提供满足对齐要求的用户缓冲区，内核让设备通过 DMA 尽量直接把数据搬到这块用户缓冲区对应的物理页中。
 
-![img](../assets/OS/零拷贝/1652423017297-48372dfa-eccd-4ebd-a04c-a39afd572c0f.png)
+![DMA与零拷贝：Direct I/O 与异步 I/O示意图](images/零拷贝/dma-zero-copy-direct-i-o-i-o-09.png)
 
 Direct I/O 适合：
 

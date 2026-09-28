@@ -2,11 +2,11 @@
 
 单进程
 
-![](1651213612198-7dcfa67f-f6e0-4217-9be6-76433b67e4d2.png)
+![kafka：发布订阅模型示意图](images/kafka/kafka.png)
 
 调度中心
 
-![](1651213785037-4b150168-ae8b-43ed-b025-f6ca7e5f2484.png)
+![kafka：发布订阅模型示意图](images/kafka/kafka-02.png)
 
 场景：系统上线后，消息发送方发现，不只有入职的消息，还有离职，请假的情况，希望集成到系统中。
 
@@ -14,13 +14,13 @@
 
 Topic：消息的类别
 
-![](1651213873302-93f2e163-5bd9-4f00-adbe-849717cf9417.png)
+![kafka：发布订阅模型示意图](images/kafka/kafka-03.png)
 
 场景：随着公司规模扩大，需要多机部署，此时，生产没问题，单消费多机可能会产生重复消费问题。
 
 解决方案：将Topic做更细粒度划分，叫partition，每个partition只被一个consumer消费
 
-![](1651214015067-bf760755-94ad-44f7-9221-a8accfd0b610.png)
+![kafka：发布订阅模型示意图](images/kafka/kafka-04.png)
 
 Partition：实际消息存储的地方，一个有序队列
 
@@ -32,7 +32,7 @@ consumerGroup：共同处理消息的一组消费者实例
 
 场景：随着时间增多，消息占用了很多磁盘空间
 
-![](1651214274374-e8976851-ee21-4f9e-a7f8-68f4236c3436.png)
+![kafka：位点示意图](images/kafka/kafka-05.png)
 
 # Replication & Cluster
 
@@ -40,11 +40,11 @@ consumerGroup：共同处理消息的一组消费者实例
 
 解决方案：部署多台Broker，消息根据partition在不同机器之间备份
 
-![](1651214370147-e4deed21-c61e-45d8-9f82-74caf96b70e2.png)
+![kafka：Replication & Cluster示意图](images/kafka/kafka-replication-cluster-06.png)
 
 # 拓扑模型
 
-![](1651214497582-8366489a-3019-4ede-8fcd-1cffd5a4a665.png)
+![kafka：拓扑模型示意图](images/kafka/kafka-07.png)
 
 # overview
 

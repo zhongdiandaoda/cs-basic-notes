@@ -44,7 +44,7 @@ A(创建套接字<br/>Socket)-->C(接收/发送<br/>recvfrom/sendto)
 
 UDP段的格式：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210701170456750.png" alt="image-20210701170456750" style="zoom:80%;" />
+<img src="../images/传输层/Transport/transport-udp-30.png" alt="Transport：UDP示意图" style="zoom:80%;" />
 
 length：首部和数据的全部字节数（由于数据字段长度不定，需要一个明确的大小指定数据段长度）
 
@@ -129,7 +129,7 @@ IP 已经有了首部校验和了，UDP 校验和计算为什么还要考虑这�
 
 reliable data transfer(RDT)
 
-![image-20210701171416671](../../assets/网络/传输层/../images/Transport/image-20210701171416671.png)
+![Transport：可靠数据传输示意图](../images/传输层/Transport/transport.png)
 
 RDT基于停等协议。
 
@@ -137,7 +137,7 @@ RDT基于停等协议。
 
 底层信道完全可靠。
 
-![image-20210701171706648](../../assets/网络/传输层/../images/Transport/image-20210701171706648.png)
+![Transport：RDT1.0示意图](../images/传输层/Transport/transport-rdt1-0-02.png)
 
 ## RDT2.0
 
@@ -154,7 +154,7 @@ RDT2.x假设信道只会发生位错误。
 
 停等协议：发送数据后，等收到ACK或者NAK后再进行下一次发送。
 
-![image-20210702105218866](../../assets/网络/传输层/../images/Transport/image-20210702105218866.png)
+![Transport：RDT2.0示意图](../images/传输层/Transport/transport-rdt2-0-03.png)
 
 ## RDT2.1
 
@@ -166,11 +166,11 @@ RDT2.1同样基于停等机制：
 
 发送方
 
-![image-20210702110033002](../../assets/网络/传输层/../images/Transport/image-20210702110033002.png)
+![Transport：RDT2.1示意图](../images/传输层/Transport/transport-rdt2-1-04.png)
 
 接收方
 
-![image-20210702110452718](../../assets/网络/传输层/../images/Transport/image-20210702110452718.png)
+![Transport：RDT2.1示意图](../images/传输层/Transport/transport-rdt2-1-05.png)
 
 ## RDT2.2
 
@@ -185,15 +185,15 @@ RDT3.0假设信道既会发生位错误又会发生分组丢失。
 
 加入了定时器。
 
-![image-20210702111252910](../../assets/网络/传输层/../images/Transport/image-20210702111252910.png)
+![Transport：RDT3.0示意图](../images/传输层/Transport/transport-rdt3-0-06.png)
 
-![image-20210702111452911](../../assets/网络/传输层/../images/Transport/image-20210702111452911.png)
+![Transport：RDT3.0示意图](../images/传输层/Transport/transport-rdt3-0-07.png)
 
-![image-20210702111527251](../../assets/网络/传输层/../images/Transport/image-20210702111527251.png)
+![Transport：RDT3.0示意图](../images/传输层/Transport/transport-rdt3-0-08.png)
 
 效率很低。
 
-![image-20210702111859050](../../assets/网络/传输层/../images/Transport/image-20210702111859050.png)
+![Transport：RDT3.0示意图](../images/传输层/Transport/transport-rdt3-0-09.png)
 
 # 滑动窗口协议
 
@@ -220,11 +220,11 @@ Timeout(n)事件：重传序列号大于等于n的所有分组。
 
 发送方：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702151148903.png" alt="image-20210702151148903" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-gbn-31.png" alt="Transport：GBN示意图" style="zoom:67%;" />
 
 接收方：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702151521485.png" alt="image-20210702151521485" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-gbn-32.png" alt="Transport：GBN示意图" style="zoom:67%;" />
 
 只需要记住唯一的`expectednum`。
 
@@ -232,7 +232,7 @@ Timeout(n)事件：重传序列号大于等于n的所有分组。
 
 demo：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702151821153.png" alt="image-20210702151821153" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-gbn-33.png" alt="Transport：GBN示意图" style="zoom:67%;" />
 
 对于n位的序列号，要求发送窗口的大小<=2^n^-1。
 
@@ -252,23 +252,23 @@ SR：接收方对每个分组进行单独确认；发送方只重传没有收到
 
 发送方/接收方窗口：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702152325306.png" alt="image-20210702152325306" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-34.png" alt="Transport：SR示意图" style="zoom:67%;" />
 
 SR协议：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702152413393.png" alt="image-20210702152413393" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-35.png" alt="Transport：SR示意图" style="zoom:67%;" />
 
 `sender`：`ACK(n)`，只有n是最小的`unACKed`序列号，才增大窗口。
 
 demo：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702152738159.png" alt="image-20210702152738159" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-36.png" alt="Transport：SR示意图" style="zoom:67%;" />
 
 SR协议的问题：
 
 窗口大小太小时，将无法区分第一轮序列号与第二轮序列号。
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210702153446747.png" alt="image-20210702153446747" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-37.png" alt="Transport：SR示意图" style="zoom:67%;" />
 
 一般发送窗口的大小等于接收窗口的大小。
 
@@ -284,7 +284,7 @@ SR协议的问题：
 
 TCP 是**面向连接的、可靠的、基于字节流**的传输层通信协议。
 
-![img](../../assets/网络/传输层/Transport/b598e7cb45be040ccd4a09f6ddf565a9f6ad6f18)
+![Transport：TCP示意图](../images/传输层/Transport/transport-tcp-10)
 
 - **面向连接**：一定是「一对一」才能连接，不能像 UDP 协议可以一个主机同时向多个主机发送消息，也就是一对多是无法做到的；
 - **可靠的**：无论的网络链路中出现了怎样的链路变化，TCP 都可以保证一个报文一定能够到达接收端；
@@ -302,7 +302,7 @@ TCP 连接的状态完全保留在两个端系统中，中间的网络元素看�
 
 ## TCP段结构
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210709150540250.png" alt="image-20210709150540250" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-tcp-structure-38.png" alt="Transport：TCP段结构示意图" style="zoom:67%;" />
 
 序列号和ACK的编号不是端的编码，而是利用数据的字节数来计数。
 
@@ -331,7 +331,7 @@ RST：该位为 `1` 时，表示 TCP 连接中出现异常必须强制断开连�
 
 demo：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210709151033205.png" alt="image-20210709151033205" style="zoom:50%;" />
+<img src="../images/传输层/Transport/transport-tcp-structure-39.png" alt="Transport：TCP段结构示意图" style="zoom:50%;" />
 
 A -> B：发送含有一个字节的段，序列号为42，ACK=79，表示希望收到的下一个字节的编号为79。
 
@@ -353,7 +353,7 @@ A -> B：序列号为43，ACK为80（79及之前的字节已被正确收到）�
 
 数据会被以 `MSS` 的长度为单位进行拆分，拆分出来的每一块数据都会被放进单独的网络包中。也就是在每个被拆分的数据加上 TCP 头信息，然后交给 IP 模块来发送数据。
 
-![image-20220501154801200](../../assets/网络/传输层/../images/Transport/image-20220501154801200.png)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-11.png)
 
 IP分片的缺点：一个分片丢失会导致**整个 IP 报文的所有分片都得重传**，由于IP层没有超时重传机制，TCP层将负责超时和重传。
 
@@ -367,25 +367,25 @@ MSS 是传输层 TCP 协议范畴内的概念，其标识 TCP 能够承载的最
 
 客户端与服务器端分别根据自己发包接口的 MTU 值计算出相应MSS值，并通过SYN报文告知对方，我们还是通过一个实际环境中捕获的数据报文来看一下MSS协商的过程：
 
-![img](../../assets/网络/传输层/../images/Transport/v2-2d5d2ab1670cd4e194d2a23b4c6492cd_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-12.jpg)
 
 这是整个报文交互过程的截图，我们再来看一下客户端的报文详细解码
 
-![img](../../assets/网络/传输层/../images/Transport/v2-91813bf71bceb2bc5d006cb5d173e521_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-13.jpg)
 
 上图为客户端的SYN报文，在其TCP选项字段，我们可以看到其通告的MSS值为1460；我们在看看服务器端的SYN/ACK报文解码：
 
-![img](../../assets/网络/传输层/../images/Transport/v2-7971d7d1dc3b487badf0c4b51f919349_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-14.jpg)
 
 上图为服务器端给客户端回应的 SYN/ACK 报文，查看其 TCP 选项字段，我们可以发现其通告的 MSS 值为1440。
 
 交互双方会以双方通告的 MSS 值中取最小值作为发送报文的最大段长。在此 TCP 连接后续的交互过程中，我们可以清楚的看到服务器端向客户端发送的报文中，TCP 的最大段长度都是 1440字 节，如下图解码所示：
 
-![img](../../assets/网络/传输层/../images/Transport/v2-fe8c29ef38b6cc18edd25b41a96321ee_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-15.jpg)
 
 通过在 TCP 连接之初，协商 MSS 值巧妙的解决了避免端系统分片的问题，但是在复杂的实际网络环境下，影响到IP 报文分片的并不仅仅是发送方和接收方，还有路由器、防火墙等中间系统，假设在下图的网络环境下：
 
-![img](../../assets/网络/传输层/../images/Transport/v2-f6a7856f31b48af2a6cee9ccd610a5d6_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-16.jpg)
 
 中间路径上的MTU问题，端系统并不知道，因此需要一个告知的机制，这个机制就是路径MTU发现。
 
@@ -395,11 +395,11 @@ MSS 是传输层 TCP 协议范畴内的概念，其标识 TCP 能够承载的最
 
 将DF bit 置为一，(DF bit为1的话则不允许分片）将不允许中间设备对该报文进行分片，那么在遇到IP报文长度超过中间设备转发接口的MTU值时，该IP报文将会被中间设备丢弃。在丢弃之后，中间设备会向发送方发送ICMP差错报文：
 
-![img](../../assets/网络/传输层/../images/Transport/v2-1706c2ee3b10d42043ec9bb771f5d929_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-17.jpg)
 
 实际环境下捕获的ICMP需要分片但DF位置一的差错报文，下图为其解码格式
 
-![img](../../assets/网络/传输层/../images/Transport/v2-e27b1ee778f3cb5b7b9a64f48da24a26_720w.jpg)
+![Transport：TCP分片示意图](../images/传输层/Transport/transport-tcp-18.jpg)
 
 我们可以看到其差错类型为 3，代码为 4，并且告知了下一跳的 MTU 值为 1478。在 ICMP 差错报文里封装导致此差错的原始 IP 报文的报头（包含 IP 报头和四层报头）。
 
@@ -409,7 +409,7 @@ MSS 是传输层 TCP 协议范畴内的概念，其标识 TCP 能够承载的最
 
 一个TCP连接的组成：
 
-![img](../../assets/网络/传输层/Transport/e064dba95671c9ac772f77439004f6b2fd65f052)
+![Transport：TCP连接管理示意图](../images/传输层/Transport/transport-tcp-19)
 
 ### TCP连接数
 
@@ -439,11 +439,11 @@ Step3：客户端收到 SYN/ACK 报文后，为该 TCP 连接分配缓存和变�
 
 所谓的「连接」，只是双方计算机里维护一个状态机，在连接建立的过程中，双方的状态变化时序图就像这样。
 
-![image-20220501154416168](../../assets/网络/传输层/../images/Transport/image-20220501154416168.png)
+![Transport：建立连接示意图](../images/传输层/Transport/transport-20.png)
 
 TCP 的连接状态查看，在 Linux 可以通过 `netstat -napt` 命令查看。
 
-![image-20220501154440415](../../assets/网络/传输层/../images/Transport/image-20220501154440415.png)
+![Transport：建立连接示意图](../images/传输层/Transport/transport-21.png)
 
 三次握手的原因：
 
@@ -454,7 +454,7 @@ TCP 的连接状态查看，在 Linux 可以通过 `netstat -napt` 命令查看�
 
 两次握手的情况下，「被动发起方」在收到 SYN 报文后，就进入 ESTABLISHED 状态，意味着这时可以给对方发送数据给，但是「主动发」起方此时还没有进入 ESTABLISHED 状态，假设这次是历史连接，主动发起方判断到此次连接为历史连接，那么就会回 RST 报文来断开连接，而「被动发起方」在第一次握手的时候就进入 ESTABLISHED 状态，所以它可以发送数据的，但是它并不知道这个是历史连接，它只有在收到 RST 报文后，才会断开连接。
 
-![两次握手无法阻止历史连接](../../assets/网络/传输层/Transport/fe898053d2e93abac950b1637645943f.png)
+![两次握手无法阻止历史连接](../images/传输层/Transport/transport-22.png)
 
 可以看到，上面这种场景下，「被动发起方」在向「主动发起方」发送数据前，并没有阻止掉历史连接，导致「被动发起方」建立了一个历史连接，又白白发送了数据，妥妥地浪费了「被动发起方」的资源。
 
@@ -520,7 +520,7 @@ SYN Flood 属于典型的`DoS/DDoS`攻击。其攻击的原理很简单，就是
 
 **SYN cookie技术**：
 
-![tcp_syncookies 应对 SYN 攻击](../../assets/网络/传输层/Transport/660072dffdffcf03592a1b9bbd16831f68355efd)
+![tcp_syncookies 应对 SYN 攻击](../images/传输层/Transport/transport-tcp-syncookies-syn-23)
 
 - 当 「 SYN 队列」满之后，后续服务器收到 SYN 包，不进入「 SYN 队列」；
 - 计算出一个 `cookie` 值，再以 SYN + ACK 中的「序列号」返回客户端，
@@ -540,7 +540,7 @@ cookie：该序列号是一个报文段的源和目的IP、端口以及服务器
 1. 第三次握手，服务端向客户端发送 FIN，自己进入 LAST-ACK 状态，
 2. 第四次握手，客户端收到服务端发来的FIN后，自己变成了 TIME-WAIT 状态，然后发送 ACK 给服务端。
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20201114144236231.png" alt="image-20201114144236231" style="zoom:50%;" />
+<img src="../images/传输层/Transport/transport-40.png" alt="Transport：断开连接示意图" style="zoom:50%;" />
 
 #### 为什么是四次挥手而不是三次
 
@@ -635,15 +635,15 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 ### 半连接队列和全连接队列
 
-<img src="../../assets/网络/传输层/Transport/d975ccc173841e8b837ddc4878bd92421b11d213" alt=" SYN 队列 与 Accpet 队列 " style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-syn-accpet-41" alt=" SYN 队列 与 Accpet 队列 " style="zoom:67%;" />
 
 握手阶段：
 
-<img src="../../assets/网络/传输层/Transport/socket_E4_B8_89_E6_AC_A1_E6_8F_A1_E6_89_8B.drawio.png" alt="socket 三次握手" style="zoom: 67%;" />
+<img src="../images/传输层/Transport/transport-socket-42.png" alt="socket 三次握手" style="zoom: 67%;" />
 
 断开连接：
 
-<img src="../../assets/网络/传输层/Transport/c44961113be3093498de2546669eaf12ce52225e" alt="客户端调用 close 过程" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-client-close-43" alt="客户端调用 close 过程" style="zoom:67%;" />
 
 ### 端口扫描工具
 
@@ -657,7 +657,7 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 ## TCP 快速打开的原理(TFO)
 
-#### 首轮三次握手
+### 首轮三次握手
 
 首先客户端发送`SYN`给服务端，服务端接收到。
 
@@ -667,7 +667,7 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 首轮三次握手就是这样的流程。而后面的三次握手就不一样啦！
 
-#### 后面的三次握手
+### 后续三次握手
 
 在后面的三次握手中，客户端会将之前缓存的 `Cookie`、`SYN` 和 HTTP 请求发送给服务端，服务端验证了 Cookie 的合法性，如果不合法直接丢弃；如果是合法的，那么就正常返回`SYN + ACK`。
 
@@ -675,7 +675,7 @@ net.ipv4.tcp_timestamps=1（默认即为 1）
 
 流程如下:
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20201114171125367.png" alt="image-20201114171125367" style="zoom:50%;" />
+<img src="../images/传输层/Transport/transport-44.png" alt="Transport：后面的三次握手示意图" style="zoom:50%;" />
 
 > 注意: 客户端最后握手的 ACK 不一定要等到服务端的 HTTP 响应到达才发送，两个过程没有任何关系。
 
@@ -741,7 +741,7 @@ loop(forever) {
 
 demo：
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210709155508215.png" alt="image-20210709155508215" style="zoom:80%;" />
+<img src="../images/传输层/Transport/transport-45.png" alt="Transport：可靠数据传输示意图" style="zoom:80%;" />
 
 RFC56681 对接收端ACK生成的建议：
 
@@ -767,7 +767,7 @@ TCP的实现中，发生一次超时之后，超时时间间隔会增大。
 
 当某个分组丢失后，接收方会多次回复相同的ACK，当sender收到对同一数据的3个ACK，则假定该数据之后的段已经丢失，在计时器没有超时的前提下直接重传。
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20210709160918621.png" alt="image-20210709160918621" style="zoom:67%;" />
+<img src="../images/传输层/Transport/transport-mechanism-46.png" alt="Transport：快速重传机制示意图" style="zoom:67%;" />
 
 发生快重传后，有些TCP实现重传丢失报文后的所有报文，有些TCP实现只重传未正确接收的报文。
 
@@ -802,21 +802,21 @@ TCP 连接每一侧的主机都为连接设置了接收缓存。当接收方处�
 
 一、路由器缓存无限大时
 
-![image-20210713134127949](../../assets/网络/传输层/../images/Transport/image-20210713134127949.png)
+![Transport：拥塞的成因与代价示意图](../images/传输层/Transport/transport-24.png)
 
-![image-20210713134200089](../../assets/网络/传输层/../images/Transport/image-20210713134200089.png)
+![Transport：拥塞的成因与代价示意图](../images/传输层/Transport/transport-25.png)
 
 发送速率低时，分组在路由器的排队时延小，总时延小，发送速率高时，分组在路由器中的排队时延大，导致总时延增大。
 
 二、路由器buffer有限时
 
-![image-20210713134351040](../../assets/网络/传输层/../images/Transport/image-20210713134351040.png)
+![Transport：拥塞的成因与代价示意图](../images/传输层/Transport/transport-26.png)
 
 当路由器缓存达到上限后，发送方的超时重传机制导致发送方发送了过多重复的包，进一步加剧拥塞。
 
 三、多跳网络
 
-![image-20210713134448519](../../assets/网络/传输层/../images/Transport/image-20210713134448519.png)
+![Transport：拥塞的成因与代价示意图](../images/传输层/Transport/transport-27.png)
 
 拥塞导致丢包后，中间路由器缓存的包全部失效，导致网络传输效率变低。
 
@@ -876,7 +876,7 @@ for(each segment ACKed)
 until(loss OR CongWin >= threshold) //随后进入线性增长阶段
 ```
 
-![image-20210713135932074](../../assets/网络/传输层/../images/Transport/image-20210713135932074.png)
+![Transport：TCP慢启动示意图](../images/传输层/Transport/transport-tcp-28.png)
 
 1-2-4-8-16-…
 
@@ -886,7 +886,7 @@ Loss事件的处理：
 
 Timeout事件（意味着更严重的拥塞，ACK都收不到）：`CongWin`直接设为1个MSS，然后慢启动，达到Threshold再线性增长。
 
-![image-20210713140411707](../../assets/网络/传输层/../images/Transport/image-20210713140411707.png)
+![Transport：TCP慢启动示意图](../images/传输层/Transport/transport-tcp-29.png)
 
 蓝色为Timeout事件，黑色为重复ACK事件。
 
@@ -946,17 +946,17 @@ TCP的保活机制。
 
 应用程序若想使用 TCP 保活机制需要通过 socket 接口设置 `SO_KEEPALIVE` 选项才能够生效，如果没有设置，那么就无法使用 TCP 保活机制。
 
-<img src="../../assets/网络/传输层/../images/Transport/image-20220616172101975.png" alt="image-20220616172101975" style="zoom:50%;" />
+<img src="../images/传输层/Transport/transport-tcp-keepalive-47.png" alt="Transport：TCP的keepalive示意图" style="zoom:50%;" />
 
 ## HTTP的Keep-Alive
 
 短连接：
 
-<img src="../../assets/网络/传输层/Transport/d6f6757c02e3afbf113d1048c937f8ee.png" alt="HTTP 短连接" style="zoom: 50%;" />
+<img src="../images/传输层/Transport/transport-http-48.png" alt="HTTP 短连接" style="zoom: 50%;" />
 
 长连接：
 
-<img src="../../assets/网络/传输层/Transport/d2b20d1cc03936332adb2a68512eb167.png" alt="HTTP 长连接" style="zoom:50%;" />
+<img src="../images/传输层/Transport/transport-http-49.png" alt="HTTP 长连接" style="zoom:50%;" />
 
 使用`Connection:Keep-Alive`后，将使用长连接的连接模式
 

@@ -15,7 +15,7 @@ NAT模式通过修改数据包的目的IP和目的端口来将包转发给Real S
 - 支持端口映射
 - 请求和响应都需要经过Director Server，易成为性能瓶颈
 
-![](../../assets/网络/网络层/IPVS/1688612354454-24d7752c-7644-455c-8467-5f18af400147.png)
+![IPVS：转发模式示意图](../images/网络层/IPVS/ipvs.png)
 
 **DR**
 
@@ -25,7 +25,7 @@ DR（Direct Route）模式通过修改数据包的目的MAC地址将包转发给
 - Director Server和Real Server必须在同一个物理网络内，二层可达
 - 虽然所有请求包都会经过Director Server，但响应报文不经过，有性能上的优势
 
-![](../../assets/网络/网络层/IPVS/1688612379606-08201209-7d04-4ca4-8856-02da4c21103d.png)
+![IPVS：转发模式示意图](../images/网络层/IPVS/ipvs-02.png)
 
 **TUN**
 
@@ -34,7 +34,7 @@ TUN模式通过将数据包封装在另一个IP包中（源地址为DIP，目的
 - Real Server需要在lo上配置vip，但不需要Director Server作为网关
 - 不支持端口映射
 
-![](../../assets/网络/网络层/IPVS/1688612379530-47845655-756f-4613-bf8d-29fd7b99b8f8.png)
+![IPVS：转发模式示意图](../images/网络层/IPVS/ipvs-03.png)
 
 **FULLNAT**
 
@@ -45,7 +45,7 @@ FULLNAT是阿里在NAT基础上增加的一个新转发模式，通过引入loca
 - SYNPROXY防止synflooding攻击
 - 未进入内核主线，维护复杂
 
-![](../../assets/网络/网络层/IPVS/1688612379814-c75389d6-91eb-4d6d-8ddf-491f8578d92b.png)
+![IPVS：转发模式示意图](../images/网络层/IPVS/ipvs-04.png)
 
 ### 调度算法
 
@@ -62,7 +62,7 @@ FULLNAT是阿里在NAT基础上增加的一个新转发模式，通过引入loca
 
 # 基于IPVS实现负载均衡
 
-![](../../assets/网络/网络层/IPVS/1691650416157-eb4fb7c4-f4e8-4730-9384-e3a71fd4231a.png)
+![IPVS：基于IPVS实现负载均衡示意图](../images/网络层/IPVS/ipvs-05.png)
 
 拓扑：
 
@@ -76,14 +76,14 @@ FULLNAT是阿里在NAT基础上增加的一个新转发模式，通过引入loca
 iptables -t nat -A POSTROUTING -s 192.168.1.0/24 -o enp0s3 -j MASQUERADE
 ```
 
-![](../../assets/网络/网络层/IPVS/1691650439026-e62f362e-ff16-46b3-9d98-cf62d7ccdf61.png)
+![IPVS：基于IPVS实现负载均衡示意图](../images/网络层/IPVS/ipvs-06.png)
 
 设置ipvs规则：
 
-![](../../assets/网络/网络层/IPVS/1691650439278-d102e068-ec71-4db6-b658-f9c0418f70e5.png)
+![IPVS：基于IPVS实现负载均衡示意图](../images/网络层/IPVS/ipvs-07.png)
 
 在ns3和ns4分别启动python3的http服务：
 
 在客户端中访问Direct Server：
 
-![](../../assets/网络/网络层/IPVS/1691650439070-a6b43806-c1e9-4b81-abbe-61b84b53b4db.png)
+![IPVS：基于IPVS实现负载均衡示意图](../images/网络层/IPVS/ipvs-08.png)

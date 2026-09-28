@@ -187,7 +187,7 @@ Java的IO流里的四十多个类都是从以下4个基类派生出来的：
 - `InputStream/Reader`：所有输入流的基类，前者为字节输入流，后者为字符输入流。
 - `OutputStream/Writer`：所有输出流的基类，前者为字节输出流，后者为字符输出流。
 
-![](../../assets/javaSE/Java输入输出/IO/88e8dc8113e64cf7850d1d4950518383)
+![IO：流的概念示意图](../../images/javaSE/Java输入输出/IO/io)
 
 # 字节流和字符流
 
@@ -368,7 +368,7 @@ public class Test {
 
 当文件不存在时，`FileOutputStream`会自动创建文件。
 
-![image-20201127105556304](../../assets/javaSE/Java输入输出/IO/image-20201127105556304.png)
+![IO：`FileOutputStream`示意图](../../images/javaSE/Java输入输出/IO/io-fileoutputstream-02.png)
 
 ### `FileWriter`
 
@@ -389,7 +389,7 @@ public static void main(String[] args) throws IOException {
 
 文件不存在时，程序将自动创建文件。
 
-![image-20201127105603925](../../assets/javaSE/Java输入输出/IO/image-20201127105603925.png)
+![IO：`FileWriter`示意图](../../images/javaSE/Java输入输出/IO/io-filewriter-03.png)
 
 # 输入/输出流体系
 
@@ -418,7 +418,7 @@ JAVA输入输出流体系中常用的流分类：
 
 示例：
 
-![img](../../assets/javaSE/Java输入输出/IO/1750510-20200208132710927-1923294583.png)
+![IO：输入/输出流体系示意图](../../images/javaSE/Java输入输出/IO/1750510-20200208132710927-1923294583.png)
 
 访问管道的流主要用于实现进程间的通信。
 
@@ -484,7 +484,7 @@ exit
 Process finished with exit code 0
 ```
 
-![image-20201127150536235](../../assets/javaSE/Java输入输出/IO/image-20201127150536235.png)
+![IO：转换流示意图](../../images/javaSE/Java输入输出/IO/io-05.png)
 
 ## 推回输入流
 
@@ -533,7 +533,7 @@ public class Test {
 
 输出：
 
-![image-20201127153245004](../../assets/javaSE/Java输入输出/IO/image-20201127153245004.png)
+![IO：推回输入流示意图](../../images/javaSE/Java输入输出/IO/io-06.png)
 
 ```
 hel
@@ -576,7 +576,7 @@ public class Test {
 
 输出：
 
-![image-20201127153935710](../../assets/javaSE/Java输入输出/IO/image-20201127153935710.png)
+![IO：重定向标准输入/输出示意图](../../images/javaSE/Java输入输出/IO/io-07.png)
 
 示例二：将标准输入重定向到文件，并用Scanner包装。
 
@@ -712,7 +712,7 @@ public class Test {
 
 输出：
 
-![image-20201130135729406](../../assets/javaSE/Java输入输出/IO/image-20201130135729406.png)
+![IO：`RandomAccessFile`示意图](../../images/javaSE/Java输入输出/IO/io-randomaccessfile-08.png)
 
 向指定文件的中间插入内容时，咋将文件读写指针移动到目标位置后，要在临时文件中保存目标位置之后的内容，然后移动指针，写入数据，在指针之后写入临时文件中的数据。
 
@@ -749,7 +749,7 @@ public class Test {
 
 输出：
 
-![image-20201130140615465](../../assets/javaSE/Java输入输出/IO/image-20201130140615465.png)
+![IO：`RandomAccessFile`示意图](../../images/javaSE/Java输入输出/IO/io-randomaccessfile-09.png)
 
 > 多线程网络下载工具，例如IDM，可以通过`RandomAccessFile`类来实现。
 

@@ -26,7 +26,7 @@ $ tcpdump [ 选项 ] [ -c 数量 ] [ -i 网络接口 ] [ -w 文件名 ] [ 表达
 -a：将网络地址显示为名称
 ```
 
-![](../../assets/网络/工具与诊断/TCPdump/1656570822770-ff7a199a-3d9b-476b-ae51-e59c925a31df.png)
+![TCPdump：常见选项如下示意图](../images/工具与诊断/TCPdump/tcp-dump-common.png)
 
 ## type
 
@@ -59,9 +59,9 @@ icmp
 
 ## 逻辑运算
 
-![](../../assets/网络/工具与诊断/TCPdump/1656570957124-f1a72289-c6fd-4b39-8c0e-df58060dd153.png)
+![TCPdump：逻辑运算示意图](../images/工具与诊断/TCPdump/tcp-dump-02.png)
 
-![](../../assets/网络/工具与诊断/TCPdump/1656570965957-443d7b4d-fdf6-4e19-80a6-e6646ba29149.png)
+![TCPdump：逻辑运算示意图](../images/工具与诊断/TCPdump/tcp-dump-03.png)
 
 ```
 $ sudo tcpdump -i any -c5 -nn "port 80 and (src 192.168.122.98 or src 54.204.39.132)"

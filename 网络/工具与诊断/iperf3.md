@@ -25,7 +25,7 @@ Windows10 客户端：_**iperf3.exe -c 服务器IP地址 -P 10**_ //客户端10
 
 **Windows10：*iperf3.exe -u -c 服务器IP地址 -b 1g*** //客户端给服务器发送udp数据包，最大带宽为1g
 
-###### 3 三、iperf3参数介绍
+# 三、iperf3参数介绍
 
 ```bash
 -f [k|m|K|M] 分别表示以Kbits, Mbits, KBytes, MBytes显示报告，默认以Mbits为单位,eg:iperf -c 222.35.11.23 -f K

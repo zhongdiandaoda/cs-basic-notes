@@ -8,7 +8,7 @@ TCP/IP协议栈维护着两个缓冲区：sendbuffer和recvbuffer，它们合称
 
 需要通过TCP连接传输出去的数据，需要先复制到sendbuffer，再复制给网卡通过网络传输出去。如果通过TCP连接接收到数据，数据首先通过网卡进入recvbuffer，再被复制到用户空间的appbuffer。
 
-![](../assets/OS/RDMA/modb_20211201_d256082a-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma.png)
 
 数据在系统内存、内核socketbuffer和网卡Buffer之间来回拷贝搬移，因此占用了大量的CPU计算资源和内存总线带宽，也加大了网络延时。
 
@@ -24,7 +24,7 @@ TCP/IP协议栈维护着两个缓冲区：sendbuffer和recvbuffer，它们合称
 
 3)目标NIC直接将数据写入到本段应用缓存中.
 
-![](../assets/OS/RDMA/modb_20211201_d29f23d4-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-02.png)
 
 **RDMA和TCP/IP架构的对比分析**
 
@@ -34,7 +34,7 @@ RDMA的特点：零复制（zero-copy）、内核旁路（kernel bypass）、没
 
 RDMA优势：高带宽、低延迟、低资源利用率
 
-![](../assets/OS/RDMA/modb_20211201_d2c4c3be-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-03.png)
 
 **支持RDMA的协议**
 
@@ -56,17 +56,17 @@ Infiniband、RoCE以及iWARP技术都是物理网卡上实现了相应的协议�
 
 **支持RDMA的协议特点总结与比较**
 
-![](../assets/OS/RDMA/modb_20211201_d30b1cd8-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-04.png)
 
 **支持RDMA网络协议栈的对比**
 
-![](../assets/OS/RDMA/modb_20211201_d34ab488-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-05.png)
 
 **Infiniband协议报文结构：**
 
 Infiniband和tcp/ip协议对比
 
-![](../assets/OS/RDMA/modb_20211201_d37e9780-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-06.png)
 
 传输层BTH：QP号、内存地址及内存秘钥（key）
 
@@ -82,7 +82,7 @@ Infinband是正统的RDMA协议，需要特定的网卡硬件和交换机。
 
 IBBTH、UDP、IP 以及 Ethernet Layer全是固化在网卡上的
 
-![](../assets/OS/RDMA/modb_20211201_d3a29e3c-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-07.png)
 
 **iWARP协议栈**
 
@@ -94,7 +94,7 @@ DDP层协议负责将过长的RDMA消息分段封装成DDP数据包继续向下�
 
 MPA层在DDP数据段的固定间隔位置增加一个后向标志、长度以及CRC校验数据，构成MPA数据段。TCP层负责对TCP数据段进行调度，确保发包能够顺利到达目标位置。IP层则在数据包中增加必要的网络路由数据信息。
 
-![](../assets/OS/RDMA/modb_20211201_d3cd4d08-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-08.png)
 
  iWARP是在TCP/IP网络上实现RDMA技术，使用的是rdma_cm库的API（是在verbs基础上做了封装，增加了一些类似TCP中绑定、监听等的接口）。建立连接的时候直接使用rdma_cm接口建立通信链路，和TCP的实现类似，服务端需要有对socket的绑定、监听的过程。
 
@@ -104,7 +104,7 @@ MPA层在DDP数据段的固定间隔位置增加一个后向标志、长度以�
 
 IB/RoCE 使用verbsAPI接口，实现iWARP需要使用到rdma_cmAPI
 
-![](../assets/OS/RDMA/modb_20211201_d3eb04e2-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-09.png)
 
 **RDMA工作原理**
 
@@ -120,7 +120,7 @@ RDMA 提供了基于基于消息队列的点对点通信
 
 3、读写请求被处理后，RDMA会产生一个完成事件，放入完成队列CQ中，供用户程序处理。
 
-![](../assets/OS/RDMA/modb_20211201_d4150d64-529b-11ec-ac6c-fa163eb4f6be.png)
+![RDMA：RDMA示意图](images/RDMA/rdma-10.png)
 
 如果是实现iWARP,需要使用rdma_cm库，增加绑定监听连接的流程。
 

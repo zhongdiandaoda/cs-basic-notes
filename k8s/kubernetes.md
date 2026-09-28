@@ -10,7 +10,7 @@
 
 # Overview
 
-![](../assets/k8s/kubernetes/1647336072257-8e45ba17-81a4-4c3e-a17c-e1048bd895cb.svg)
+![kubernetes：Overview示意图](images/kubernetes/kubernetes-overview.svg)
 
 传统部署方式：
 
@@ -74,7 +74,7 @@ Kubernetes的功能：
 
 ## Master
 
-![](../assets/k8s/kubernetes/1647336129108-8ba18512-fc9e-401a-9f7b-7a4fa1ea1a6f.png)
+![kubernetes：Master示意图](images/kubernetes/kubernetes-master-02.png)
 
 Master节点是Kubernetes中的集群控制节点，负责整个集群的管理和控制，基本上所有的控制命令都由Master节点来执行。
 
@@ -90,7 +90,7 @@ Master节点是Kubernetes中的集群控制节点，负责整个集群的管理�
 
 ## Node节点
 
-![](../assets/k8s/kubernetes/1647336134721-db57bda8-f7c6-409e-b141-ee34e6a19448.png)
+![kubernetes：Node节点示意图](images/kubernetes/kubernetes-node-03.png)
 
 Node是k8s集群中的工作负载节点，每个节点都会被master分配一些工作负载（docker容器），并且在Node节点宕机时自动转移到其他Node节点。
 
@@ -170,7 +170,7 @@ System Info:
 
 k8s组件之间通信示例：
 
-![](../assets/k8s/kubernetes/1647336144965-90bd0c4c-6aa9-45fd-aa16-450401991d74.png)
+![kubernetes：Node节点示意图](images/kubernetes/kubernetes-node-04.png)
 
 用户可以通过 UI 或者 CLI 提交一个 Pod 给 Kubernetes 进行部署，这个 Pod 请求首先会通过 CLI 或者 UI 提交给 Kubernetes API Server，下一步 API Server 会把这个信息写入到它的存储系统 etcd，之后 Scheduler 会通过 API Server 的 watch 或者叫做 notification 机制得到这个信息：有一个 Pod 需要被调度。
 
@@ -343,7 +343,7 @@ kubectl annotate pods nginx1 my-annotate='my fsao.r21$21@$%@3'
 
 **Pod是k8s最重要的基本概念，下图所示是Pod的组成示意图。**Pod 是 k8s 系统中可以创建和管理的最小单元，是资源对象模型中由用户创建或部署的最 小资源对象模型，也是在 k8s 上运行容器化应用的资源对象，其他的资源对象都是用来支撑或者扩展 Pod 对象功能的，比如控制器对象是用来管控 Pod 对象的，Service 或者 Ingress 资源对象是用来暴露 Pod 引用对象的，PersistentVolume 资源对象是用来为 Pod 提供存储等等，k8s 不会直接处理容器，它只会操作Pod，Pod 由一个或多个 container 组成 ，每一个 Pod 都有一个特殊的被称为”根容器“的 Pause 容器。Pause 容器对应的镜像属于 Kubernetes 平台的一部分，除了 Pause 容器，每个 Pod 还包含一个或多个紧密相关的用户业务容器（可以方便的互相访问）。
 
-![](../assets/k8s/kubernetes/1647336157398-35601845-701d-4427-8dbf-b833721ac612.png)
+![kubernetes：Pod示意图](images/kubernetes/kubernetes-pod-05.png)
 
 Kubernetes引入Pod的原因：
 
@@ -440,7 +440,7 @@ spec:
 
 Pod及周边对象示意图：
 
-![](../assets/k8s/kubernetes/1647336166521-04b8da4b-4574-4d7b-ab3e-a41de124f1fb.png)
+![kubernetes：Pod示意图](images/kubernetes/kubernetes-pod-06.png)
 
 ## Volume
 
@@ -448,7 +448,7 @@ Volume 就是卷的概念，它是用来管理 Kubernetes 存储的，是用来�
 
 而 Volume 本身是一个抽象的概念，一个 Volume 可以支持多种后端的存储。比如说 Kubernetes 的 Volume 就支持了很多存储插件，它可以支持本地的存储，可以支持分布式的存储，比如说像 ceph，GlusterFS ；它也可以支持云存储，比如说阿里云上的云盘、AWS 上的云盘、Google 上的云盘等等。
 
-![](../assets/k8s/kubernetes/1647336171636-5fc2a0d6-869f-46b1-a866-81f8f7e96aee.png)
+![kubernetes：Volume示意图](images/kubernetes/kubernetes-volume-07.png)
 
 ## Replication Controller
 
@@ -606,7 +606,7 @@ CronJob管理基于时间的Job，即：
 
 Kubernetes中的每个Service都是一个微服务。
 
-![](../assets/k8s/kubernetes/1647336182448-36ac347d-0961-4a00-a17b-ed0b00bd4fb5.png)
+![kubernetes：Service示意图](images/kubernetes/kubernetes-service-08.png)
 
 前端应用通过Service定义的服务入口地址访问集群内的一组由Pod副本组成的集群实例，Service与其后端Pod副本是通过Label Selector来实现无缝对接的。
 

@@ -24,7 +24,7 @@ OVS支持以下[features](https://link.jianshu.com?t=http%3A%2F%2Fopenvswitch.or
 
 ovs交换机的组成：
 
-![](../../assets/网络/网络虚拟化/OVS原理/1653883195249-4b420024-1c9a-452e-86be-fe72cf20bc02.png)
+![OVS原理：组成示意图](../images/网络虚拟化/OVS原理/ovs-principle.png)
 
 - **ovs-vswitchd：**ovs守护进程，实现基于流的交换，实现内核datapath upcall 处理以及ofproto 查表，同时是dpdk datapath处理程序。与ovsdb-server通信使用OVSDB协议，与内核模块使用netlink机制通信，与controller通信使用OpenFlow协议。
 - **ovsdb-server：**OVS 轻量级的数据库服务器的服务程序，用于保存整个 OVS 的配置信息。数据库服务程序, 使用目前普遍认可的ovsdb 协议。
@@ -39,7 +39,7 @@ ovs交换机的组成：
 
 每一个ovs交换机中，数据库中存在的表如下：
 
-[![](../../assets/网络/网络虚拟化/OVS原理/1653883216569-1b6072ed-82ba-4e88-9cef-2e3734b6cab2.png)](https://img2018.cnblogs.com/blog/1060878/201906/1060878-20190601123518263-731585823.png)
+[![OVS原理：组成示意图](../images/网络虚拟化/OVS原理/ovs-principle-02.png)](https://img2018.cnblogs.com/blog/1060878/201906/1060878-20190601123518263-731585823.png)
 
 数据包处理流程：
 

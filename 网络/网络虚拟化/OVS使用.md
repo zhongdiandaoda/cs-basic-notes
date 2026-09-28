@@ -148,7 +148,7 @@ ovs-ofctl add-flow br0 'priority=25,dl_src=fa:16:3e:86:44:6c,dl_dst=fa:13:23:3e:
 ovs-ofctl del-flows br0 'in_port=2'
 ```
 
-![](../../assets/网络/网络虚拟化/OVS使用/1652867258409-bf1a9b98-c305-40d2-b188-856ddafa3d16.png)
+![OVS使用：简单流表操作示意图](../images/网络虚拟化/OVS使用/ovs.png)
 
 # ovs-dpctl
 
@@ -186,7 +186,7 @@ recirc_id(0),in_port(2),eth(src=f6:e3:82:79:08:95,dst=92:60:f4:86:da:8c),eth_typ
 
 首先，电脑只有一个eth0接口，与IP协议栈直连，通过DHCP获取IP地址并上网
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688384707938-6a347e4a-1dc4-46c2-965c-4638382c759a.png)
+![OVS使用：demo1示意图](../images/网络虚拟化/OVS使用/ovs-demo1-02.png)
 
 使用ovs创建一个bridge：
 
@@ -196,11 +196,11 @@ ovs-vsctl add-br mybridge
 
 于是：
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688384807115-b9159841-4151-49fa-836f-2d43788b5542.png)
+![OVS使用：demo1示意图](../images/网络虚拟化/OVS使用/ovs-demo1-03.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688384838072-d9a3e0b7-ab88-4279-8f55-545e1cae81cc.png)
+![OVS使用：demo1示意图](../images/网络虚拟化/OVS使用/ovs-demo1-04.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688384863151-5ff9d9b6-2d61-4f6e-90c5-f7fcad8fc790.png)
+![OVS使用：demo1示意图](../images/网络虚拟化/OVS使用/ovs-demo1-05.png)
 
 此时mybridge连接到了IP协议栈
 
@@ -212,9 +212,9 @@ ovs-vsctl add-port mybridge eth0
 
 此时，电脑无法再上网
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385082603-0fb83bfb-69a4-4548-9d3d-832f88f98656.png)
+![OVS使用：demo1示意图](../images/网络虚拟化/OVS使用/ovs-demo1-06.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385103022-486b4d3d-0784-4103-b20e-3f2825eccfd2.png)
+![OVS使用：demo1示意图](../images/网络虚拟化/OVS使用/ovs-demo1-07.png)
 
 为了访问外部网络，需要清空eth0的IP，为mybridge配置DHCP
 
@@ -228,26 +228,26 @@ $ ifconfig eth0 0
 $ dhclient mybridge
 ```
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385342841-6ea79a34-e708-468f-9d58-4cab9710d267.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-08.png)
 
 这样机器即可访问外部网站
 
 创建两个port连接到mybridge
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385458919-add4645b-aa98-468a-919e-585893336301.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-09.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385482079-dd7e0541-42b0-4504-89f0-3a03989585c1.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-10.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385518725-3af79968-6fcd-4ae9-99ab-735fe6c1175e.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-11.png)
 
 接下来，为这两个vport绑定两台虚拟机
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385566476-a15cc618-9f83-4c28-ba1a-053698dff710.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-12.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385577395-0450c0fb-abd4-4d41-b242-9231a2417edd.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-13.png)
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385592693-c4a43ef1-4316-4ed4-a225-5379a4717680.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-14.png)
 
 两个虚拟机均可访问外网
 
-![](../../assets/网络/网络虚拟化/OVS使用/1688385654354-142549cd-3ea8-4b57-97c9-693719ec2b10.png)
+![OVS使用：将mybridge设置为DHCP客户端示意图](../images/网络虚拟化/OVS使用/ovs-mybridge-dhcp-client-15.png)

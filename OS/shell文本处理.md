@@ -157,9 +157,9 @@ vgremove
 
 字符区域不总是工作，在ls命令中，它会产生一些错误的结果。
 
-![image-20210202201934989](../assets/OS/shell文本处理/image-20210202201934989.png)
+![shell文本处理：Posix字符集示意图](images/shell文本处理/shell-text-processing-posix.png)
 
-![image-20210202202119627](../assets/OS/shell文本处理/image-20210202202119627.png)
+![shell文本处理：Posix字符集示意图](images/shell文本处理/shell-text-processing-posix-02.png)
 
 原因：
 

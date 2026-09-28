@@ -127,9 +127,9 @@ ORM提供了实现持久化层的另一种模式，它采用映射元数据来�
 3. sql语句只能使用 # 获取参数值
 4. **在SQL语句中，可以直接获取对象的字段，而不需要使用“对象.字段”的形式（这样使用反而会报错）**
 
-![img](../assets/MyBatis/MyBatis/v2-9a3597248e42a6614571ee12a4c2be6b_b.png)
+![MyBatis：参数示意图](../images/MyBatis/MyBatis/mybatis.png)
 
-![img](../assets/MyBatis/MyBatis/v2-8b0266bc33934ccce98a3ecfc71e5906_b.png)
+![MyBatis：参数示意图](../images/MyBatis/MyBatis/mybatis-02.png)
 
 注：
 
@@ -143,7 +143,7 @@ ORM提供了实现持久化层的另一种模式，它采用映射元数据来�
 3. **sql语句可以使用 # 或者 $ 获取参数值**
 4. **若参数为对象，在SQL语句中，需要使用“对象.字段”的形式获取对象的字段值**
 
-![img](../assets/MyBatis/MyBatis/v2-699ad4dd8ebd23fa57907c590e6a123d_b-16341985246264.png)
+![MyBatis：参数示意图](../images/MyBatis/MyBatis/mybatis-03.png)
 
 另外：在网上查资料的时候，发现似乎还有很多种情况需要使用@param注解，比如使用动态sql，只是没有自己验证过
 
@@ -685,13 +685,13 @@ StatementHandler 组件使用 JDBC 中的 Statement 对象与数据库完成交�
 
 我们可以用一幅图来描述上面各个核心组件之间的关系：
 
-<img src="../assets/MyBatis/MyBatis/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0hvd2luZnVu,size_16,color_FFFFFF,t_70.png" alt="MyBatis 各大组件关系" style="zoom:67%;" />
+<img src="../images/MyBatis/MyBatis/mybatis-05.png" alt="MyBatis 各大组件关系" style="zoom:67%;" />
 
 使用Mapper接口执行查询时的流程：
 
-<img src="../assets/MyBatis/MyBatis/16a2692db88d50cbtplv-t2oaga2asx-watermark.awebp" alt="img"  />
+<img src="../images/MyBatis/MyBatis/16a2692db88d50cbtplv-t2oaga2asx-watermark.awebp" alt="MyBatis：Mapper原理示意图"  />
 
-![img](../assets/MyBatis/MyBatis/16a26930d32b563etplv-t2oaga2asx-watermark.awebp)
+![MyBatis：Mapper原理示意图](../images/MyBatis/MyBatis/16a26930d32b563etplv-t2oaga2asx-watermark.awebp)
 
 源码分析：[抛开 Spring ，你知道 MyBatis 加载 Mapper 的底层原理吗？ - 不送花的程序猿 - 博客园 (cnblogs.com)](https://www.cnblogs.com/Howinfun/p/12973902.html)
 

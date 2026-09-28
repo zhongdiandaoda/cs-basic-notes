@@ -792,9 +792,9 @@ umask与默认权限的对应关系如下：
 
 对于0002和0022的umask，其作用如下：
 
-![image-20210131110230104](../assets/OS/Shell/image-20210131110230104.png)
+![Shell：umask示意图](images/Shell/shell-umask.png)
 
-![image-20210131110239985](../assets/OS/Shell/image-20210131110239985.png)
+![Shell：umask示意图](images/Shell/shell-umask-02.png)
 
 掩码为全0时，新文件的默认权限为：`-rw-rw-rw-`，掩码为1的位会将改位的权限变为`-`。
 
@@ -1026,7 +1026,7 @@ top程序能够动态地显示系统进程更新的信息。
 
 信息字段的解释如下：
 
-<img src="../assets/OS/Shell/image-20210131161630489.png" alt="image-20210131161630489" style="zoom:67%;" />
+<img src="images/Shell/shell-top-04.png" alt="Shell：top示意图" style="zoom:67%;" />
 
 按h显示程序的帮助屏幕，按q退出程序。
 
@@ -1170,7 +1170,7 @@ vi使用ex命令来执行替换操作。把整个文件的“Line”更改成“
 
 其中：
 
-<img src="../assets/OS/Shell/image-20210201103139268.png" alt="image-20210201103139268" style="zoom: 67%;" />
+<img src="images/Shell/shell-05.png" alt="Shell：查找和替换示意图" style="zoom: 67%;" />
 
 ## 编辑多个文件
 
@@ -1461,7 +1461,7 @@ $ nohub some_cmd &
 
 shell 的行为可以测试，使用`set -x`命令，会开启 shell 的命令回显，你可以通过回显观察 shell 到底在执行什么命令：
 
-![](../assets/OS/Shell/1.png)
+![Shell：三、单引号和双引号的区别示意图](images/Shell/shell-03.png)
 
 可见 `echo $(cmd)` 和 `echo "$(cmd)"`，结果差不多，但是仍然有区别。注意观察，双引号转义完成的结果会自动增加单引号，而前者不会。
 

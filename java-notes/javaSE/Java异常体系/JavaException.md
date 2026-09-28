@@ -30,7 +30,7 @@ try-catch 语句中，只有一个 catch 块会被执行。应该先捕获小异
 
 异常类的继承体系：
 
-![image-20211115215910858](../../assets/javaSE/Java异常体系/JavaException/image-20211115215910858.png)
+![JavaException：异常体系示意图](../../images/javaSE/Java异常体系/JavaException/java-exception.png)
 
 Throwable 是异常体系的根节点，Error 指的是与 JVM 相关的错误，如系统崩溃，动态链接失败等，这类错误无法恢复或不可能捕获，将导致应用程序中断，常见的 Error 如：
 

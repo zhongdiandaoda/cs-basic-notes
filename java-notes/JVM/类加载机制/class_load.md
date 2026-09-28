@@ -8,7 +8,7 @@ Java虚拟机将class文件加载到内存，并对数据进行校验、转换�
 
 一个类型被加载到jvm到卸载出内存，其生命周期为：
 
-![image-20210527002720102](../../assets/JVM/类加载机制/class_load/image-20210527002720102.png)
+![class_load：类加载的时机示意图](../../images/JVM/类加载机制/class_load/class-load.png)
 
 **注意**：这些阶段往往是按顺序开始的（开始之后可能会交叉混合进行），但是解析阶段在某些情况下可以位于初始化之后（这是为了支持Java语言的运行时绑定特性）。
 
@@ -111,7 +111,7 @@ final型的变量在编译class文件时已经被优化，存储在了常量池�
 
 4. 另外，如果是数组对象，还多了一个数组长度
 
-![img](../../assets/JVM/类加载机制/class_load/1115933-20180715174255241-1246448207.png)
+![class_load：OOP-Klass模型示意图](../../images/JVM/类加载机制/class_load/1115933-20180715174255241-1246448207.png)
 
 # 类加载过程
 
@@ -140,7 +140,7 @@ Java虚拟机规范没有指明二进制字节流要从哪里获取，从这一�
 
 加载阶段结束后，二进制字节流就按照JVM设定的格式存储在**方法区**了（JVM内存中方法区是唯一的，所有class文件的二进制数据都被加载到方法区中）。
 
-<img src="../../assets/JVM/类加载机制/class_load/3f60f27a2c764f628b0dc60dbcf9e1b4~tplv-k3u1fbpfcp-watermark.image" alt="63" style="zoom:25%;" />
+<img src="../../images/JVM/类加载机制/class_load/class-load-06.image" alt="class_load：Loading示意图" style="zoom:25%;" />
 
 对每个被加载的.class文件，JVM会在堆内存中立即创建一个java.lang.class\<T>类型的对象，用来作为访问类的元数据的入口（这是一个单例），其中也保存了指向方法区的类静态成员的引用。
 
@@ -498,7 +498,7 @@ true
 
 双亲委派模型：
 
-![img](../../assets/JVM/类加载机制/class_load/1440516-20190210141200882-725563665.png)
+![class_load：双亲委派模型示意图](../../images/JVM/类加载机制/class_load/1440516-20190210141200882-725563665.png)
 
 图中的层次关系，称为类加载器的双亲委派模型。双亲委派模型要求除了顶层的根类加载器以外，其余的类加载器都应该有自己的父类加载器(一般不是以继承实现，而是使用**组合关系**来复用父加载器的代码)。如果一个类收到类加载请求，它首先请求父类加载器去加载这个类，只有当父类加载器无法完成加载时(其目录搜索范围内没找到需要的类)，子类加载器才会自己去加载。
 
@@ -673,11 +673,11 @@ sun.misc.Launcher$ExtClassLoader@77459877
 
 主要包括：
 
-![image-20210531193130503](../../assets/JVM/类加载机制/class_load/image-20210531193130503.png)
+![class_load：Demo示意图](../../images/JVM/类加载机制/class_load/class-load-demo-04.png)
 
 加载结束后，JVM内存会呈现以下状态：
 
-![JVM](../../assets/JVM/类加载机制/class_load/20160116204532583)
+![JVM](../../images/JVM/类加载机制/class_load/class-load-jvm-05)
 
 **三、创建JVM 启动器实例 Launcher，并取得类加载器ClassLoader**
 

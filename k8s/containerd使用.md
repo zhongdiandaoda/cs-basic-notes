@@ -4,7 +4,7 @@
 
 - https://kubernetes.io/zh-cn/docs/setup/production-environment/container-runtimes/#docker
 
-![](https://s5.51cto.com/oss/202208/30/545dfe33584b3ffc6e0983bc5a869fdeb0f81a.jpg)
+![containerd使用：一、概述示意图](https://s5.51cto.com/oss/202208/30/545dfe33584b3ffc6e0983bc5a869fdeb0f81a.jpg)
 
 ### 二、Containerd 常见命令操作
 
@@ -84,7 +84,7 @@ ctr -n=k8s.io image import dashboard.tar
 crictl images
 ```
 
-![](https://s2.51cto.com/oss/202208/30/527d61c2043a85085897861d8d17d208140a5c.jpg)
+![containerd使用：使用ctr命令指定命名空间导入镜像示意图](https://s2.51cto.com/oss/202208/30/527d61c2043a85085897861d8d17d208140a5c.jpg)
 
 ### 三、containerd 客户端工具 nerdctl
 
@@ -95,7 +95,7 @@ crictl images
 - 完整 (nerdctl-full--linux-amd64.tar.gz): 包含 containerd, runc, and CNI 等依赖
 - nerdctl 的目标并不是单纯地复制 docker 的功能，它还实现了很多 docker 不具备的功能，例如延迟拉取镜像（lazy-pulling）、镜像加密（imgcrypt）等。具体看 nerdctl。
 
-![](https://s6.51cto.com/oss/202208/30/77829ed74602908a508024276ead43157cd4f6.jpg)
+![containerd使用：三、containerd 客户端工具 nerdctl示意图](https://s6.51cto.com/oss/202208/30/77829ed74602908a508024276ead43157cd4f6.jpg)
 
 延迟拉取镜像功能可以参考这篇文章：Containerd 使用 Stargz Snapshotter 延迟拉取镜像
 
@@ -201,7 +201,7 @@ systemctl daemon-reload
 systemctl enable buildkit --now
 ```
 
-![](https://s9.51cto.com/oss/202208/30/21896a902092e2e85fd551f6adbea2ac638e1f.jpg)
+![containerd使用：Replace runc builds with containerd builds示意图](https://s9.51cto.com/oss/202208/30/21896a902092e2e85fd551f6adbea2ac638e1f.jpg)
 
 ### 四、实战操作
 
@@ -232,7 +232,7 @@ containerd config default > /etc/containerd/config.toml
          endpoint = ["https://myharbor-minio.com"]
 ```
 
-![](https://s8.51cto.com/oss/202208/30/26b21208745097c92d4340cc8697e6ef6a033b.jpg)
+![containerd使用：1）修改 containerd 配置文件示意图](https://s8.51cto.com/oss/202208/30/26b21208745097c92d4340cc8697e6ef6a033b.jpg)
 
 重启 containerd
 
@@ -279,7 +279,7 @@ nerdctl -n k8s.io build -t nginx:nerctl -f ./Dockerfile .
 #  --no-cache：不缓存
 ```
 
-![](https://s8.51cto.com/oss/202208/30/193437952c5197192875193ca7db9b770ceb5c.jpg)
+![containerd使用：--no-cache：不缓存示意图](https://s8.51cto.com/oss/202208/30/193437952c5197192875193ca7db9b770ceb5c.jpg)
 
 #### 4）打标签 tag
 

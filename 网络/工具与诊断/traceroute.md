@@ -38,7 +38,7 @@ traceroute 还有一个作用是**故意设置不分片，从而确定路径的 
 
 因为有的时候我们并不知道路由器的 MTU 大小，以太网的数据链路上的 MTU 通常是 1500 字节，但是非以外网的 MTU 值就不一样了，所以我们要知道 MTU 的大小，从而控制发送的包大小。
 
-![](../../assets/网络/工具与诊断/traceroute/1661153318742-0d801759-e29b-4a30-b3e9-68b507a7e688.png)
+![traceroute：traceroute示意图](../images/工具与诊断/traceroute/traceroute.png)
 
 它的工作原理如下：
 

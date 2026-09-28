@@ -18,7 +18,7 @@ K8s 里面，最小的调度单元是 Pod，我们可以直接通过 Pod 来运�
 
 示例：
 
-![](../assets/k8s/Job+DaemonSet/1647335717326-c0fdc906-3830-4e1d-99be-01e192d31db7.png)
+![Job+DaemonSet：Job的作用：示意图](images/Job+DaemonSet/job-daemonset-job.png)
 
 示例：
 
@@ -108,7 +108,7 @@ para-1-nnsvg                              0/1     Completed   0          55s
 2. Job Controller跟踪Job状态，并根据配置即使重启Pod或继续创建Pod；
 3. Job Controller会自动添加label来跟踪对应的Pod，并根据配置并行或串行创建Pod。
 
-![](../assets/k8s/Job+DaemonSet/1647335726841-0678c296-6d82-4c7b-a8dc-ae013a29a3a8.png)
+![Job+DaemonSet：管理模式示意图](images/Job+DaemonSet/job-daemonset-02.png)
 
 # `CronJob`
 

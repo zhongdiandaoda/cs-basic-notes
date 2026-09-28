@@ -8,11 +8,11 @@ Redis-Sentinel(哨兵模式)是Redis官方推荐的高可用性(HA)解决方案�
 
 Redis master-slave 模式如下图：
 
-![](6743196bce7607ca010b8269b1019af7.png)
+![redissentinelvscluster：哨兵模式 Sentinel示意图](images/redissentinelvscluster/redis-cluster-vs-sentinel-choice.png)
 
 从上图片中可以看到，一个master 节点可以挂多个slave ，Redis Sentinel 管理Redis 节点结构如下：
 
-![](bfeae3b0d4378e5f021e53ce1296e2dd.png)
+![redissentinelvscluster：哨兵模式 Sentinel示意图](images/redissentinelvscluster/redis-sentinelvscluster-sentinel.png)
 
 从上图中可以得出Sentinel其实就是Client和Redis之间的桥梁，所有的客户端都通过Sentinel程序获取Redis的Master服务。首先Sentinel是集群部署的，Client可以链接任何一个Sentinel服务所获的结果都是一致的。其次，所有的Sentinel服务都会对Redis的主从服务进行监控，当监控到Master服务无响应的时候，Sentinel内部进行仲裁，从所有的 Slave选举出一个做为新的Master。并且把其他的slave作为新的Master的Slave。最后通知所有的客户端新的Master服务地址。如果旧的Master服务地址重新启动，这个时候，它将被设置为Slave服务。
 
@@ -119,7 +119,7 @@ Redis Sentinel 集群模式可以增强整个Redis集群的稳定性与可靠性
 
 ### Redis 集群架构选型流程图
 
-![Redis 集群架构选型流程图](redis-cluster-vs-sentinel-choice.png)
+![Redis 集群架构选型流程图](images/redissentinelvscluster/redis-cluster-vs-sentinel-choice.png)
 
 ## 生产环境配置示例
 

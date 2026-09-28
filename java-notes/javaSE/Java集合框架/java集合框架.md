@@ -7,7 +7,7 @@ Java集合框架提供了数据持有对象的方式，提供了对数据集合�
 
 集合框架图：
 
-![img](../../assets/javaSE/Java集合框架/java集合框架/1535785576589.png)
+![java集合框架：概述示意图](../../images/javaSE/Java集合框架/java集合框架/java-overview.png)
 
 访问List集合中的元素，可以通过索引来访问；访问Map中的元素，可以根据key来访问，因此Map中的key不可以重复；访问Set中的元素，只能根据元素本身来访问，这也是Set不允许重复的原因。
 

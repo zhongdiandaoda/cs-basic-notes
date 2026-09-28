@@ -16,7 +16,7 @@
 
 Kubernetes 是云时代的操作系统：
 
-![](../assets/k8s/Pod/1647335297990-0074ed09-5ddb-4e3b-be25-7ed3d869a9f9.png)
+![Pod：为什么需要Pod？示意图](images/Pod/pod.png)
 
 **由于容器实际上是一个“单进程”模型**，所以如果你在容器里启动多个进程，只有一个可以作为 PID=1 的进程，而这时候，如果这个 PID=1 的进程挂了，或者说失败退出了，那么其他三个进程就会自然而然的成为孤儿，没有人能够管理它们，没有人能够回收它们的资源，这是一个非常不好的情况。
 
@@ -54,19 +54,19 @@ Kubernetes 是云时代的操作系统：
 
 ## 共享网络
 
-![](../assets/k8s/Pod/1647335309987-ecbe3f68-b27d-46d8-8290-1f56636a6eba.png)
+![Pod：共享网络示意图](images/Pod/pod-02.png)
 
 ## 共享存储
 
-![](../assets/k8s/Pod/1647335319346-dce7834a-d7df-4e92-943a-6ab79d4ee386.png)
+![Pod：共享存储示意图](images/Pod/pod-03.png)
 
 # 容器设计模式
 
-![](../assets/k8s/Pod/1647335329435-e6a11526-6687-4304-ae1b-566e04ad92d0.png)
+![Pod：容器设计模式示意图](images/Pod/pod-design-patterns-04.png)
 
 更简单的方式（通过`init`容器）：
 
-![](../assets/k8s/Pod/1647335349310-60aa6687-5906-47e2-879e-79e9dff455a2.png)
+![Pod：容器设计模式示意图](images/Pod/pod-design-patterns-05.png)
 
 ## sidecar
 
@@ -90,11 +90,11 @@ Sidecar容器设计模式：通过在Pod里定义专门的容器，执行主业�
 
 Sidecar容器的使用场景：
 
-![](../assets/k8s/Pod/1647335501705-afd05ace-e406-410c-8113-c0f89e3946f1.png)
+![Pod：sidecar示意图](images/Pod/pod-sidecar-06.png)
 
-![](../assets/k8s/Pod/1647335506790-b93110d6-dc54-4596-89ce-1b8ae3377042.png)
+![Pod：sidecar示意图](images/Pod/pod-sidecar-07.png)
 
-![](../assets/k8s/Pod/1647335512136-a0ee0b4c-9eed-4d52-8198-9bbfa277df73.png)
+![Pod：sidecar示意图](images/Pod/pod-sidecar-08.png)
 
 总结：
 
@@ -189,7 +189,7 @@ spec:
 
 # Pod创建的过程
 
-![](../assets/k8s/Pod/1664441988670-44921bf3-c21c-413c-bdee-11ed2ec3fced.png)
+![Pod：Pod创建的过程示意图](images/Pod/pod-09.png)
 
 # Pod生命周期
 
@@ -271,7 +271,7 @@ Persistent Volume的作用：将Pod与Volume解耦。
 
 一、静态方式
 
-![](../assets/k8s/Pod/1647335525249-c47493d8-3a10-440a-8725-351dd1d5ce7e.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-10.png)
 
 Cluster Admin预创建若干个PV，用户提交PVC后由k8s将PVC和合适的PV进行绑定。
 
@@ -279,7 +279,7 @@ Cluster Admin预创建若干个PV，用户提交PVC后由k8s将PVC和合适的PV
 
 示例：
 
-![](../assets/k8s/Pod/1647335543472-a87ca966-a288-4704-8e83-8d8b94a7c0d2.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-11.png)
 
 字段解释：
 
@@ -301,7 +301,7 @@ Cluster Admin预创建若干个PV，用户提交PVC后由k8s将PVC和合适的PV
 
 PV状态转换：
 
-![](../assets/k8s/Pod/1647335549644-932a1026-31c7-497a-af72-d1b817ca976d.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-12.png)
 
 说明：PV到达Released状态后无法根据`ReclaimPolicy`回到Available状态并绑定新的PVC。如果想复用原来的PV中的数据，有两种方式：
 
@@ -311,31 +311,31 @@ PV状态转换：
 
 用户根据自己的需求创建PVC：
 
-![](../assets/k8s/Pod/1647335558391-af44cfe5-391c-4b81-ac1c-5a54203c98bd.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-13.png)
 
 之后pod中使用该PVC。
 
-![](../assets/k8s/Pod/1647335564404-3af91dbf-58a3-45cc-80c6-b70101a9c30d.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-14.png)
 
 二、动态方式
 
-![](../assets/k8s/Pod/1647335569683-2d8e170a-271e-498c-9087-b393d1eb2f67.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-15.png)
 
 Cluster Admin只创建不同类型存储的模板(Storage Class)，用户在PVC中决定要使用哪种存储模板以及需要的大小、访问方式等参数，然后K8S自动生成相应的PV对象。
 
 Storage Class示例：
 
-![](../assets/k8s/Pod/1647335575394-4fc2f2bc-633d-46cb-b961-678e5c2292db.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-16.png)
 
 用户使用PVC：
 
-![](../assets/k8s/Pod/1647335580563-c0e19a61-be94-4dd7-80fe-e6642226611f.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-17.png)
 
 总体架构：
 
-![](../assets/k8s/Pod/1647335588553-81f41d3f-45e3-47da-bc4b-9f950f7db11b.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-18.png)
 
-![](../assets/k8s/Pod/1647335593192-8f93ce4b-5a95-445b-8cd2-7f383edccd90.png)
+![Pod：Persistent Volume Claim：示意图](images/Pod/pod-persistent-volume-claim-19.png)
 
 ## Pod Volume
 
@@ -637,7 +637,7 @@ data:
 
 ServiceAccount在Pod创建时会自动挂载到固定目录下（生成ca.crt和token两个文件）
 
-![](../assets/k8s/Pod/1649388348046-a31e0da6-a484-457a-a828-758382c5456b.png)
+![Pod：Secret存储的数据示意图](images/Pod/pod-secret-20.png)
 
 ### 创建用于拉取私有镜像的Secret
 
@@ -646,19 +646,19 @@ ServiceAccount在Pod创建时会自动挂载到固定目录下（生成ca.crt和
 - Pod.spec.imagePullSecrets指定secret
 - ServiceAccount中设置imagePullSecrets，然后为使用该SA的Pod注入imagePullSecrets
 
-![](../assets/k8s/Pod/1649388479420-ecc34914-e77a-466f-af1f-f4b19cdf3cac.png)
+![Pod：创建用于拉取私有镜像的Secret示意图](images/Pod/pod-secret-21.png)
 
 ## ServiceAccount
 
 ServiceAccount用于解决Pod在集群中的身份认证问题。其中认证使用的授权信息，使用secret管理。
 
-![](../assets/k8s/Pod/1649388742342-8169ab19-8153-4c81-bb7b-6d28a4fbb4a8.png)
+![Pod：ServiceAccount示意图](images/Pod/pod-serviceaccount-22.png)
 
-![](../assets/k8s/Pod/1649388750228-0955b612-562a-4eec-b3d6-580bddedcff1.png)
+![Pod：ServiceAccount示意图](images/Pod/pod-serviceaccount-23.png)
 
 Pod中的应用如何访问它所属的K8s集群：
 
-![](../assets/k8s/Pod/1649388963707-c9ba06d3-2923-40e3-9580-851ef85fae54.png)
+![Pod：ServiceAccount示意图](images/Pod/pod-serviceaccount-24.png)
 
 ## Resource资源配置
 
@@ -683,13 +683,13 @@ Pod中的应用如何访问它所属的K8s集群：
 
 `spec.containers[].resources.requests.memory`
 
-![](../assets/k8s/Pod/1649389643451-bf7c33c1-7286-4a87-8f06-8c85476ec2cc.png)
+![Pod：Resource资源配置示意图](images/Pod/pod-resource-25.png)
 
 ## securityContext
 
 ## `Init Container`
 
-![](../assets/k8s/Pod/1647335614231-9a230bb7-39cb-4a9f-ae72-f7deb4194988.png)
+![Pod：`Init Container`示意图](images/Pod/pod-init-container-26.png)
 
 Init Container的主要作用是在主容器启动之前进行一系列初始化操作，完成容器应用所需的预置条件。一个Pod可以有多个Init容器，Init容器先于Pod中的其他容器启动。
 
@@ -1501,7 +1501,7 @@ Horizontal Pod Autoscaler（HPA）可以实现基于Pod资源性能指标进行�
 
 Kubernetes中的某个Metics Server持续采集所有Pod副本的指标数据。HPA控制器通过API Server的API获取这些数据，然后基于用户自定义的扩缩容规则进行计算，得到理论上的目标Pod数量。当理论上的目标Pod数量与当前实际的目标Pod数量不同时，HPA控制器就向Pod的副本控制器发起scale操作，调整Pod数量完成扩缩容。
 
-![](../assets/k8s/Pod/1647335737415-a0fb8cea-6665-457b-adf6-9c2989ebc954.png)
+![Pod：HPA的工作原理示意图](images/Pod/pod-hpa-principle-27.png)
 
 ### 指标的类型
 

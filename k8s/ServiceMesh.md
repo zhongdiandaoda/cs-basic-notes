@@ -2,21 +2,21 @@
 
 从多台计算机开始通信以来，服务间通信是应用最为广泛的模式。以下图为例，ServiceA 和 ServiceB 可以是我们提供应用的服务端与客户端。在开发者开发这些服务的时候，需要借助底层的网络硬件和协议进行通信。这张图只是一个简化的视图，省略了在代码操作的数据和通过线路发送接收的电信号之间转换的很多层。
 
-[![](../assets/k8s/ServiceMesh/1660012970682-8e415441-041f-4154-8125-4516de630501.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-svc2svc.png)
+[![ServiceMesh：计算机网络系统的演进示意图](images/ServiceMesh/service-mesh.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-svc2svc.png)
 
 更加具体一点，把底层的网络协议栈加入，我们会看到下图：
 
-[![](../assets/k8s/ServiceMesh/1660012970677-0a40fe8d-463b-410c-af39-053205daa348.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-svc2svc-stack.png)
+[![ServiceMesh：计算机网络系统的演进示意图](images/ServiceMesh/service-mesh-02.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-svc2svc-stack.png)
 
 从上世纪50年代起，上述的模型就一直在使用。最开始，由于计算机系统规模相对较小，每个节点之间的链路协议都是经过专门设计和维护的。随着计算机规模的迅速扩大，很多个小的网络系统开始连接起来。在这个过程中，不同主机间如何找到彼此，跨网络间如何路由转发，如何实现流量控制等问题，成了摆在网络系统设计人员面前亟需解决的难题。
 
 为了实现各个网络节点的路由转发，屏蔽链路层协议，人们发明了IP网络协议。然而，IP网络协议还不能够解决流量控制的问题。这里的流量控制，指的是防止一台服务器发送过多的数据包，超出下游服务器的处理能力。在最开始，编写网络服务和应用程序的开发者来负责处理上述流量控制的问题。这就意味着在编写应用程序过程中，网络处理的逻辑和应用自身的业务逻辑被耦合在一起，如下图所示。
 
-[![](../assets/k8s/ServiceMesh/1660012970666-de71f9e2-d204-4cb6-9afa-1774abe5e1bb.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-flow-control.png)
+[![ServiceMesh：计算机网络系统的演进示意图](images/ServiceMesh/service-mesh-03.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-flow-control.png)
 
 然而，这种每个开发人员都要去考虑流量处理等传输层的问题太过复杂，程序开发的成本太高。随着技术的快速发展，流量处理和其他网络问题相关的解决方案被整合到网络协议栈，TCP/IP席卷了世界，成为互联网事实上的协议标准。流量控制等网络问题的代码仍在，但是你不再需要自己去开发与维护这段代码，而是直接调用系统提供的网络协议栈。
 
-[![](../assets/k8s/ServiceMesh/1660012970862-e4908b52-08a2-4955-8d84-40aa494de3bb.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-tcp.png)
+[![ServiceMesh：计算机网络系统的演进示意图](images/ServiceMesh/service-mesh-04.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-tcp.png)
 
 ### 微服务架构的演进
 
@@ -47,7 +47,7 @@
 
 为了解决重复造轮子的问题，集成了服务通信中各种问题的Library开始变得十分流行，包括 Apache Dubbo、Spring Cloud、Netflix OSS、gRPC 等等。
 
-[![](../assets/k8s/ServiceMesh/1660015155790-34facfab-5a0b-45e0-aa05-c22d722b009f.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-micro-service-lib.png)
+[![ServiceMesh：服务通信：独立Library示意图](images/ServiceMesh/service-mesh-library-05.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-micro-service-lib.png)
 
 这些可复用的类库和框架，确确实实带来了质量和效率上的大幅提升，但是也存在着下列问题：
 
@@ -61,17 +61,17 @@
 
 在这个想法下，我们可以得到类似于如下的图：
 
-[![](../assets/k8s/ServiceMesh/1660015155819-0aec2ba4-9426-436e-bef5-9e579309047d.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-protocol.png)
+[![ServiceMesh：服务通信：Sidecar示意图](images/ServiceMesh/service-mesh-sidecar-06.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-protocol.png)
 
 不幸的是，更改协议栈来增加微服务的功能不是一个可行的方案，许多开发者是通过一组代理来实现此功能。这里的设计思想是**服务不需要和下游服务直连，所有的流量都通过该代理透明的来实现对应的功能**。这里的透明代理，通过一种叫做 Sidecar 的模式来运行，Sidecar将上述类库和框架要干的事情从应用中彻底剥离了出来，并统一下沉到了基础设施层，这其中的典型代表就是 Linkerd 和 Envoy。
 
-[![](../assets/k8s/ServiceMesh/1660015155804-26d5d113-0d2b-460f-a8ef-1781db6a377d.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-sidecar.png)
+[![ServiceMesh：服务通信：Sidecar示意图](images/ServiceMesh/service-mesh-sidecar-07.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-sidecar.png)
 
 #### 服务通信：Service Mesh
 
 在这种模型中，每个服务都会有一个配套的代理SideCar。考虑到服务之间的通信仅仅通过SideCar代理，我们最终得到如下的部署图：
 
-[![](../assets/k8s/ServiceMesh/1660015155828-82352ece-4ab4-4a0b-847b-ef9159d265dc.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-data.png)
+[![ServiceMesh：服务通信：Service Mesh示意图](images/ServiceMesh/service-mesh-08.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-data.png)
 
 Buoyant的CEO William Morgan ，发现了各个SideCar代理之间互联组成了一个网状网络，称为服务网格。
 
@@ -79,15 +79,15 @@ Service Mesh是一个用于服务和服务之间通信的专用基础设施层�
 
 William关于Service Mesh的定义中，最有说服力的一点是，他不再将SideCar代理视为一个独立组件，而是承认了**它们组成的网络像它们自身一样是有价值的**
 
-[![](../assets/k8s/ServiceMesh/1660015155839-54efbeab-c58d-499d-81ca-b5b90353e015.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-data2.png)
+[![ServiceMesh：服务通信：Service Mesh示意图](images/ServiceMesh/service-mesh-09.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-data2.png)
 
 随着很多公司将它们的微服务部署到更复杂的系统运行环境中，例如Kubernetes和Mesos，人们开始使用这些平台提供的工具来实现合适的Serivce Mesh的想法。它们将独立的SideCar代理从独立的工作环境中转移到一个适当的，有集中的控制面。
 
-[![](../assets/k8s/ServiceMesh/1660015156734-1173be9f-5f0c-4949-be4f-e51f128806d4.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-control.png)
+[![ServiceMesh：服务通信：Service Mesh示意图](images/ServiceMesh/service-mesh-10.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-control.png)
 
 看下我们的鸟瞰图，服务之间的流量仍然是通过SideCar代理来进行转发，但是控制平面知道每个SideCar实例。控制平面能够让代理实现例如访问控制，指标收集等需要协作完成的事情。Istio是这个模型的典型实现。
 
-[![](../assets/k8s/ServiceMesh/1660015156755-19b98d73-8179-401a-9ae4-c4adf67b33bf.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-control2.png)
+[![ServiceMesh：服务通信：Service Mesh示意图](images/ServiceMesh/service-mesh-11.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_service-mesh-control2.png)
 
 如果用一句话来解释什么是Service Mesh，**可以将其比作微服务间的TCP/IP层**，负责服务之间的调用、限流、熔断和监控等。PS：如果你熟悉linux内核，就不会把协程和线程认为是两个东西。类似的，如果你熟悉通信协议分层，就不会把Service Mesh 和TCP 认为是两个东西。
 
@@ -95,7 +95,7 @@ William关于Service Mesh的定义中，最有说服力的一点是，他不再�
 
 下图展示的是 Kubernetes 与 Service Mesh 中的的服务访问关系：
 
-[![](../assets/k8s/ServiceMesh/1660015454989-b2cc23e0-c230-4038-b8ac-0522f439245f.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_k8s-vs-service-mesh.png)
+[![ServiceMesh：Kube-proxy vs Sidecar示意图](images/ServiceMesh/service-mesh-kube-proxy-vs-sidecar-12.png)](https://cosmos-1251905798.cos.ap-beijing.myqcloud.com/blog/2020-09-08_k8s-vs-service-mesh.png)
 
 - Kubernetes 集群的每个节点都部署了一个 kube-proxy 组件，该组件会与 Kubernetes API Server 通信，获取集群中的 Service 信息，然后设置 iptables 规则，直接将对某个 Service 的请求发送到对应的 Endpoint（属于同一组 Service 的 Pod）上。
 - Kube-proxy 实现了流量在 Kubernetes Service 多个 Pod 实例间的负载均衡，但是如何对这些 Service 间的流量做细粒度的控制，比如按照百分比划分流量到不同的应用版本（这些应用都属于同一个 Service，但位于不同的 deployment 上），做金丝雀发布（灰度发布）和蓝绿发布？

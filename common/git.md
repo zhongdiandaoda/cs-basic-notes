@@ -2,7 +2,7 @@
 
 tree命令查看git结构
 
-![](1655436317526-f8e84276-424c-4849-9fd4-613c4a7d20ec.png)
+![git：结构示意图](images/git/git-structure.png)
 
 # Git配置
 
@@ -155,7 +155,7 @@ dadsf
 - tree：目录信息
 - commit：提交信息
 
-![](1655437670110-97557e7e-3664-43ef-8ad5-9af69dce291d.png)
+![git：objects示意图](images/git/git-objects-02.png)
 
 # 分支
 

@@ -11,7 +11,7 @@
 
 # NetNS
 
-![](../assets/k8s/k8snetwork/1660032134160-4fe40036-16cf-4deb-b07f-6a2ecdb8553b.png)
+![k8snetwork：NetNS示意图](images/k8snetwork/k8s-network-netns.png)
 
 # Network Policy
 
@@ -19,13 +19,13 @@
 
 k8s网络的基本模型是Pod之间全互通，因此需要做网络限制时，需要使用Network Policy做自定义限制。
 
-![](../assets/k8s/k8snetwork/1653561366045-b2f1ccff-5d07-4352-b66b-1a1a96651136.png)
+![k8snetwork：Network Policy示意图](images/k8snetwork/k8s-network-network-policy-02.png)
 
 # 容器通信
 
 ## Pod内容器通信
 
-![](../assets/k8s/k8snetwork/1655974813797-f2077bdc-2fec-4423-99d2-784c061950d5.png)
+![k8snetwork：Pod内容器通信示意图](images/k8snetwork/k8s-network-pod-03.png)
 
 ## 同节点间pod的通信
 
@@ -33,7 +33,7 @@ k8s网络的基本模型是Pod之间全互通，因此需要做网络限制时�
 
 默认和最主要的方式是bridge。实现方式为veth pair（相当于网线）+网桥（相当于交换机），Pod1和Pod2都是通过Veth连接到同一个docker0网桥上的，它们的IP地址IP1、IP2都是从docker0的网段上动态获取的，它们和网桥本身的IP3是同一个网段的。Docker 会从 RFC1918 所定义的私有 IP 网段中，选择一个和宿主机不同的IP地址和子网分配给 docker0，如一般 Docker 会使用 172.17.0.0/16 这个网段，并将 172.17.42.1/16 分配给 docker0 网桥（在主机上使用 ifconfig 命令是可以看到 docker0 的，可以认为它是网桥的管理接口，在宿主机上作为一块虚拟网卡使用）
 
-![](../assets/k8s/k8snetwork/1660032249748-216ac55c-2008-4d74-b50e-680eb6436c8d.gif)
+![k8snetwork：同节点间pod的通信示意图](images/k8snetwork/k8s-network-pod-04.gif)
 
 ## 跨节点POD通信
 
@@ -46,11 +46,11 @@ docker0网段与宿主机网卡是两个完全不同的IP网段，并且不同No
 
 - 隧道传输(Overlay)： 将容器的数据包封装到原主机网络的三层或者四层数据包中，然后使用主机网络的IP或者TCP/UDP传输到目标主机，目标主机拆包后再转发给目标容器。Overlay隧道传输常见方案包括Vxlan、ipip等，目前使用Overlay隧道传输技术的主流容器网络有Flannel等；
 
-![](../assets/k8s/k8snetwork/1660032326208-5cc2a9c7-3a63-4bd3-a5a3-4d22ecaa5bd3.gif)
+![k8snetwork：跨节点POD通信示意图](images/k8snetwork/k8s-network-pod-05.gif)
 
 - 修改主机路由：把容器网络加到主机路由表中，把主机网络设备当作容器网关，通过路由规则转发到指定的主机，实现容器的三层互通。目前通过路由技术实现容器跨主机通信的网络如Flannel host-gw、Calico等；
 
-![](../assets/k8s/k8snetwork/1660032439089-5be461bb-9776-43be-8390-cb47bdb90463.gif)
+![k8snetwork：跨节点POD通信示意图](images/k8snetwork/k8s-network-pod-06.gif)
 
 ### CNI的具体实现举例：flannel
 
@@ -70,7 +70,7 @@ Flannel 网络是目前最主流的容器网络之一，同时支持overlay和�
 
 另外，Flannel之所以被认为非常简单优雅的是，不像Docker原生overlay网络需要在容器内部再增加一个网桥设备专门用于overlay网络的通信，Flannel只需要使用Docker最原生的docker0网络，除了需要为每个Node配置subnet外，几乎不改变原有的Docker网络模型。
 
-![](../assets/k8s/k8snetwork/1660032718966-591e62bd-c354-466a-9b09-26f6421cdabe.png)
+![k8snetwork：CNI的具体实现举例：flannel示意图](images/k8snetwork/k8s-network-cni-flannel-07.png)
 
 #### vxlan 隧道
 
@@ -106,7 +106,7 @@ Flannel之间的底层通信协议的可选技术包括UDP、VxLan、AWS VPC等�
 
 flanneld进程并不简单，它上连etcd，利用etcd来管理可分配的IP地址段资源，同时监控etcd中每个Pod的实际地址，并在内存中建立了一个Pod节点路由表；它下连docker0和物理网络，使用内存中的Pod节点路由表，将docker0发给它的数据包包装起来，利用物理网络的连接将数据包投递到目标flanneld上，从而完成Pod到Pod之间的直接地址通信。
 
-![](../assets/k8s/k8snetwork/1655975411373-5b487865-89c5-4b92-9ccf-67ee2ad575cc.png)
+![k8snetwork：bridge fdb | grep flannel示意图](images/k8snetwork/k8s-network-bridge-fdb-grep-flannel-08.png)
 
 ### CNI的具体实现举例：calico
 
@@ -118,9 +118,9 @@ calico的实现理念简单粗暴，完全利用路由规则实现动态组网�
 
 calico组网的核心原理就是IP路由，每个容器或者虚拟机会分配一个workload-endpoint(wl)。
 
-![](../assets/k8s/k8snetwork/1655975411539-d6cb619b-f560-4c0a-b79f-97142412b175.png)
+![k8snetwork：CNI的具体实现举例：calico示意图](images/k8snetwork/k8s-network-cni-calico-09.png)
 
-![](../assets/k8s/k8snetwork/1655975411719-58c0e841-b6a1-4b7c-aaa1-9efbbad517f1.png)
+![k8snetwork：CNI的具体实现举例：calico示意图](images/k8snetwork/k8s-network-cni-calico-10.png)
 
 结合上面这张图，我们来过一遍 Calico 的核心组件：
 

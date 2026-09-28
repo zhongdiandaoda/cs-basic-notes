@@ -12,7 +12,7 @@ MySQL实例在系统上的表现是一个进程。
 
 MySQL体系结构：
 
-<img src="../assets/Mysql/InnoDB/403167-20190116145915277-683033214.jpg" alt="img" style="zoom:150%;" />
+<img src="../images/Mysql/InnoDB/403167-20190116145915277-683033214.jpg" alt="InnoDB：Overview示意图" style="zoom:150%;" />
 
 MySQL的存储引擎是插件式的，每个存储引擎开发者可以按照自己的意愿来进行开发。
 
@@ -67,11 +67,11 @@ MySQL的存储引擎是插件式的，每个存储引擎开发者可以按照自
 - 重做日志缓冲
 - ….
 
-<img src="../assets/Mysql/InnoDB/image-20210817155712100.png" alt="image-20210817155712100" style="zoom:50%;" />
+<img src="../images/Mysql/InnoDB/innodb-architecture-22.png" alt="InnoDB：`InnoDB`体系架构示意图" style="zoom:50%;" />
 
 后台线程的主要作用是负责刷新内存池中的数据，保证缓冲池中的内存缓存的是最新的数据，此外，将已修改的数据文件刷新到磁盘文件，同时保证在数据库发生异常时`InnoDB`能恢复到正常运行状态。
 
-![InnoDB architecture diagram showing in-memory and on-disk structures.](../assets/Mysql/InnoDB/innodb-architecture.png)
+![InnoDB architecture diagram showing in-memory and on-disk structures.](../images/Mysql/InnoDB/innodb-architecture.png)
 
 ## 后台线程
 
@@ -129,7 +129,7 @@ mysql> show variables like 'innodb_buffer_pool_instances';
 
 `InnoDB` 引擎的缓冲池中存储数据页和索引页组成的链表，采用了优化的 LRU 算法进行管理，将新读取到的页放到 LRU 列表的 midpoint 位置。
 
-![img](../assets/Mysql/InnoDB/midpoint.png)
+![InnoDB：LRU List，Free List 和 Flush List示意图](../images/Mysql/InnoDB/midpoint.png)
 
 传统LRU链表的问题：
 
@@ -148,7 +148,7 @@ mysql> show variables like 'innodb_old_blocks_pct';
 1 row in set, 1 warning (0.00 sec)
 ```
 
-![Content is described in the surrounding text.](../assets/Mysql/InnoDB/innodb-buffer-pool-list.png)
+![InnoDB：LRU List，Free List 和 Flush List示意图](../images/Mysql/InnoDB/innodb-buffer-pool-list.png)
 
 当数据页第一次被加载到缓冲池时（用户执行一条SQL查询，或者预读机制），会放到 old 区的首部，当这个数据页再次被访问到时，如果该页在old区存在的时间超过了1秒，就把它移动到 young 区的首部（这会导致young区和old区的其他数据页全部后移一位）。
 
@@ -177,7 +177,7 @@ LRU List中的页被修改后，称该页为脏页，即缓冲池中的页和磁
 
 Change Buffer是一棵B树，存储在`ibdata`系统表空间中。
 
-![Content is described in the surrounding text.](../assets/Mysql/InnoDB/innodb-change-buffer.png)
+![InnoDB：Change Buffer示意图](../images/Mysql/InnoDB/innodb-change-buffer.png)
 
 与聚簇索引不同，辅助索引字段通常是nonunique的，插入数据时，插入的行相对于辅助索引，其顺序一般是随机的，此时如果实时对辅助索引页进行修改，将会导致频繁的B+树的维护操作。同样的，删除和更新行，也会需要读入很多物理上不相邻的辅助索引页并维护索引。当需要使用辅助索引检索数据，加载辅助索引页时，MySQL会对change buffer和辅助索引页进行merge操作，避免对辅助索引页的大量随机IO。
 
@@ -302,7 +302,7 @@ mysql> show variables like 'log_error';
 
 文件内容：
 
-![image-20210818150048617](../assets/Mysql/InnoDB/image-20210818150048617.png)
+![InnoDB：错误日志示意图](../images/Mysql/InnoDB/innodb-05.png)
 
 ### 慢查询日志
 
@@ -531,7 +531,7 @@ mysql> show variables like '%innodb_file_per_table%';
 
 为了保证 binlog 和 redo log 的一致性，InnoDB 采用两阶段提交策略。
 
-![](../assets/Mysql/InnoDB/1653992574890-ae8eac77-0364-4774-8dec-92d243c7edba.png)
+![InnoDB：两阶段提交示意图](../images/Mysql/InnoDB/innodb-06.png)
 
 事务先写入 `prepare` 状态的 redo log；binlog 写入成功后，再提交事务并将 redo log 标记为 `commit`。
 
@@ -565,7 +565,7 @@ create table a {
 
 ## `InnoDB`逻辑存储结构
 
-![innodb逻辑存储结构](../assets/Mysql/InnoDB/2020032114540277.png)
+![innodb逻辑存储结构](../images/Mysql/InnoDB/innodb-structure-07.png)
 
 `InnoDB`中，所有数据都逻辑的存放在一个空间中，即表空间。表空间由段 segment、簇（区） extent、页 page 组成。
 
@@ -601,7 +601,7 @@ create table a {
 
 `InnoDB`支持四种行记录格式：
 
-![image-20211009143855864](../assets/Mysql/InnoDB/image-20211009143855864.png)
+![InnoDB：`InnoDB`行记录格式示意图](../images/Mysql/InnoDB/innodb-08.png)
 
 行记录最大长度：
 
@@ -623,13 +623,13 @@ create table a {
    - `Compact` + `Redundant`：保留前768 Byte 在当前页（`B+Tree叶子节点`），其余数据存放在`溢出页`。`768Byte`后面跟着`20Byte`的数据，用来存储`指向溢出页的指针`
    - `Dynamic` + `Compressed`：仅存储20 Byte 数据，存储`指向溢出页的指针`，这时比`Compact`和`Redundant`更高效，因为一个`B+Tree叶子节点`能`存放更多的行记录`
 
-[![img](../assets/Mysql/InnoDB/overflow.png)](https://innodb-1253868755.cos.ap-guangzhou.myqcloud.com/overflow.png)
+[![InnoDB：行溢出示意图](../images/Mysql/InnoDB/overflow.png)](https://innodb-1253868755.cos.ap-guangzhou.myqcloud.com/overflow.png)
 
 ### Redundant 行记录格式
 
 Redundant 行记录格式兼容 5.0 版本之前的页格式。
 
-![img](../assets/Mysql/InnoDB/redundant_format.png)
+![InnoDB：Redundant 行记录格式示意图](../images/Mysql/InnoDB/innodb-redundant-10.png)
 
 字段偏移列表：
 
@@ -876,7 +876,7 @@ d（35 35 35）
 
 下图是Barracuda文件格式的溢出行：
 
-![img](../assets/Mysql/InnoDB/990532-20170116140227130-2129734898.png)
+![InnoDB：Compressed与Dynamic行记录格式示意图](../images/Mysql/InnoDB/990532-20170116140227130-2129734898.png)
 
 Compressed行记录格式的另一个功能就是，存储在其中的行数据会以zlib的算法进行压缩，因此对于BLOB、TEXT、VARCHAR这类大长度类型的数据能进行非常有效的存储。
 
@@ -951,9 +951,9 @@ Uncompressed BLOB Page: 1
 
 **页结构：**
 
-![img](../assets/Mysql/InnoDB/959658-20200218143934785-1152604727.png)
+![InnoDB：`InnoDB`数据页格式示意图](../images/Mysql/InnoDB/959658-20200218143934785-1152604727.png)
 
-![img](../assets/Mysql/InnoDB/964149611_1582694852322_DF4BAE61C1D7C81A19ADF6826AD35DDF.png)
+![InnoDB：`InnoDB`数据页格式示意图](../images/Mysql/InnoDB/innodb-13.png)
 
 | 名称               | 中文名                     | 占用空间 | 简单描述                 |
 | ------------------ | -------------------------- | -------- | ------------------------ |
@@ -972,7 +972,7 @@ Uncompressed BLOB Page: 1
 
 示意图：
 
-![img](../assets/Mysql/InnoDB/964149611_1582694852901_DF4BAE61C1D7C81A19ADF6826AD35DDF.png)
+![InnoDB：`InnoDB`数据页格式示意图](../images/Mysql/InnoDB/innodb-14.png)
 
 ### 插入记录
 
@@ -1274,11 +1274,11 @@ INSERT INTO e4 SELECT 6,5; # 插入行b的值为5，在锁定的(3,6)范围内
 
 demo：
 
-![image-20211123231526537](../assets/Mysql/InnoDB/image-20211123231526537.png)
+![InnoDB：死锁示意图](../images/Mysql/InnoDB/innodb-lock-15.png)
 
 wait-for graph：
 
-![image-20211123231648208](../assets/Mysql/InnoDB/image-20211123231648208.png)
+![InnoDB：死锁示意图](../images/Mysql/InnoDB/innodb-lock-16.png)
 
 wait-for graph 是一种较为主动的死锁检测机制，在每个事务申请锁并发生等待时都会判断是否存在回路，若存在则有死锁。通常 `InnoDB`回选择回滚 undo 量最小的事务。
 
@@ -1319,7 +1319,7 @@ wait-for graph 是一种较为主动的死锁检测机制，在每个事务申�
 
 三种情况：
 
-![image-20220118130928858](../assets/Mysql/InnoDB/image-20220118130928858.png)
+![InnoDB：扁平事务示意图](../images/Mysql/InnoDB/innodb-transaction-17.png)
 
 ### 带有保存点的扁平事务
 
@@ -1370,7 +1370,7 @@ wait-for graph 是一种较为主动的死锁检测机制，在每个事务申�
 
 重做日志块的结构：
 
-![image-20210815145107748](../assets/Mysql/InnoDB/image-20210815145107748.png)
+![InnoDB：redo示意图](../images/Mysql/InnoDB/innodb-redo-18.png)
 
 ### undo
 
@@ -1611,11 +1611,11 @@ mysql> SELECT * FROM parent WHERE id = 1;
 - `DB_TRX_ID`：6-byte，操作这个数据的事务 ID，也就是最后一个对该数据进行插入或更新的事务 ID。
 - `DB_ROLL_PTR`：7-byte，回滚指针，也就是指向这个记录的 Undo Log 信息。
 
-![InnoDB数据记录隐藏列](../assets/Mysql/InnoDB/bVbyzVU)
+![InnoDB数据记录隐藏列](../images/Mysql/InnoDB/innodb-19)
 
 Undo Log：`InnoDB` 将行记录快照保存在了 Undo Log 里，我们可以在回滚段中找到它们，如下图所示：
 
-![Undo Log回滚历史记录](../assets/Mysql/InnoDB/bVbyzV9)
+![Undo Log回滚历史记录](../images/Mysql/InnoDB/innodb-undo-log-20)
 
 从图中能看到回滚指针将数据行的所有快照记录都通过链表的结构串联了起来，每个快照的记录都保存了当时的 `db_trx_id`，也是那个时间点操作这个数据的事务 ID。这样如果我们想要找历史快照，就可以通过遍历回滚指针的方式进行查找。
 

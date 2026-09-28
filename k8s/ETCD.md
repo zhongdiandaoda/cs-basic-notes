@@ -13,13 +13,13 @@
 - 发布订阅
 - 分布式锁
 
-![](../assets/k8s/ETCD/1649410906363-9da066de-bb22-4c35-9ee3-b8277ed02cb2.png)
+![ETCD：ETCD示意图](images/ETCD/etcd.png)
 
 n个节点的集群，要求（n+1）/2个节点健康。
 
 ETCD的APIs：
 
-![](../assets/k8s/ETCD/1649411009825-8b11e86f-c95e-4657-a112-a507a66f25d8.png)
+![ETCD：ETCD示意图](images/ETCD/etcd-02.png)
 
 数据版本号机制：
 
@@ -33,4 +33,4 @@ ETCD的APIs：
 
 查询时指定版本号时可以获得一个key的历史版本
 
-![](../assets/k8s/ETCD/1649411286756-9aa06117-3f9c-472c-9f59-e1e748c2eeab.png)
+![ETCD：ETCD示意图](images/ETCD/etcd-03.png)
