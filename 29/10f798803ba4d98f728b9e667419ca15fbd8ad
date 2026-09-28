@@ -1,0 +1,16 @@
+.gitignore
+  h_90b0db872d8fca 2-3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "2910f798803ba4d98f728b9e667419ca15fbd8ad",
+  "prompts": {},
+  "humans": {
+    "h_90b0db872d8fca": {
+      "author": "liuqi.9867 <liuqi.9867@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
