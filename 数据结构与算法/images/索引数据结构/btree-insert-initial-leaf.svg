@@ -1,14 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="190" viewBox="0 0 720 190" role="img" aria-labelledby="title desc">
-  <title id="title">B树插入初始叶子节点</title>
-  <desc id="desc">5阶B树中插入18、70、50、40后，单个叶子节点包含4个关键字，尚未溢出。</desc>
-  <defs>
-    <style>
-      .bg{fill:#f8fafc}.node{fill:#eff6ff;stroke:#2563eb;stroke-width:2}.text{font:600 22px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}
-    </style>
-  </defs>
-  <rect class="bg" width="720" height="190" rx="14"/>
-  <text x="360" y="38" text-anchor="middle" class="text">插入 18、70、50、40</text>
-  <rect class="node" x="235" y="72" width="250" height="58" rx="8"/>
-  <text x="360" y="109" text-anchor="middle" class="text">18 | 40 | 50 | 70</text>
-  <text x="360" y="160" text-anchor="middle" class="hint">5阶B树每个节点最多4个关键字，此时刚好达到上限</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="650" height="220" viewBox="0 0 650 220"><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;fill:#172033}.n{fill:#eef6ff;stroke:#3478c8;stroke-width:2;rx:8}.t{font-size:20px;text-anchor:middle}.s{font-size:15px;text-anchor:middle;fill:#526176}</style><text x="325" y="32" class="t" font-weight="700">插入 18、70、50、40</text><rect x="90" y="75" width="470" height="65" class="n"/><text x="325" y="116" class="t">18 | 40 | 50 | 70</text><text x="325" y="180" class="s">5 阶 B 树节点最多 4 个关键字，此时达到上限</text></svg>

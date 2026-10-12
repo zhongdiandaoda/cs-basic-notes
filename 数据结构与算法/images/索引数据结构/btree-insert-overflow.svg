@@ -1,18 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="820" height="210" viewBox="0 0 820 210" role="img" aria-labelledby="title desc">
-  <title id="title">B树插入导致节点溢出</title>
-  <desc id="desc">插入22后叶子节点变成5个关键字，超过5阶B树的4个关键字上限，需要分裂。</desc>
-  <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#64748b"/></marker>
-    <style>
-      .bg{fill:#f8fafc}.node{fill:#fff7ed;stroke:#ea580c;stroke-width:2}.action{fill:#fff;stroke:#64748b;stroke-width:2}.text{font:600 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a}.hint{font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#475569}.edge{stroke:#64748b;stroke-width:2;fill:none;marker-end:url(#arrow)}
-    </style>
-  </defs>
-  <rect class="bg" width="820" height="210" rx="14"/>
-  <text x="410" y="38" text-anchor="middle" class="text">插入 22 后发生溢出</text>
-  <rect class="node" x="125" y="80" width="290" height="58" rx="8"/>
-  <text x="270" y="117" text-anchor="middle" class="text">18 | 22 | 40 | 50 | 70</text>
-  <path class="edge" d="M430 109 L520 109"/>
-  <rect class="action" x="540" y="80" width="150" height="58" rx="8"/>
-  <text x="615" y="117" text-anchor="middle" class="text">分裂</text>
-  <text x="410" y="172" text-anchor="middle" class="hint">关键字数为5，超过m - 1 = 4，需要选择中间关键字上移</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="850" height="230" viewBox="0 0 850 230"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker></defs><style>text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;fill:#172033}.n{fill:#fff4cc;stroke:#d59b18;stroke-width:2;rx:8}.t{font-size:19px;text-anchor:middle}.s{font-size:15px;text-anchor:middle;fill:#526176}.l{stroke:#64748b;stroke-width:2;marker-end:url(#a)}</style><text x="425" y="30" class="t" font-weight="700">插入 22 后发生溢出</text><rect x="35" y="75" width="350" height="65" class="n"/><text x="210" y="116" class="t">18 | 22 | 40 | 50 | 70</text><path d="M405 108 L475 108" class="l"/><rect x="500" y="75" width="120" height="65" class="n"/><text x="560" y="116" class="t">分裂</text><path d="M640 108 L710 108" class="l"/><text x="780" y="87" class="s">中间关键字上移</text><text x="780" y="120" class="s">节点最多 4 个</text></svg>
